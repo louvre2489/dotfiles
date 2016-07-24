@@ -41,6 +41,23 @@ set expandtab
 set smartcase
 set history=50
 syntax on
+set ignorecase
+
+" F1無効化
+nmap <F1> <nop>
+imap <F1> <nop>
+
+" swapファイルを作らない
+set noswapfile
+" バックアップファイルを作らない
+set nowritebackup
+set nobackup
+
+set clipboard+=unnamed
+set clipboard=unnamed
+
+set list
+set nowrap
 
 " neocomplcache
 let g:neocomplcache_enable_at_startup = 1

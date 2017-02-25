@@ -74,4 +74,3 @@ omap <silent> <C-e> :NERDTreeToggle<CR>
 imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
-

@@ -1,36 +1,53 @@
-set nocompatible
-filetype plugin indent off
-
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle'))
-endif 
-
-NeoBundle 'Shougo/neocomplcache.git'
-NeoBundle 'Shougo/neosnippet.git'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim.git'
-NeoBundle 'Shougo/vimshell.git'
-NeoBundle 'derekwyatt/vim-scala.git'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'szw/vim-tags'
-NeoBundle 'vim-scripts/errormarker.vim.git'
-NeoBundle 'wincent/Command-T'
-filetype plugin indent on     " Required!
-"   Installation check.
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-        \ string(neobundle#get_not_installed_bundle_names())
-  echomsg 'Please execute ":NeoBundleInstall" command.'
+if &compatible
+  set nocompatible
 endif
+
+" dein.vimのディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" なければgit clone
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+endif
+execute 'set runtimepath^=' . s:dein_repo_dir
+
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  let s:toml = '~/.dein.toml'
+  let s:lazy_toml = '~/.dein_lazy.toml'
+  call dein#load_toml(s:toml, {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+" vimprocだけは最初にインストール
+if dein#check_install(['vimproc'])
+  call dein#install(['vimproc'])
+endif
+
+" その他インストールしていないものはこちらに入れる
+if dein#check_install()
+  call dein#install()
+endif
+
 
 " display
 set showmatch
 set number
 set ruler
 set cursorline
+set lines=40
+set columns=120
+set nowrap
+
+" file
+set noswapfile
+set nobackup
+set noundofile
 " indent
 set smartindent
 set autoindent
@@ -38,49 +55,17 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 " etc
+set enc=japan
 set smartcase
 set history=50
+
 syntax on
+syntax enable
+set background=dark
+colorscheme material-theme
 
-" neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : '',
-    \ 'scala' : $HOME . '/.vim/dict/scala.dict',
-    \ }
-
-" neosnippet
-"   Plugin key-mappings.
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-"   SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-"   For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-let g:neosnippet#snippets_directory='~/.vim/snippets'
-
-" vimsehll
-let g:vimshell_interactive_update_time = 10
-let g:vimshell_prompt = $USER."% "
-"vimshell map
-nmap vs :VimShell<CR>
-nmap vp :VimShellPop<CR>
-
-" make
-autocmd FileType scala :compiler sbt
-autocmd QuickFixCmdPost make if len(getqflist()) != 0 | copen | endif
-
-" marker
-let g:errormarker_errortext     = '!!'
-let g:errormarker_warningtext   = '??'
-let g:errormarker_errorgroup    = 'Error'
-let g:errormarker_warninggroup  = 'ToDo'
-
-" TagBar
-nmap <F8> :TagbarToggle<CR>
+" デフォルトvimrc_exampleのtextwidth設定上書き
+autocmd FileType text setlocal textwidth=0
 
 " NERDTree
 nmap <silent> <C-e> :NERDTreeToggle<CR>
@@ -90,11 +75,3 @@ imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
 
-" vim-tags
-nnoremap <C-]> g<C-]>
-
-" indent-guides
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 1
-
-call neobundle#end()

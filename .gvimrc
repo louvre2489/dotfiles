@@ -1,15 +1,15 @@
-" c•
+" ç¸¦å¹…
 set lines=1920
-" ‰¡•
+" æ¨ªå¹…
 set columns=1020
 
-" F
+" è‰²
 syntax on
 syntax enable
 set background=dark
 colorscheme material-theme
 
-" “§–¾“x
+" é€æ˜åº¦
 autocmd GUIEnter * set transparency=240
 autocmd FocusGained * set transparency=240
 autocmd FocusLost * set transparency=160

@@ -1,22 +1,18 @@
-if &compatible
-  set nocompatible
-endif
+" dein.vimã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+let s:dein_dir=expand('~/.cache/dein')
+let s:dein_repo_dir=s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-" dein.vim‚ÌƒfƒBƒŒƒNƒgƒŠ
-let s:dein_dir = expand('~/.cache/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-" ‚È‚¯‚ê‚Îgit clone
+" ãªã‘ã‚Œã°git clone
 if !isdirectory(s:dein_repo_dir)
   execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
 execute 'set runtimepath^=' . s:dein_repo_dir
 
-if dein#load_state(s:dein_dir)
+if dein#load_state(shellescape(s:dein_dir))
   call dein#begin(s:dein_dir)
 
-  let s:toml = '~/.dein.toml'
-  let s:lazy_toml = '~/.dein_lazy.toml'
+  let s:toml='~/.dein.toml'
+  let s:lazy_toml='~/.dein_lazy.toml'
   call dein#load_toml(s:toml, {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
@@ -24,16 +20,15 @@ if dein#load_state(s:dein_dir)
   call dein#save_state()
 endif
 
-" vimproc‚¾‚¯‚ÍÅ‰‚ÉƒCƒ“ƒXƒg[ƒ‹
+" vimprocã ã‘ã¯æœ€åˆã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 if dein#check_install(['vimproc'])
   call dein#install(['vimproc'])
 endif
 
-" ‚»‚Ì‘¼ƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¢‚È‚¢‚à‚Ì‚Í‚±‚¿‚ç‚É“ü‚ê‚é
+" ãã®ä»–ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ãªã„ã‚‚ã®ã¯ã“ã¡ã‚‰ã«å…¥ã‚Œã‚‹
 if dein#check_install()
   call dein#install()
 endif
-
 
 " display
 set showmatch
@@ -51,100 +46,93 @@ set noundofile
 " indent
 set smartindent
 set autoindent
-set tabstop=4
-set shiftwidth=4
 set expandtab
 " etc
 set enc=japan
 set smartcase
 set history=50
 
-" ‰üs‚É©“®‚ÅƒCƒ“ƒfƒ“ƒg‚ğs‚È‚¤
+" æ”¹è¡Œæ™‚ã«è‡ªå‹•ã§ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã‚’è¡Œãªã†
 set autoindent
-" ƒtƒ@ƒCƒ‹‚ªŠO•”‚Å•ÏX‚³‚ê‚½Û‚É©“®‚Å“Ç‚İ‚Ş
+" ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¤–éƒ¨ã§å¤‰æ›´ã•ã‚ŒãŸéš›ã«è‡ªå‹•ã§èª­ã¿è¾¼ã‚€
 set autoread
-" ƒoƒbƒNƒXƒy[ƒX‚Ì‰e‹¿”ÍˆÍ‚ğİ’è‚·‚é
+" ãƒãƒƒã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã®å½±éŸ¿ç¯„å›²ã‚’è¨­å®šã™ã‚‹
 set backspace=indent,eol,start
-" OS‚ÆƒNƒŠƒbƒvƒ{[ƒh‚ğ‹¤—L‚·‚é
+" OSã¨ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‚’å…±æœ‰ã™ã‚‹
 set clipboard=unnamed,autoselect
-" ‹­’²•\¦‚·‚é—ñ‚ğİ’è‚·‚é
+" å¼·èª¿è¡¨ç¤ºã™ã‚‹åˆ—ã‚’è¨­å®šã™ã‚‹
 set colorcolumn=80
-" –¢•Û‘¶ƒtƒ@ƒCƒ‹‚ÌI—¹‚É•Û‘¶Šm”F‚ğs‚È‚¤
+" æœªä¿å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚äº†æ™‚ã«ä¿å­˜ç¢ºèªã‚’è¡Œãªã†
 set confirm
-" ƒJ[ƒ\ƒ‹s‚ğ‹­’²•\¦‚·‚é
+" ã‚«ãƒ¼ã‚½ãƒ«è¡Œã‚’å¼·èª¿è¡¨ç¤ºã™ã‚‹
 set cursorline
-" •¶šƒR[ƒh‚ğİ’è‚·‚é
+" æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹
 set encoding=utf8
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
-" ƒ^ƒu‚Ì‘ã‚í‚è‚ÉƒXƒy[ƒX‚ğ‘}“ü‚·‚é
+" ã‚¿ãƒ–ã®ä»£ã‚ã‚Šã«ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŒ¿å…¥ã™ã‚‹
 set expandtab
-" ƒtƒ@ƒCƒ‹•ÏX’†‚É‘¼‚Ìƒtƒ@ƒCƒ‹‚ğ•\¦‰Â”\‚É‚·‚é
+" ãƒ•ã‚¡ã‚¤ãƒ«å¤‰æ›´ä¸­ã«ä»–ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¡¨ç¤ºå¯èƒ½ã«ã™ã‚‹
 set hidden
-" ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒ‚[ƒh‚Å•Û‘¶‚·‚é—š—ğ”‚ğİ’è‚·‚é
+" ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ä¿å­˜ã™ã‚‹å±¥æ­´æ•°ã‚’è¨­å®šã™ã‚‹
 set history=1000
-" ŒŸõŒ‹‰Ê‚ğƒnƒCƒ‰ƒCƒg•\¦‚·‚é
+" æ¤œç´¢çµæœã‚’ãƒã‚¤ãƒ©ã‚¤ãƒˆè¡¨ç¤ºã™ã‚‹
 set hlsearch
-" ‘å•¶š‚Æ¬•¶š‚ğ‹æ•Ê‚¹‚¸ŒŸõ‚·‚é
+" å¤§æ–‡å­—ã¨å°æ–‡å­—ã‚’åŒºåˆ¥ã›ãšæ¤œç´¢ã™ã‚‹
 set ignorecase
-" ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒT[ƒ`‚ğ—LŒø‚É‚·‚é
+" ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ã‚¿ãƒ«ã‚µãƒ¼ãƒã‚’æœ‰åŠ¹ã«ã™ã‚‹
 set incsearch
-" ƒXƒe[ƒ^ƒXƒo[‚ğí‚É•\¦‚·‚é
+" ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã‚’å¸¸ã«è¡¨ç¤ºã™ã‚‹
 set laststatus=2
-" •s‰Â‹•¶š‚Ì•\¦•û–@‚ğİ’è‚·‚é
+" ä¸å¯è¦–æ–‡å­—ã®è¡¨ç¤ºæ–¹æ³•ã‚’è¨­å®šã™ã‚‹
 set listchars=eol:?
-" ƒ}ƒEƒX‚ğ—LŒø‚É‚·‚é
+" ãƒã‚¦ã‚¹ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 set mouse=a
-" ƒ‹[ƒ‰[‚ğ•\¦‚·‚é
+" ãƒ«ãƒ¼ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹
 set ruler
-" ƒJ[ƒ\ƒ‹s‚Ìã‰º‚Ö‚ÌƒIƒtƒZƒbƒg‚ğİ’è‚·‚é
+" ã‚«ãƒ¼ã‚½ãƒ«è¡Œã®ä¸Šä¸‹ã¸ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨­å®šã™ã‚‹
 set scrolloff=4
-" ƒCƒ“ƒfƒ“ƒg‚Å‚¸‚ê‚é•‚ğİ’è‚·‚é
+" ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã§ãšã‚Œã‚‹å¹…ã‚’è¨­å®šã™ã‚‹
 set shiftwidth=2
-" “ü—Í’†‚ÌƒRƒ}ƒ“ƒh‚ğ•\¦‚·‚é
+" å…¥åŠ›ä¸­ã®ã‚³ãƒãƒ³ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹
 set showcmd
-" ‘Î‰‚·‚éƒJƒbƒR‚ğ‹­’²•\¦‚·‚é
+" å¯¾å¿œã™ã‚‹ã‚«ãƒƒã‚³ã‚’å¼·èª¿è¡¨ç¤ºã™ã‚‹
 set showmatch
-" ƒ^ƒuƒo[‚ğí‚É•\¦‚·‚é
+" ã‚¿ãƒ–ãƒãƒ¼ã‚’å¸¸ã«è¡¨ç¤ºã™ã‚‹
 set showtabline=2
-" ‰üs“ü—Ís‚Ì––”ö‚É‚ ‚í‚¹‚ÄƒCƒ“ƒfƒ“ƒg‚ğ‘Œ¸‚·‚é
+" æ”¹è¡Œå…¥åŠ›è¡Œã®æœ«å°¾ã«ã‚ã‚ã›ã¦ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã‚’å¢—æ¸›ã™ã‚‹
 set smartindent
-" ƒRƒ“ƒeƒLƒXƒg‚É‰‚¶‚½ƒ^ƒu‚Ìˆ—‚ğs‚È‚¤
+" ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã«å¿œã˜ãŸã‚¿ãƒ–ã®å‡¦ç†ã‚’è¡Œãªã†
 set smarttab
-" ƒ^ƒu‚âƒoƒbƒNƒXƒy[ƒX‚Åˆ—‚·‚éƒXƒy[ƒX‚Ì”‚ğİ’è‚·‚é
+" ã‚¿ãƒ–ã‚„ãƒãƒƒã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã§å‡¦ç†ã™ã‚‹ã‚¹ãƒšãƒ¼ã‚¹ã®æ•°ã‚’è¨­å®šã™ã‚‹
 set softtabstop=2
-" V‚µ‚¢ƒEƒBƒ“ƒhƒE‚ğ‰º/‰E‚ÉŠJ‚­
+" æ–°ã—ã„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä¸‹/å³ã«é–‹ã
 set splitbelow
 set splitright
-" ƒ^ƒu•‚ğİ’è‚·‚é
+" ã‚¿ãƒ–å¹…ã‚’è¨­å®šã™ã‚‹
 set tabstop=2
-" •ÒW’†‚Ìƒtƒ@ƒCƒ‹–¼‚ğ•\¦‚·‚é
+" ç·¨é›†ä¸­ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¡¨ç¤ºã™ã‚‹
 set title
-" ƒr[ƒv‚ğ–³Œø‚É‚·‚é
+" ãƒ“ãƒ¼ãƒ—ã‚’ç„¡åŠ¹ã«ã™ã‚‹
 set visualbell t_vb=
-" s“ªEs––‚Ì¶‰EˆÚ“®‚Ås‚ğˆÚ“®‚·‚é
+" è¡Œé ­ãƒ»è¡Œæœ«ã®å·¦å³ç§»å‹•ã§è¡Œã‚’ç§»å‹•ã™ã‚‹
 set whichwrap=b,s,h,l,<,>,[,]
-" ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒ‚[ƒh‚Å‚Ì•âŠ®‚ğ—LŒø‚É‚·‚é
+" ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ã®è£œå®Œã‚’æœ‰åŠ¹ã«ã™ã‚‹
 set wildmenu
-" ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒ‚[ƒh‚Å‚Ì•âŠ®•û–@‚ğİ’è‚·‚é
+" ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ã®è£œå®Œæ–¹æ³•ã‚’è¨­å®šã™ã‚‹
 set wildmode=list:longest,full
-" F
-syntax on
-syntax enable
-set background=dark
-colorscheme material-theme
 
-" ƒfƒtƒHƒ‹ƒgvimrc_example‚Ìtextwidthİ’èã‘‚«
+" ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆvimrc_exampleã®textwidthè¨­å®šä¸Šæ›¸ã
 autocmd FileType text setlocal textwidth=0
 
-" ƒL[ƒ}ƒbƒv
-" ƒCƒ“ƒT[ƒgƒ‚[ƒh‚©‚ç”²‚¯‚é
+" ã‚­ãƒ¼ãƒãƒƒãƒ—
+" ã‚¤ãƒ³ã‚µãƒ¼ãƒˆãƒ¢ãƒ¼ãƒ‰ã‹ã‚‰æŠœã‘ã‚‹
 inoremap jj <ESC>
-" ƒL[ˆÚ“®
+" ã‚­ãƒ¼ç§»å‹•
 noremap <S-h> ^
 noremap <S-j> }
 noremap <S-k> {
 noremap <S-l> $
-" ƒEƒBƒ“ƒhƒE
+" ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 nnoremap s <Nop>
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k

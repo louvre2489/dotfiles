@@ -27,7 +27,4 @@ repo = 'scrooloose/nerdtree'
 repo = 'vim-airline/vim-airline'
 
 [[plugins]]
-repo = 'rhysd/accelerated-jk'
-
-[[plugins]]
 repo = 'tpope/vim-fugitive'

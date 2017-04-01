@@ -28,3 +28,10 @@ repo = 'vim-airline/vim-airline'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
+
+[[plugins]]
+repo = 'racer-rust/vim-racer'
+

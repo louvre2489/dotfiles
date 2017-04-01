@@ -35,8 +35,8 @@ set showmatch
 set number
 set ruler
 set cursorline
-set lines=40
-set columns=120
+"set lines=40
+"set columns=120
 set nowrap
 
 " file
@@ -59,9 +59,10 @@ set autoread
 " バックスペースの影響範囲を設定する
 set backspace=indent,eol,start
 " OSとクリップボードを共有する
-set clipboard=unnamed,autoselect
+"set clipboard=unnamed,autoselect
+set clipboard=unnamedplus
 " 強調表示する列を設定する
-set colorcolumn=80
+"set colorcolumn=80
 " 未保存ファイルの終了時に保存確認を行なう
 set confirm
 " カーソル行を強調表示する
@@ -126,7 +127,7 @@ autocmd FileType text setlocal textwidth=0
 
 " キーマップ
 " インサートモードから抜ける
-inoremap jj <ESC>
+inoremap <silent>jj <ESC>
 " キー移動
 noremap <S-h> ^
 noremap <S-j> }
@@ -161,3 +162,23 @@ omap <silent> <C-e> :NERDTreeToggle<CR>
 imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
+
+" rust.vim
+let g:rustfmt_autosave=1
+
+" vim-racer
+set hidden
+let g:racer_cmd="/path/to/racer/bin"
+let g:racer_experimental_completer=1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+" vim-racer
+let g:rustfmt_autosave=1
+let g:rustfmt_command='$HOME/.cargo/bin/rustfmt'
+
+set hidden
+let g:racer_cmd='$HOME/.cargo/bin/racer'
+

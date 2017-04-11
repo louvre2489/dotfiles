@@ -37,3 +37,6 @@ repo = 'rust-lang/rust.vim'
 
 [[plugins]]
 repo = 'racer-rust/vim-racer'
+
+[[plugins]]
+repo = 'mattn/emmet-vim'

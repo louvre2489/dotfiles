@@ -6,3 +6,6 @@ set -x LANG ja_JP.UTF-8
 
 # rmはゴミ箱へ
 alias rm='trash'
+
+# fzf
+alias fff='fzf'

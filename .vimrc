@@ -128,8 +128,6 @@ set wildmode=list:longest,full
 " デフォルトvimrc_exampleのtextwidth設定上書き
 autocmd FileType text setlocal textwidth=0
 
-highlight Cursor guibg=Green
-
 " キーマップ
 " インサートモードから抜ける
 inoremap <silent>jj <ESC>

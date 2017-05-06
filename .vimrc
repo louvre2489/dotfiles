@@ -30,6 +30,11 @@ if dein#check_install()
   call dein#install()
 endif
 
+" シェルの指定
+if $SHELL =~ '/fish$'
+  set shell=bash
+endif
+
 " display
 set showmatch
 set number

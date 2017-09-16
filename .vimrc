@@ -49,7 +49,7 @@ set noswapfile
 set nobackup
 set noundofile
 " indent
-set smartindent
+"set smartindent
 set autoindent
 set expandtab
 " etc
@@ -60,8 +60,6 @@ set history=50
 " syntax
 syntax on
 
-" 改行時に自動でインデントを行なう
-set autoindent
 " ファイルが外部で変更された際に自動で読み込む
 set autoread
 " バックスペースの影響範囲を設定する
@@ -100,6 +98,10 @@ set mouse=a
 set ruler
 " カーソル行の上下へのオフセットを設定する
 set scrolloff=4
+" タブ幅を設定する
+set tabstop=2
+" タブやバックスペースで処理するスペースの数を設定する
+set softtabstop=2
 " インデントでずれる幅を設定する
 set shiftwidth=2
 " 入力中のコマンドを表示する
@@ -108,17 +110,11 @@ set showcmd
 set showmatch
 " タブバーを常に表示する
 set showtabline=2
-" 改行入力行の末尾にあわせてインデントを増減する
-set smartindent
 " コンテキストに応じたタブの処理を行なう
 set smarttab
-" タブやバックスペースで処理するスペースの数を設定する
-set softtabstop=2
 " 新しいウィンドウを下/右に開く
 set splitbelow
 set splitright
-" タブ幅を設定する
-set tabstop=2
 " 編集中のファイル名を表示する
 set title
 " ビープを無効にする
@@ -142,9 +138,9 @@ noremap <S-j> }
 noremap <S-k> {
 noremap <S-l> $
 " カッコ
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
+inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
+inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
+inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
 " ウィンドウ
 nnoremap s <Nop>
 nnoremap sj <C-w>j

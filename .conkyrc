@@ -1,0 +1,111 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+Conky, a system monitor, based on torsmo
+
+Any original torsmo code is licensed under the BSD license
+
+All code written since the fork of torsmo is licensed under the GPL
+
+Please see COPYING for details
+
+Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+Copyright (c) 2005-2012 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]
+
+conky.config = {
+    background = true,
+    border_width = 1,
+    cpu_avg_samples = 2,
+	  default_color = 'cyan',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    minimum_height = 5,
+	  minimum_width = 200,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    stippled_borders = 0,
+    update_interval = 2.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    double_buffer = true,
+    own_window = true,
+    own_window_transparent = true,
+    own_window_argb_visual = true,
+    own_window_class = 'Conky',
+--    own_window_type = 'override',
+    own_window_type = 'normal',
+    alignment = 'top_right',
+    gap_x = 10,
+    gap_y = 20,
+    override_utf8_locale = true,
+    use_xft = true,
+    font = 'TakaoGothic:style=Regular:size=12',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager'
+}
+
+conky.text = [[
+${color grey}Uptime:$color $uptime
+
+${color grey}File systems:
+ $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+
+${color grey}CPU1 $color${alignr}${freq 1} MHz
+${cpugraph cpu1 33f5f5 f0ff33}
+${color grey}CPU2 $color${alignr}${freq 2} MHz
+${cpugraph cpu2 33f5f5 f0ff33}
+${color grey}CPU3 $color${alignr}${freq 3} MHz
+${cpugraph cpu3 33f5f5 f0ff33}
+${color grey}CPU4 $color${alignr}${freq 4} MHz
+${cpugraph cpu4 33f5f5 f0ff33}
+${color grey}RAM $color${alignr}$mem / $memmax ($memperc%)
+${membar 7 33f5f5 f0ff33}
+${memgraph 33f5f5 f0ff33}
+${color grey}Swap $color${alignr}$swap / $swapmax ($swapperc%)
+${swapbar 7 33f5f5 f0ff33}
+${color white}$hr
+
+${color grey}Highest CPU $alignr CPU% MEM%$color
+ ${top name 1}$alignr${top cpu 1} ${top mem 1}
+ ${top name 2}$alignr${top cpu 2} ${top mem 2}
+ ${top name 3}$alignr${top cpu 3} ${top mem 3}
+ ${top name 4}$alignr${top cpu 4} ${top mem 4}
+ ${top name 5}$alignr${top cpu 5} ${top mem 5}
+
+${color grey}Highest MEM $alignr CPU% MEM%$color
+ ${top_mem name 1}$alignr${top_mem cpu 1} ${top_mem mem 1}
+ ${top_mem name 2}$alignr${top_mem cpu 2} ${top_mem mem 2}
+ ${top_mem name 3}$alignr${top_mem cpu 3} ${top_mem mem 3}
+ ${top_mem name 4}$alignr${top_mem cpu 4} ${top_mem mem 4}
+ ${top_mem name 5}$alignr${top_mem cpu 5} ${top_mem mem 5}
+${color white}$hr
+
+${color grey}Disk Read $color$diskio_read
+${diskiograph_read 33f5f5 f0ff33}
+${color grey}Disk Write $color$diskio_write
+${diskiograph_write 33f5f5 f0ff33}
+
+${color grey}Networking:
+ Up:$color ${upspeed wlp3s0} ${color grey} - Down:$color ${downspeed wlp3s0}
+]]

@@ -66,7 +66,11 @@ conky.config = {
 }
 
 conky.text = [[
+
 ${color grey}Uptime:$color $uptime
+
+${color grey}Networking:
+ Up:$color ${upspeed wlp3s0} ${color grey} - Down:$color ${downspeed wlp3s0}
 
 ${color grey}File systems:
  $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
@@ -84,6 +88,11 @@ ${membar 7 33f5f5 f0ff33}
 ${memgraph 33f5f5 f0ff33}
 ${color grey}Swap $color${alignr}$swap / $swapmax ($swapperc%)
 ${swapbar 7 33f5f5 f0ff33}
+
+${color grey}Disk Read $color$diskio_read
+${diskiograph_read 33f5f5 f0ff33}
+${color grey}Disk Write $color$diskio_write
+${diskiograph_write 33f5f5 f0ff33}
 ${color white}$hr
 
 ${color grey}Highest CPU $alignr CPU% MEM%$color
@@ -99,13 +108,4 @@ ${color grey}Highest MEM $alignr CPU% MEM%$color
  ${top_mem name 3}$alignr${top_mem cpu 3} ${top_mem mem 3}
  ${top_mem name 4}$alignr${top_mem cpu 4} ${top_mem mem 4}
  ${top_mem name 5}$alignr${top_mem cpu 5} ${top_mem mem 5}
-${color white}$hr
-
-${color grey}Disk Read $color$diskio_read
-${diskiograph_read 33f5f5 f0ff33}
-${color grey}Disk Write $color$diskio_write
-${diskiograph_write 33f5f5 f0ff33}
-
-${color grey}Networking:
- Up:$color ${upspeed wlp3s0} ${color grey} - Down:$color ${downspeed wlp3s0}
 ]]

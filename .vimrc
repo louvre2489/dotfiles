@@ -21,9 +21,9 @@ if dein#load_state(shellescape(s:dein_dir))
 endif
 
 " vimprocだけは最初にインストール
-if dein#check_install(['vimproc'])
-  call dein#install(['vimproc'])
-endif
+"if dein#check_install(['vimproc'])
+"  call dein#install(['vimproc'])
+"endif
 
 " その他インストールしていないものはこちらに入れる
 if dein#check_install()
@@ -40,9 +40,11 @@ set showmatch
 set number
 set ruler
 set cursorline
+set showmode
 "set lines=40
 "set columns=120
 set nowrap
+set t_Co=256
 
 " file
 set noswapfile
@@ -125,6 +127,8 @@ set whichwrap=b,s,h,l,<,>,[,]
 set wildmenu
 " コマンドラインモードでの補完方法を設定する
 set wildmode=list:longest,full
+" 文字崩れの発生を抑止
+set ambiwidth=double
 
 " デフォルトvimrc_exampleのtextwidth設定上書き
 autocmd FileType text setlocal textwidth=0
@@ -168,6 +172,8 @@ nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 let g:neocomplete#enable_at_startup=1
 " Use smartcase.
 let g:neocomplete#enable_smart_case=1
+" ３文字以上の単語に対して補完
+let g:neocomplete#min_keyword_length=3
  " Use underbar completion.
 let g:neocomplete#enable_underbar_completion=1
 " 辞書の場所
@@ -198,6 +204,11 @@ omap <silent> <C-e> :NERDTreeToggle<CR>
 imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
+
+" indentLine
+set list listchars=tab:\¦\
+let g:indentLine_color_term = 111
+let g:indentLine_color_gui = '#708090'
 
 " Rust
 let g:rustfmt_autosave = 1

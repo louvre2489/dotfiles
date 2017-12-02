@@ -60,6 +60,8 @@ setopt EXTENDED_GLOB        # Use extended globbing syntax.
 # ----------------------------------
 # プラグイン
 # ----------------------------------
+# autosuggestionsの色
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 
 # ----------------------------------
 # パス関連

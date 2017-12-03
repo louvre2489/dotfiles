@@ -20,19 +20,9 @@ if dein#load_state(shellescape(s:dein_dir))
   call dein#save_state()
 endif
 
-" vimprocだけは最初にインストール
-"if dein#check_install(['vimproc'])
-"  call dein#install(['vimproc'])
-"endif
-
 " その他インストールしていないものはこちらに入れる
 if dein#check_install()
   call dein#install()
-endif
-
-" シェルの指定
-if $SHELL =~ '/fish$'
-  set shell=bash
 endif
 
 " display
@@ -41,8 +31,6 @@ set number
 set ruler
 set cursorline
 set showmode
-"set lines=40
-"set columns=120
 set nowrap
 set t_Co=256
 
@@ -51,7 +39,6 @@ set noswapfile
 set nobackup
 set noundofile
 " indent
-"set smartindent
 set autoindent
 set expandtab
 " etc
@@ -133,18 +120,27 @@ set ambiwidth=double
 " デフォルトvimrc_exampleのtextwidth設定上書き
 autocmd FileType text setlocal textwidth=0
 
+" ---------------------------------------
 " キーマップ
+" ---------------------------------------
 " インサートモードから抜ける
 inoremap <silent>jj <ESC>
+
 " キー移動
 noremap <S-h> ^
 noremap <S-j> }
 noremap <S-k> {
 noremap <S-l> $
+inoremap <M-H> <Left>
+inoremap <M-l> <Right>
+inoremap <M-j> <Down>
+inoremap <M-k> <Up>
+
 " カッコ
 inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
 inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
+
 " ウィンドウ
 nnoremap s <Nop>
 nnoremap sj <C-w>j
@@ -158,32 +154,25 @@ nnoremap sn gt
 nnoremap sp gT
 nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
+
+" ---------------------------------------
 " dein
+" ---------------------------------------
 nmap du :call dein#update()<cr>
-" NERDTree
-nmap nt :NERDTree<cr>
+
+" ---------------------------------------
 " Unite
+" ---------------------------------------
 nnoremap sT :<C-u>Unite tab<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 
-" NeoComlete
-" Use neocomplete.
-let g:neocomplete#enable_at_startup=1
-" Use smartcase.
-let g:neocomplete#enable_smart_case=1
-" ３文字以上の単語に対して補完
-let g:neocomplete#min_keyword_length=3
- " Use underbar completion.
-let g:neocomplete#enable_underbar_completion=1
-" 辞書の場所
-let g:neocomplete#sources#dictionary#dictionaries = {
-\   'default' : '',
-\   'scala' : '$HOME/.vim/dict/scala.dict',
-\ }
-" Plugin key-mappings.
+" ---------------------------------------
+" neocomplete
+" ---------------------------------------
 inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
+
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -191,13 +180,36 @@ function! s:my_cr_function()
   " For no inserting <CR> key.
   "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
+
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
+" Use neocomplete.
+let g:neocomplete#enable_at_startup=1
+j
+" Use smartcase.
+let g:neocomplete#enable_smart_case=1
+
+" ３文字以上の単語に対して補完
+let g:neocomplete#min_keyword_length=3
+
+ " Use underbar completion.
+let g:neocomplete#enable_underbar_completion=1
+
+" 辞書の場所
+let g:neocomplete#sources#dictionary#dictionaries = {
+\   'default' : '',
+\   'scala' : '$HOME/.vim/dict/scala.dict',
+\ }
+
+" ---------------------------------------
 " NERDTree
+" ---------------------------------------
+nmap nt :NERDTree<cr>
 nmap <silent> <C-e> :NERDTreeToggle<CR>
 vmap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 omap <silent> <C-e> :NERDTreeToggle<CR>
@@ -205,12 +217,16 @@ imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
 
+" ---------------------------------------
 " indentLine
+" ---------------------------------------
 set list listchars=tab:\¦\
 let g:indentLine_color_term = 111
 let g:indentLine_color_gui = '#708090'
 
+" ---------------------------------------
 " Rust
+" ---------------------------------------
 let g:rustfmt_autosave = 1
 let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
 set hidden

@@ -13,14 +13,6 @@ fi
 # Customize to your needs...
 alias rm='trash'
 
-VISUAL=/usr/bin/vim
-
-## 補完機能の強化
-autoload -U compinit
-compinit
-# 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
-
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
 
@@ -56,6 +48,51 @@ export LANG=ja_JP.UTF-8
 setopt MULTIOS              # Write to multiple descriptors.
 
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
+
+# ls 時の色を設定する
+export CLICOLOR=true
+export LSCOLORS='exfxcxdxbxGxDxabagacad'
+export LS_COLORS='di=34:ln=35:so=32p:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+
+# 標準エディタを設定する
+export EDITOR=vim
+
+# ----------------------------------
+# autoload
+# ----------------------------------
+# 補完機能を有効にする
+autoload -Uz compinit
+compinit
+
+# フック機能を有効にする
+autoload -Uz add-zsh-hook
+
+# URLをエスケープする
+autoload -Uz url-quote-magic
+# 文字入力時にURLをエスケープする
+zle -N self-insert url-quote-magic
+
+# VCS情報の表示を有効にする
+autoload -Uz vcs_info
+
+# 色を使用出来るようにする
+autoload -Uz colors
+colors
+
+# ----------------------------------
+# zstyle
+# ----------------------------------
+# 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
+
+zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
+zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
+
+function _update_vcs_info_msg() {
+    LANG=en_US.UTF-8 vcs_info
+    RPROMPT="${vcs_info_msg_0_}"
+}
+add-zsh-hook precmd _update_vcs_info_msg
 
 # ----------------------------------
 # プラグイン

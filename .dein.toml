@@ -6,7 +6,10 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
-repo = 'itchyny/lightline.vim'
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
@@ -33,4 +36,13 @@ repo = 'jdkanani/vim-material-theme'
 repo = 'scrooloose/nerdtree'
 
 [[plugins]]
+repo = 'jistr/vim-nerdtree-tabs'
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+
+[[plugins]]
 repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'

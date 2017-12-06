@@ -25,6 +25,9 @@ if dein#check_install()
   call dein#install()
 endif
 
+" vim-fugativeのコマンドが見つからない問題を回避
+call dein#add('tpope/vim-fugitive', {'on_cmd' : 'Gstatus'})
+
 " display
 set showmatch
 set number
@@ -209,13 +212,22 @@ let g:neocomplete#sources#dictionary#dictionaries = {
 " ---------------------------------------
 " NERDTree
 " ---------------------------------------
-nmap nt :NERDTree<cr>
-nmap <silent> <C-e> :NERDTreeToggle<CR>
-vmap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
-omap <silent> <C-e> :NERDTreeToggle<CR>
-imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
+"nmap nt :NERDTree<cr>
+nmap nt <plug>NERDTreeTabsToggle<cr>
+nmap <silent> <C-e> <plug>NERDTreeTabsToggle<CR>
+vmap <silent> <C-e> <Esc> <plug>NERDTreeTabsToggle<CR>
+omap <silent> <C-e> <plug>NERDTreeTabsToggle<CR>
+imap <silent> <C-e> <Esc> :<plug>NERDTreeTabsToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
+
+" ---------------------------------------
+" Vim-NERDTree-Tabs
+" ---------------------------------------
+" ファイルが指定されていなければNERD treeを有効にする
+if argc() == 0
+  let g:nerdtree_tabs_open_on_console_startup = 1
+end
 
 " ---------------------------------------
 " indentLine
@@ -227,45 +239,19 @@ let g:indentLine_color_gui = '#708090'
 " ---------------------------------------
 " airline
 " ---------------------------------------
+" タブバーのカスタマイズを有効にする
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_powerline_fonts = 1
+
+" タブバーの右領域を非表示にする
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#show_close_button = 0
+" テーマ
 let g:airline_theme='jellybeans'
+let g:airline_powerline_fonts = 1
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.maxlinenr = ''
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
 
 " ---------------------------------------
 " Rust

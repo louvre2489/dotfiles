@@ -25,9 +25,6 @@ if dein#check_install()
   call dein#install()
 endif
 
-" vim-fugativeのコマンドが見つからない問題を回避
-call dein#add('tpope/vim-fugitive', {'on_cmd' : 'Gstatus'})
-
 " display
 set showmatch
 set number

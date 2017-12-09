@@ -1,7 +1,4 @@
 [[plugins]]
-repo = 'tpope/vim-fugitive'
-
-[[plugins]]
 repo = 'derekwyatt/vim-scala'
 
 [[plugins]]

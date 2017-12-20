@@ -199,3 +199,24 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+# ----------------------------------
+# z
+# ----------------------------------
+# 設定読み込み
+source ~/z/z.sh
+
+# pecoとの連動
+function peco-z-search
+{
+  local res=$(z | sort -rn | cut -c 12- | peco)
+  if [ -n "$res" ]; then
+    BUFFER+="cd $res"
+    zle accept-line
+  else
+    return 1
+  fi
+}
+zle -N peco-z-search
+bindkey '^@' peco-z-search
+

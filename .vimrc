@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " dein.vimのディレクトリ
 let s:dein_dir=expand('~/.cache/dein')
 let s:dein_repo_dir=s:dein_dir . '/repos/github.com/Shougo/dein.vim'
@@ -131,10 +133,6 @@ noremap <S-h> ^
 noremap <S-j> }
 noremap <S-k> {
 noremap <S-l> $
-inoremap <M-H> <Left>
-inoremap <M-l> <Right>
-inoremap <M-j> <Down>
-inoremap <M-k> <Up>
 
 " カッコ
 inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
@@ -154,6 +152,12 @@ nnoremap sn gt
 nnoremap sp gT
 nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
+
+" NORMALモードに戻るときにIMEをOFFにする
+function! ImInActivate()
+  call system('fcitx-remote -c')
+endfunction
+inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
 " dein
@@ -190,7 +194,7 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 " Use neocomplete.
 let g:neocomplete#enable_at_startup=1
-j
+
 " Use smartcase.
 let g:neocomplete#enable_smart_case=1
 
@@ -249,6 +253,16 @@ let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
+
+" ---------------------------------------
+" emmet
+" ---------------------------------------
+let g:user_emmet_settings = {
+    \    'variables': {
+    \      'lang': "ja"
+    \    },
+    \   'indentation': '  '
+    \ }
 
 " ---------------------------------------
 " Rust

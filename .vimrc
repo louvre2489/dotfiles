@@ -34,6 +34,11 @@ endif
 nmap du :call dein#update()<cr>
 
 " ---------------------------------------
+" color scheme
+" ---------------------------------------
+colorscheme landscape
+
+" ---------------------------------------
 " File
 " ---------------------------------------
 set noswapfile
@@ -208,54 +213,110 @@ endfunction
 inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
-" color scheme
-" ---------------------------------------
-colorscheme landscape
-
-" ---------------------------------------
 " Unite
 " ---------------------------------------
-nnoremap sT :<C-u>Unite tab<CR>
-nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+" 挿入モードで開始する
+let g:unite_enable_start_insert=1
+
+" 大文字小文字を区別しない
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
+" 大文字小文字を区別しない
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
+" prefix keyの設定
+nmap <Space> [unite]
+
+" キーマップ
+" カレントディレクトリを表示
+nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+
+" バッファと最近開いたファイル一覧を表示
+nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+
+" 最近開いたディレクトリを表示
+nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+
+" バッファを表示
+nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+
+" レジストリを表示
+nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+
+" タブを表示
+nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
+
+" ヒストリ/ヤンクを表示
+nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
+
+" outline
+nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
+
+" grep検索
+nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+
+" カーソル位置の単語をgrep検索
+nnoremap <silent> [unite]wg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+
+" grep検索結果の再呼出
+nnoremap <silent> [unite]rg  :<C-u>UniteResume search-buffer<CR>
+
+" unite grep に ag(The Silver Searcher) を使う
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+" unite.vimを開いている間のキーマッピング
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+    " ESCでuniteを終了
+    nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction"}}}
 
 " ---------------------------------------
-" neocomplete
+" deoplete
 " ---------------------------------------
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" 起動時に有効にする
+let g:deoplete#enable_at_startup = 1
 
-" <CR>: close popup and save indent.
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" 補完を開始する文字数
+let g:deoplete#auto_complete_start_length = 1
 
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" 大文字小文字を無視する
+let g:deoplete#enable_ignore_case = 1
 
-" <BS>: close popup and delete backword char.
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" バッファからも補完候補を読む
+let g:deoplete#file#enable_buffer_path = 1
 
-" Use neocomplete.
-let g:neocomplete#enable_at_startup=1
+inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 
-" Use smartcase.
-let g:neocomplete#enable_smart_case=1
+" ---------------------------------------
+" neosnippet
+" ---------------------------------------
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-" ３文字以上の単語に対して補完
-let g:neocomplete#min_keyword_length=3
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
 
- " Use underbar completion.
-let g:neocomplete#enable_underbar_completion=1
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
 
-" 辞書の場所
-let g:neocomplete#sources#dictionary#dictionaries = {
-\   'default' : '',
-\   'scala' : '$HOME/.vim/dict/scala.dict',
-\ }
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 
 " ---------------------------------------
 " NERDTree
@@ -305,11 +366,11 @@ let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
 " emmet
 " ---------------------------------------
 let g:user_emmet_settings = {
-    \    'variables': {
-    \      'lang': "ja"
-    \    },
-    \   'indentation': '  '
-    \ }
+\    'variables': {
+\      'lang': "ja"
+\    },
+\   'indentation': '  '
+\ }
 
 " ---------------------------------------
 " Rust

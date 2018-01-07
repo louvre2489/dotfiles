@@ -109,6 +109,9 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
 export PATH="$PATH:/usr/lib/jvm/java-8-oracle/jre/lib/ext"
 
+# neovim
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # ----------------------------------
 # プロンプト
 # ----------------------------------

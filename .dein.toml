@@ -30,7 +30,7 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'Shougo/neocomplete.vim'
 
 [[plugins]]
-repo = 'jdkanani/vim-material-theme'
+repo = 'itchyny/landscape.vim'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'

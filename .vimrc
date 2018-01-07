@@ -1,5 +1,8 @@
 scriptencoding utf-8
 
+" ---------------------------------------
+" dein
+" ---------------------------------------
 " dein.vimのディレクトリ
 let s:dein_dir=expand('~/.cache/dein')
 let s:dein_repo_dir=s:dein_dir . '/repos/github.com/Shougo/dein.vim'
@@ -27,100 +30,145 @@ if dein#check_install()
   call dein#install()
 endif
 
-" display
-set showmatch
-set number
-set ruler
-set cursorline
-set showmode
-set nowrap
-set t_Co=256
+" キーマップ
+nmap du :call dein#update()<cr>
 
-" file
+" ---------------------------------------
+" File
+" ---------------------------------------
 set noswapfile
 set nobackup
 set noundofile
-" indent
-set autoindent
-set expandtab
-" etc
-set enc=japan
-set smartcase
-set history=50
-
-" syntax
-syntax on
 
 " ファイルが外部で変更された際に自動で読み込む
 set autoread
-" バックスペースの影響範囲を設定する
-set backspace=indent,eol,start
-" OSとクリップボードを共有する
-"set clipboard=unnamed,autoselect
-set clipboard=unnamedplus
-" 強調表示する列を設定する
-"set colorcolumn=80
+
 " 未保存ファイルの終了時に保存確認を行なう
 set confirm
-" カーソル行を強調表示する
-set cursorline
-" 文字コードを設定する
-set encoding=utf8
-set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
-" タブの代わりにスペースを挿入する
-set expandtab
+
 " ファイル変更中に他のファイルを表示可能にする
 set hidden
-" コマンドラインモードで保存する履歴数を設定する
-set history=1000
-" 検索結果をハイライト表示する
-set hlsearch
-" 大文字と小文字を区別せず検索する
-set ignorecase
-" インクリメンタルサーチを有効にする
-set incsearch
-" ステータスバーを常に表示する
-set laststatus=2
-" 不可視文字の表示方法を設定する
-set listchars=eol:?
-" マウスを有効にする
-set mouse=a
-" ルーラーを表示する
-set ruler
-" カーソル行の上下へのオフセットを設定する
-set scrolloff=4
-" タブ幅を設定する
-set tabstop=2
-" タブやバックスペースで処理するスペースの数を設定する
-set softtabstop=2
-" インデントでずれる幅を設定する
-set shiftwidth=2
-" 入力中のコマンドを表示する
-set showcmd
-" 対応するカッコを強調表示する
-set showmatch
-" タブバーを常に表示する
-set showtabline=2
-" コンテキストに応じたタブの処理を行なう
-set smarttab
-" 新しいウィンドウを下/右に開く
-set splitbelow
-set splitright
+
+" ---------------------------------------
+" Display
+" ---------------------------------------
+" [基本的な見た目]
+" syntax
+syntax on
+
 " 編集中のファイル名を表示する
 set title
-" ビープを無効にする
-set visualbell t_vb=
-" 行頭・行末の左右移動で行を移動する
-set whichwrap=b,s,h,l,<,>,[,]
-" コマンドラインモードでの補完を有効にする
-set wildmenu
-" コマンドラインモードでの補完方法を設定する
-set wildmode=list:longest,full
-" 文字崩れの発生を抑止
-set ambiwidth=double
+
+" 行番号
+set number
+
+" ルーラーを表示する
+set ruler
+
+" タブバーを常に表示する
+set showtabline=2
+
+" ステータスバーを常に表示する
+set laststatus=2
+
+" 折り返しなし
+set nowrap
+
+" 256色対応
+set t_Co=256
+
+" カーソル行の上下へのオフセットを設定する
+set scrolloff=4
 
 " デフォルトvimrc_exampleのtextwidth設定上書き
 autocmd FileType text setlocal textwidth=0
+
+" [文字表示関連]
+" 文字コードを設定する
+set encoding=utf8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
+"set enc=japan
+
+" 不可視文字の表示方法を設定する
+set listchars=eol:?
+
+" 文字崩れの発生を抑止
+set ambiwidth=double
+
+" [強調]
+" 検索結果をハイライト表示する
+set hlsearch
+
+" カーソル行を強調表示する
+set cursorline
+
+" 強調表示する列を設定する
+"set colorcolumn=80
+
+" 対応するカッコを強調表示する
+set showmatch
+
+" ---------------------------------------
+" Action
+" ---------------------------------------
+" [インデント/タブ/スペース]
+" 自動インデント
+set autoindent
+
+" タブの代わりにスペースを挿入する
+set expandtab
+
+" インデントでずれる幅を設定する
+set shiftwidth=2
+
+" タブやバックスペースで処理するスペースの数を設定する
+set softtabstop=2
+
+" タブ幅を設定する
+set tabstop=2
+
+" コンテキストに応じたタブの処理を行なう
+set smarttab
+
+" [検索]
+" 大文字と小文字を区別せず検索する
+set ignorecase
+
+" インクリメンタルサーチを有効にする
+set incsearch
+
+" [その他]
+" 新しいウィンドウを下/右に開く
+set splitbelow
+set splitright
+
+" バックスペースの影響範囲を設定する
+set backspace=indent,eol,start
+
+" OSとクリップボードを共有する
+"set clipboard=unnamed,autoselect
+set clipboard=unnamedplus
+
+" マウスを有効にする
+set mouse=a
+
+" ビープを無効にする
+set visualbell t_vb=
+
+" 行頭・行末の左右移動で行を移動する
+set whichwrap=b,s,h,l,<,>,[,]
+
+" コマンドラインモードで保存する履歴数を設定する
+set history=1000
+
+" コマンドラインモードでの補完を有効にする
+set wildmenu
+
+" コマンドラインモードでの補完方法を設定する
+set wildmode=list:longest,full
+
+" 入力中のコマンドを表示する
+set showcmd
 
 " ---------------------------------------
 " キーマップ
@@ -160,9 +208,9 @@ endfunction
 inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
-" dein
+" color scheme
 " ---------------------------------------
-nmap du :call dein#update()<cr>
+colorscheme landscape
 
 " ---------------------------------------
 " Unite
@@ -178,18 +226,17 @@ inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
   "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" <BS>: close popup and delete backword char.
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 " Use neocomplete.

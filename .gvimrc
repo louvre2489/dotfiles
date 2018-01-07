@@ -7,7 +7,7 @@ set columns=1020
 syntax on
 syntax enable
 set background=dark
-colorscheme material-theme
+"colorscheme material-theme
 highlight Cursor guibg=Green
 highlight Visual guibg=darkmagenta
 

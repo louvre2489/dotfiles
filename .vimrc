@@ -213,7 +213,19 @@ endfunction
 inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
+" prefix
+" ---------------------------------------
 " Unite
+nmap <Space> [unite]
+
+" NERDTree
+nmap <C-e> [nerdtree]
+
+" neosnippet
+nmap <C-k> [neosnippet]
+
+" ---------------------------------------
+" unite
 " ---------------------------------------
 " 挿入モードで開始する
 let g:unite_enable_start_insert=1
@@ -225,9 +237,6 @@ let g:unite_enable_smart_case = 1
 " 大文字小文字を区別しない
 let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
-
-" prefix keyの設定
-nmap <Space> [unite]
 
 " キーマップ
 " カレントディレクトリを表示
@@ -300,9 +309,9 @@ inoremap <expr><tab> pumvisible() ? "\<C-n>" :
 " neosnippet
 " ---------------------------------------
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+imap [neosnippet] <Plug>(neosnippet_expand_or_jump)
+smap [neosnippet] <Plug>(neosnippet_expand_or_jump)
+xmap [neosnippet] <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
@@ -323,10 +332,10 @@ endif
 " ---------------------------------------
 "nmap nt :NERDTree<cr>
 nmap nt <plug>NERDTreeTabsToggle<cr>
-nmap <silent> <C-e> <plug>NERDTreeTabsToggle<CR>
-vmap <silent> <C-e> <Esc> <plug>NERDTreeTabsToggle<CR>
-omap <silent> <C-e> <plug>NERDTreeTabsToggle<CR>
-imap <silent> <C-e> <Esc> :<plug>NERDTreeTabsToggle<CR>
+nmap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+vmap <silent> [nerdtree] <Esc> <plug>NERDTreeTabsToggle<CR>
+omap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+imap <silent> [nerdtree] <Esc> :<plug>NERDTreeTabsToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let g:NERDTreeShowHidden=1
 
@@ -339,6 +348,22 @@ if argc() == 0
 end
 
 " ---------------------------------------
+" nerdtree-git-plugin
+" ---------------------------------------
+let g:NERDTreeIndicatorMapCustom = {
+\ "Modified"  : "➤",
+\ "Staged"    : "✚",
+\ "Untracked" : "✭",
+\ "Renamed"   : "➜",
+\ "Unmerged"  : "═",
+\ "Deleted"   : "✖",
+\ "Dirty"     : "✗",
+\ "Clean"     : "✔︎",
+\ 'Ignored'   : '☒',
+\ "Unknown"   : "?"
+\ }
+
+" ---------------------------------------
 " indentLine
 " ---------------------------------------
 set list listchars=tab:\¦\
@@ -346,7 +371,7 @@ let g:indentLine_color_term = 111
 let g:indentLine_color_gui = '#708090'
 
 " ---------------------------------------
-" airline
+" vim-airline
 " ---------------------------------------
 " タブバーのカスタマイズを有効にする
 let g:airline#extensions#tabline#enabled = 1
@@ -355,6 +380,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#show_close_button = 0
+
 " テーマ
 let g:airline_theme='jellybeans'
 let g:airline_powerline_fonts = 1
@@ -363,7 +389,27 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
 
 " ---------------------------------------
-" emmet
+" vim-gitgutter
+" ---------------------------------------
+" 表示列の背景色変更
+let gitgutter_override_sign_column_highlight = 0
+highlight SignColumn ctermbg = lightgrey
+
+" 表示するマークのカスタマイズ
+let g:gitgutter_sign_added = '✚'
+let g:gitgutter_sign_modified = '➤'
+let g:gitgutter_sign_removed = '✘'
+let g:gitgutter_sign_modified_removed = "➜"
+
+" 変更箇所に着色
+let g:gitgutter_highlight_lines = 1
+autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
+autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
+autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=52
+autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=53
+
+" ---------------------------------------
+" emmet-vim
 " ---------------------------------------
 let g:user_emmet_settings = {
 \    'variables': {
@@ -371,11 +417,3 @@ let g:user_emmet_settings = {
 \    },
 \   'indentation': '  '
 \ }
-
-" ---------------------------------------
-" Rust
-" ---------------------------------------
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
-set hidden
-let g:racer_cmd = '$HOME/.cargo/bin/racer'

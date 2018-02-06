@@ -210,7 +210,9 @@ nnoremap sQ :<C-u>bd<CR>
 function! ImInActivate()
   call system('fcitx-remote -c')
 endfunction
-inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
+inoremap <silent> jj <ESC>:call ImInActivate()<CR>
+inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
+inoremap <silent> <C-j> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
 " prefix

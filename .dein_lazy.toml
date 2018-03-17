@@ -1,8 +1,20 @@
 [[plugins]]
+repo = 'Shougo/deoplete.nvim'
+on_event = 'InsertCharPre'
+on_i = 1
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
 repo = 'derekwyatt/vim-scala'
+on_ft = 'scala'
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
+on_ft = 'rust'
 
 [[plugins]]
 repo = 'racer-rust/vim-racer'
+on_ft = 'rust'

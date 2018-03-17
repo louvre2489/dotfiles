@@ -6,9 +6,6 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
-repo = 'cespare/vim-toml'
-
-[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
@@ -34,11 +31,6 @@ repo = 'Shougo/unite-outline'
 
 #[[plugins]]
 #repo = 'Shougo/neocomplete.vim'
-
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-on_event = 'InsertCharPre'
-on_i = 1
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'

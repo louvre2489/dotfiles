@@ -61,7 +61,7 @@ conky.config = {
     gap_y = 20,
     override_utf8_locale = true,
     use_xft = true,
-    font = 'TakaoGothic:style=Regular:size=12',
+    font = 'Anonymice Powerline:style=Regular:size=12',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager'
 }
 

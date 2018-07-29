@@ -191,9 +191,9 @@ noremap <S-k> {
 noremap <S-l> $
 
 " カッコ
-inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
-inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
-inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+inoremap [<Enter> []<Left><CR><ESC><S-o>
+inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -208,6 +208,14 @@ nnoremap sn gt
 nnoremap sp gT
 nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
+
+" vimgrep
+nnoremap [q :cprevious<CR>   " 前へ
+nnoremap ]q :cnext<CR>       " 次へ
+nnoremap [Q :<C-u>cfirst<CR> " 最初へ
+nnoremap ]Q :<C-u>clast<CR>  " 最後へ
+" vimgrepの結果をQuickFixで開く
+autocmd QuickFixCmdPost *grep* cwindow
 
 " NORMALモードに戻るときにIMEをOFFにする
 function! ImInActivate()
@@ -422,3 +430,37 @@ let g:user_emmet_settings = {
 \    },
 \   'indentation': '  '
 \ }
+
+" ---------------------------------------
+" javaScript Setting
+" ---------------------------------------
+augroup MyJsRc
+  autocmd!
+augroup END
+
+function! EnableJavascript()
+  let g:used_javascript_libs = 'jquery,underscore,react,flux,jasmine,d3'
+  let b:javascript_lib_use_jquery = 1
+  let b:javascript_lib_use_underscore = 1
+  let b:javascript_lib_use_react = 1
+  let b:javascript_lib_use_flux = 1
+  let b:javascript_lib_use_jasmine = 1
+  let b:javascript_lib_use_d3 = 1
+  let g:syntastic_mode_map = { 'mode': 'active',
+\ 'active_filetypes': [],
+\ 'passive_filetypes': [] }
+  let g:syntastic_javascript_checkers = ['eslint']
+  " 終了時のチェック
+  let g:syntastic_check_on_wq = 0
+  " エラー行に sign を表示
+  let g:syntastic_enable_signs = 1
+  " location list を常に更新
+  let g:syntastic_always_populate_loc_list = 0
+  " location list を常に表示
+  let g:syntastic_auto_loc_list = 0
+  " ファイルを開いた時にチェックを実行する
+  let g:syntastic_check_on_open = 1
+  " ロケーションリストを表示する
+  let g:syntastic_auto_loc_list = 1
+endfunction
+autocmd MyJsRc FileType javascript,javascript.jsx call EnableJavascript()

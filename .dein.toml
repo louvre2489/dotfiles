@@ -64,3 +64,9 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
+
+[[plugins]]
+repo = 'othree/html5.vim'
+
+[[plugins]]
+repo = 'scrooloose/syntastic'

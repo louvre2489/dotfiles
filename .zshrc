@@ -195,31 +195,49 @@ bindkey '^\^' cdup
 # ----------------------------------
 # peco
 # ----------------------------------
-function peco-select-history() {
-  BUFFER=$(\history -n 1 | tac | peco)
-  CURSOR=$#BUFFER
-  zle clear-screen
+#function peco-select-history() {
+#  BUFFER=$(\history -n 1 | tac | peco)
+#  CURSOR=$#BUFFER
+#  zle clear-screen
+#}
+#zle -N peco-select-history
+#bindkey '^r' peco-select-history
+#
+## pecoとの連動
+#function peco-z-search
+#{
+#  local res=$(z | sort -rn | cut -c 12- | peco)
+#  if [ -n "$res" ]; then
+#    BUFFER+="cd $res"
+#    zle accept-line
+#  else
+#    return 1
+#  fi
+#}
+#zle -N peco-z-search
+#bindkey '^@' peco-z-search
+
+# ----------------------------------
+# fzf
+# ----------------------------------
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_DEFAULT_OPTS='--height 60% --reverse --border'
+
+function fzf-z-search() {
+    local res=$(z | sort -rn | cut -c 12- | fzf)
+    if [ -n "$res" ]; then
+        BUFFER+="cd $res"
+        zle accept-line
+    else
+        return 1
+    fi
 }
-zle -N peco-select-history
-bindkey '^r' peco-select-history
+zle -N fzf-z-search
+bindkey '^@' fzf-z-search
 
 # ----------------------------------
 # z
 # ----------------------------------
 # 設定読み込み
 source ~/z/z.sh
-
-# pecoとの連動
-function peco-z-search
-{
-  local res=$(z | sort -rn | cut -c 12- | peco)
-  if [ -n "$res" ]; then
-    BUFFER+="cd $res"
-    zle accept-line
-  else
-    return 1
-  fi
-}
-zle -N peco-z-search
-bindkey '^@' peco-z-search
-

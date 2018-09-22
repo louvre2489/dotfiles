@@ -1,5 +1,5 @@
-unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+"unlet! skip_defaults_vim
+"source $VIMRUNTIME/defaults.vim
 
 scriptencoding utf-8
 

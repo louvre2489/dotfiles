@@ -69,4 +69,7 @@ repo = 'mattn/emmet-vim'
 repo = 'othree/html5.vim'
 
 [[plugins]]
-repo = 'scrooloose/syntastic'
+repo = 'tyru/caw.vim'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'

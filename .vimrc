@@ -189,11 +189,15 @@ noremap <S-h> ^
 noremap <S-j> }
 noremap <S-k> {
 noremap <S-l> $
+inoremap <A-h> <Left>
+inoremap <A-j> <Down>
+inoremap <A-k> <Up>
+inoremap <A-l> <Right>
 
 " カッコ
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
+inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
+inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
+inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -432,6 +436,39 @@ let g:user_emmet_settings = {
 \ }
 
 " ---------------------------------------
+" ale
+" ---------------------------------------
+" 保存時のみ実行する
+let g:ale_lint_on_text_changed = 0
+" Lint
+let g:ale_linters = {
+      \ 'css': ['stylelint'],
+      \ 'javascript': ['eslint'],
+      \ 'vue': ['eslint'],
+      \ }
+" 整形
+let g:ale_fixers = {
+      \ 'javascript': ['prettier-eslint'],
+      \ 'css': ['stylelint'],
+      \ 'scss': ['stylelint'],
+      \ }
+let g:ale_fix_on_save = 1
+
+" Ctrl + kで次の指摘へ、Ctrl + jで前の指摘へ移動
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" ---------------------------------------
+" caw
+" ---------------------------------------
+" 行の最初の文字の前にコメント文字をトグル
+nmap <Leader>c <Plug>(caw:hatpos:toggle)
+vmap <Leader>c <Plug>(caw:hatpos:toggle)
+" 行頭にコメントをトグル
+nmap <Leader>, <Plug>(caw:zeropos:toggle)
+vmap <Leader>, <Plug>(caw:zeropos:toggle)
+
+" ---------------------------------------
 " javaScript Setting
 " ---------------------------------------
 augroup MyJsRc
@@ -439,28 +476,26 @@ augroup MyJsRc
 augroup END
 
 function! EnableJavascript()
-  let g:used_javascript_libs = 'jquery,underscore,react,flux,jasmine,d3'
+  " ---------------------------------------
+  " tigris.nvim
+  " ---------------------------------------
+  let g:tigris#enabled = 1
+  let g:tigris#on_the_fly_enabled = 1
+  let g:tigris#delay = 300
+
+  " ---------------------------------------
+  " javascript-librariws-syntax
+  " ---------------------------------------
+  let g:used_javascript_libs = 'jquery,react,flux,vue'
   let b:javascript_lib_use_jquery = 1
-  let b:javascript_lib_use_underscore = 1
   let b:javascript_lib_use_react = 1
   let b:javascript_lib_use_flux = 1
-  let b:javascript_lib_use_jasmine = 1
-  let b:javascript_lib_use_d3 = 1
-  let g:syntastic_mode_map = { 'mode': 'active',
-\ 'active_filetypes': [],
-\ 'passive_filetypes': [] }
-  let g:syntastic_javascript_checkers = ['eslint']
-  " 終了時のチェック
-  let g:syntastic_check_on_wq = 0
-  " エラー行に sign を表示
-  let g:syntastic_enable_signs = 1
-  " location list を常に更新
-  let g:syntastic_always_populate_loc_list = 0
-  " location list を常に表示
-  let g:syntastic_auto_loc_list = 0
-  " ファイルを開いた時にチェックを実行する
-  let g:syntastic_check_on_open = 1
-  " ロケーションリストを表示する
-  let g:syntastic_auto_loc_list = 1
+  let b:javascript_lib_use_vue = 1
+
+  " ---------------------------------------
+  " vim-vue
+  " ---------------------------------------
+  autocmd FileType vue syntax sync fromstart
+
 endfunction
-autocmd MyJsRc FileType javascript,javascript.jsx call EnableJavascript()
+autocmd MyJsRc FileType html,javascript,javascript.jsx,vue call EnableJavascript()

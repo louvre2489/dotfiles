@@ -13,8 +13,10 @@ fi
 # emacsのキーバインド
 bindkey -e
 
-# Customize to your needs...
+# alias
 alias rm='trash'
+alias vi='nvim'
+alias vim='nvim'
 
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
@@ -58,7 +60,8 @@ export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32p:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
 
 # 標準エディタを設定する
-export EDITOR=vim
+#export EDITOR=vim
+export EDITOR=neovim
 
 # ----------------------------------
 # autoload
@@ -108,6 +111,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 # ----------------------------------
 export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
 export PATH="$PATH:/usr/lib/jvm/java-8-oracle/jre/lib/ext"
+# for neovim
+export XDG_CONFIG_HOME=~/.config
 
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"

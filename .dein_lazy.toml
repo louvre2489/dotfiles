@@ -20,25 +20,25 @@ repo = 'racer-rust/vim-racer'
 on_ft = 'rust'
 
 [[plugins]]
-repo = 'pangloss/vim-javascript'
-on_ft = ['javascript', 'javascript.jsx']
+repo = 'billyvg/tigris.nvim'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'othree/yajs.vim'
-on_ft = ['javascript', 'javascript.jsx']
-
-[[plugins]]
-repo = 'othree/es.next.syntax.vim'
-on_ft = ['javascript', 'javascript.jsx']
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'othree/javascript-libraries-syntax.vim'
-on_ft = ['javascript', 'javascript.jsx']
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'maxmellon/vim-jsx-pretty'
-on_ft = ['javascript', 'javascript.jsx']
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'w0rp/ale'
-on_ft = ['javascript', 'javascript.jsx']
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']

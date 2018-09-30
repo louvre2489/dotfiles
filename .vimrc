@@ -232,8 +232,8 @@ inoremap <silent> <C-j> <ESC>:call ImInActivate()<CR>
 " ---------------------------------------
 " prefix
 " ---------------------------------------
-" Unite
-nmap <Space> [unite]
+" denite
+nmap <Space> [denite]
 
 " NERDTree
 nmap <C-e> [nerdtree]
@@ -242,66 +242,59 @@ nmap <C-e> [nerdtree]
 nmap <C-k> [neosnippet]
 
 " ---------------------------------------
-" unite
+" gtags
 " ---------------------------------------
-" 挿入モードで開始する
-let g:unite_enable_start_insert=1
-
-" 大文字小文字を区別しない
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
-
-" 大文字小文字を区別しない
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
+let g:Gtags_Auto_Map = 0
+let g:Gtags_OpenQuickfixWindow = 1
 
 " キーマップ
+" Show definetion of function cousor word on quickfix
+nmap <silent> <C-]> :<C-u>exe("Gtags ".expand('<cword>'))<CR>
+" Show reference of cousor word on quickfix
+nmap <silent> <C-t> :<C-u>exe("Gtags -r ".expand('<cword>'))<CR>
+
+" ---------------------------------------
+" gen_tags
+" ---------------------------------------
+let g:gen_tags#gtags_auto_gen = 1
+
+" ---------------------------------------
+" denite
+" ---------------------------------------
+" キーマップ
 " カレントディレクトリを表示
-nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-
-" バッファと最近開いたファイル一覧を表示
-nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
-
-" 最近開いたディレクトリを表示
-nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+nnoremap <silent> [denite]a :Denite file_rec<CR>
 
 " バッファを表示
-nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+nnoremap <silent> [denite]b :Denite buffer<CR>
 
-" レジストリを表示
-nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+" ファイル一覧を表示
+nnoremap <silent> [denite]f :Denite -buffer-name=file file<CR>
 
-" タブを表示
-nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
+" 最近使ったファイルの一覧
+nnoremap <silent> [denite]fr :Denite file_old<CR>
 
-" ヒストリ/ヤンクを表示
-nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
+" プロンプトの左端に表示される文字を指定
+call denite#custom#option('default', 'prompt', '>')
+" deniteの起動位置をtopに変更
+call denite#custom#option('default', 'direction', 'top')
 
-" outline
-nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
+" denite/insert モードのときは，C- で移動できるようにする
+call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
+call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
+
+" ESCキーでdeniteを終了
+call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
+
+" C-N,C-Pで上下移動
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
 
 " grep検索
-nnoremap <silent> [unite],g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
 
 " カーソル位置の単語をgrep検索
-nnoremap <silent> [unite],cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-
-" grep検索結果の再呼出
-nnoremap <silent> [unite],rg  :<C-u>UniteResume search-buffer<CR>
-
-" unite grep に ag(The Silver Searcher) を使う
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
-endif
-
-" unite.vimを開いている間のキーマッピング
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
-    " ESCでuniteを終了
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-endfunction"}}}
+nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
 
 " ---------------------------------------
 " deoplete

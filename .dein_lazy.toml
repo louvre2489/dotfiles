@@ -2,6 +2,23 @@
 repo = 'Shougo/deoplete.nvim'
 on_event = 'InsertCharPre'
 on_i = 1
+hook_post_source = '''
+  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'default_opts', ['--follow', '--no-group', '--no-color'])
+'''
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+on_event = 'InsertCharPre'
+on_i = 1
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+on_event = 'InsertCharPre'
+on_i = 1
 
 [[plugins]]
 repo = 'cespare/vim-toml'

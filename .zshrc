@@ -172,6 +172,10 @@ function _git_info() {
        # git commitされていないファイルがある状態
        BG_COLOR=yellow
        FG_COLOR=black
+    elif [[ -n `echo "$st" | grep "to publish your local commits"` ]]; then
+       # git pushされていないファイルがある状態
+       BG_COLOR=pink
+       FG_COLOR=black
     fi
 
     echo "%{%K{$BG_COLOR}%}%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}"

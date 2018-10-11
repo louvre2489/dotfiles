@@ -21,6 +21,9 @@ repo = 'airblade/vim-gitgutter'
 repo = 'bronson/vim-trailing-whitespace'
 
 [[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
 repo = 'Yggdroot/indentLine'
 
 #[[plugins]]

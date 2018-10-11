@@ -198,6 +198,7 @@ inoremap <A-l> <Right>
 inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
 inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
+inoremap ({<Enter> ({})<Left><<Left><CR><ESC><S-o><TAB>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -454,6 +455,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " ---------------------------------------
 " caw
 " ---------------------------------------
+" <Leader> is \
 " 行の最初の文字の前にコメント文字をトグル
 nmap <Leader>c <Plug>(caw:hatpos:toggle)
 vmap <Leader>c <Plug>(caw:hatpos:toggle)

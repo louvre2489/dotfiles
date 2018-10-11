@@ -122,41 +122,58 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # ----------------------------------
 function _git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
-  echo "${ref/refs\/heads\// }$(parse_git_dirty)"
+#  echo "${ref/refs\/heads\// }$(parse_git_dirty)"
+  echo "${ref/refs\/heads\// }"
 }
 
-function parse_git_dirty() {
-  local STATUS=''
-  local -a FLAGS
-  FLAGS=('--porcelain')
-  if [[ "$(command git config --get oh-my-zsh.hide-dirty)" != "1" ]]; then
-    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
-      FLAGS+='--ignore-submodules=dirty'
-    fi
-    if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
-      FLAGS+='--untracked-files=no'
-    fi
-    STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
-  fi
-  if [[ -n $STATUS ]]; then
-    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-  else
-    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-  fi
-}
+#function parse_git_dirty() {
+#  local STATUS=''
+#  local -a FLAGS
+#  FLAGS=('--porcelain')
+#  if [[ "$(command git config --get oh-my-zsh.hide-dirty)" != "1" ]]; then
+#    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
+#      FLAGS+='--ignore-submodules=dirty'
+#    fi
+#    if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
+#      FLAGS+='--untracked-files=no'
+#    fi
+#    STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
+#  fi
+#  if [[ -n $STATUS ]]; then
+#    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+#  else
+#    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
+#  fi
+#}
 
 function _git_info() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     local BG_COLOR=green
-    if [[ -n $(parse_git_dirty) ]]; then
-      BG_COLOR=yellow
+    local FG_COLOR=black
+
+    st=`git status 2> /dev/null`
+    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+      # 全てcommitされてクリーンな状態
+      BG_COLOR=green
       FG_COLOR=black
+#    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
+#      # gitに管理されていないファイルがある状態
+#      BG_COLOR=yellow
+#      FG_COLOR=white
+    elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
+      # git addされていないファイルがある状態
+      BG_COLOR=red
+      FG_COLOR=white
+    elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
+       # コンフリクトが起こった状態
+       BG_COLOR=gray
+       FG_COLOR=red
+    elif [[ -n `echo "$st" | grep "git reset HEAD <file>..."` ]]; then
+       # git commitされていないファイルがある状態
+       BG_COLOR=yellow
+       FG_COLOR=black
     fi
 
-    if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-        BG_COLOR=red
-        FG_COLOR=white
-    fi
     echo "%{%K{$BG_COLOR}%}%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}"
   else
     echo "%{%K{blue}%}"

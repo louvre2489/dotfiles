@@ -152,15 +152,15 @@ function _git_info() {
     local FG_COLOR=black
 
     st=`git status 2> /dev/null`
-    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-      # 全てcommitされてクリーンな状態
-      BG_COLOR=green
-      FG_COLOR=black
+#    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+#      # 全てcommitされてクリーンな状態
+#      BG_COLOR=green
+#      FG_COLOR=black
 #    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
 #      # gitに管理されていないファイルがある状態
 #      BG_COLOR=yellow
 #      FG_COLOR=white
-    elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
+    if [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
       # git addされていないファイルがある状態
       BG_COLOR=red
       FG_COLOR=white
@@ -176,7 +176,11 @@ function _git_info() {
        # git pushされていないファイルがある状態
        BG_COLOR=pink
        FG_COLOR=black
-    fi
+    elif [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+      # 全てcommitされてクリーンな状態
+      BG_COLOR=green
+      FG_COLOR=black
+   fi
 
     echo "%{%K{$BG_COLOR}%}%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}"
   else

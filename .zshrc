@@ -171,10 +171,10 @@ function _git_info() {
     elif [[ -n `echo "$st" | grep "git reset HEAD <file>..."` ]]; then
        # git commitされていないファイルがある状態
        BG_COLOR=yellow
-       FG_COLOR=black
+       FG_COLOR=white
     elif [[ -n `echo "$st" | grep "to publish your local commits"` ]]; then
        # git pushされていないファイルがある状態
-       BG_COLOR=pink
+       BG_COLOR=yellow
        FG_COLOR=black
     elif [[ -n `echo "$st" | grep "^nothing to"` ]]; then
       # 全てcommitされてクリーンな状態

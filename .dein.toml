@@ -26,9 +26,6 @@ repo = 'tpope/vim-surround'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
 
-#[[plugins]]
-#repo = 'Shougo/unite.vim'
-
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 
@@ -37,12 +34,6 @@ repo = 'Shougo/neomru.vim'
 
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
-
-#[[plugins]]
-#repo = 'Shougo/unite-outline'
-
-#[[plugins]]
-#repo = 'Shougo/neocomplete.vim'
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
@@ -76,6 +67,9 @@ repo = 'othree/html5.vim'
 
 [[plugins]]
 repo = 'tyru/caw.vim'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'

@@ -198,7 +198,7 @@ inoremap <A-l> <Right>
 inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
 inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
-inoremap ({<Enter> ({})<Left><<Left><CR><ESC><S-o><TAB>
+inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o><TAB>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -238,9 +238,6 @@ nmap <Space> [denite]
 
 " NERDTree
 nmap <C-e> [nerdtree]
-
-" neosnippet
-nmap <C-k> [neosnippet]
 
 " ---------------------------------------
 " gtags
@@ -313,29 +310,19 @@ let g:deoplete#enable_ignore_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 
 inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+\  neosnippet#expandable_or_jumpable() ?
+\   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 
 " ---------------------------------------
 " neosnippet
 " ---------------------------------------
 " Plugin key-mappings.
-imap [neosnippet] <Plug>(neosnippet_expand_or_jump)
-smap [neosnippet] <Plug>(neosnippet_expand_or_jump)
-xmap [neosnippet] <Plug>(neosnippet_expand_target)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
 if has('conceal')
-  set conceallevel=2 concealcursor=i
+  set conceallevel=2 concealcursor=niv
 endif
 
 " ---------------------------------------
@@ -398,6 +385,12 @@ let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
+
+" ---------------------------------------
+" vim-gitgutter
+" ---------------------------------------
+" diffを縦分割
+set diffopt+=vertical
 
 " ---------------------------------------
 " vim-gitgutter
@@ -491,6 +484,8 @@ function! EnableJavascript()
   " vim-vue
   " ---------------------------------------
   autocmd FileType vue syntax sync fromstart
+  set ttyfast
+  set lazyredraw
 
 endfunction
 autocmd MyJsRc FileType html,javascript,javascript.jsx,vue call EnableJavascript()

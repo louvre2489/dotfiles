@@ -457,6 +457,25 @@ nmap <Leader>, <Plug>(caw:zeropos:toggle)
 vmap <Leader>, <Plug>(caw:zeropos:toggle)
 
 " ---------------------------------------
+" LanguageClient-neovim
+" ---------------------------------------
+
+let g:LanguageClient_serverCommands = {
+    \ 'vue': ['vls'],
+    \ }
+let g:LanguageClient_autoStart = 1
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+" ---------------------------------------
+" tern-js
+" ---------------------------------------
+let g:deoplete#sources#ternjs#tern_bin = '/usr/local/bin/tern'
+let g:deoplete#sources#ternjs#timeout = 1
+let g:deoplete#sources#ternjs#filetypes = ['jsx', 'javascript.jsx', 'vue']
+
+" ---------------------------------------
 " javaScript Setting
 " ---------------------------------------
 augroup MyJsRc
@@ -488,4 +507,4 @@ function! EnableJavascript()
   set lazyredraw
 
 endfunction
-autocmd MyJsRc FileType html,javascript,javascript.jsx,vue call EnableJavascript()
+autocmd MyJsRc FileType html,javascript,javascript.jsx,vue,typescript call EnableJavascript()

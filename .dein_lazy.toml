@@ -1,7 +1,7 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
-on_event = 'InsertCharPre'
-on_i = 1
+depends = ['context_filetype.vim']
+on_event = 'InsertEnter'
 hook_post_source = '''
   call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
   call denite#custom#var('grep', 'command', ['ag'])
@@ -11,14 +11,22 @@ hook_post_source = '''
 '''
 
 [[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['context_filetype.vim', 'neosnippet-snippets']
+on_event = 'InsertEnter'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+depends = ['context_filetype.vim']
+on_event = 'InsertEnter'
+
+[[plugins]]
 repo = 'roxma/nvim-yarp'
-on_event = 'InsertCharPre'
-on_i = 1
+on_event = 'InsertEnter'
 
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-on_event = 'InsertCharPre'
-on_i = 1
+on_event = 'InsertEnter'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -46,8 +54,27 @@ on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'posva/vim-vue'
-on_ft = ['vue']
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
 [[plugins]]
 repo = 'w0rp/ale'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+
+[[plugins]]
+repo = 'mhartington/nvim-typescript'
+on_ft = ['typescript']
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = ['typescript']
+build = 'bash ./install.sh'
+
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+depends = 'deoplete.nvim'
+on_ft = ['vue']
+build = 'bash ./install.sh'

@@ -195,10 +195,10 @@ inoremap <A-k> <Up>
 inoremap <A-l> <Right>
 
 " カッコ
-inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
-inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
-inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
-inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o><TAB>
+"inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
+"inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
+"inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
+"inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o><TAB>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -385,7 +385,10 @@ let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
-
+let g:airline#extensions#default#layout = [
+	\ [ 'z', 'a', 'b', 'c' ],
+	\ [ 'y', 'x', 'error', 'warning']
+	\ ]
 " ---------------------------------------
 " vim-gitgutter
 " ---------------------------------------
@@ -459,14 +462,19 @@ vmap <Leader>, <Plug>(caw:zeropos:toggle)
 " ---------------------------------------
 " LanguageClient-neovim
 " ---------------------------------------
-
-let g:LanguageClient_serverCommands = {
-    \ 'vue': ['vls'],
-    \ }
-let g:LanguageClient_autoStart = 1
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+"let g:LanguageClient_serverCommands = {
+"    \ 'vue': ['vls'],
+"    \ 'html': [],
+"    \ 'javascript': [],
+"    \ 'css': [],
+"    \ }
+"let g:LanguageClient_autoStart = 1
+"nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+"nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+"nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+"
+"setlocal iskeyword+=$
+"setlocal iskeyword+=-
 
 " ---------------------------------------
 " tern-js

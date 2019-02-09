@@ -10,13 +10,13 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# 起動時にtmuxを起動する
+if [ $SHLVL = 1 ]; then
+  tmux
+fi
+
 # emacsのキーバインド
 bindkey -e
-
-# alias
-alias rm='trash'
-alias vi='nvim'
-alias vim='nvim'
 
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
@@ -116,6 +116,17 @@ export XDG_CONFIG_HOME=~/.config
 
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
+
+# ----------------------------------
+# alias
+# ----------------------------------
+# 標準
+alias rm='trash'
+alias vi='nvim'
+alias vim='nvim'
+alias la='ls -a --color=auto'
+alias ..='cd ..'
+alias gr='grep --color'
 
 # ----------------------------------
 # プロンプト

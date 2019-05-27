@@ -116,6 +116,11 @@ set cursorline
 " 対応するカッコを強調表示する
 set showmatch
 
+" ポップアップの色
+hi Pmenu ctermbg=145
+hi PmenuSel ctermbg=219
+hi PMenuSbar ctermbg=145
+
 " ---------------------------------------
 " Action
 " ---------------------------------------
@@ -195,10 +200,10 @@ inoremap <A-k> <Up>
 inoremap <A-l> <Right>
 
 " カッコ
-"inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
-"inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
-"inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
-"inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o><TAB>
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+inoremap [<Enter> []<Left><CR><ESC><S-o>
+inoremap (<Enter> ()<Left><CR><ESC><S-o>
+inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -516,3 +521,10 @@ function! EnableJavascript()
 
 endfunction
 autocmd MyJsRc FileType html,javascript,javascript.jsx,vue,typescript call EnableJavascript()
+
+" ---------------------------------------
+" HTML Setting
+" ---------------------------------------
+augroup MyHTML
+  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+augroup END

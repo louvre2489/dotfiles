@@ -67,3 +67,8 @@ repo = 'tyru/caw.vim'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+hook_post_source = 'coc#util#install()'
+# create `~/.vim/coc-settings.json`

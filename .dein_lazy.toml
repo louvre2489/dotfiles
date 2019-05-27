@@ -60,7 +60,6 @@ on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 repo = 'carlitux/deoplete-ternjs'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
-#[[plugins]]
-#repo = 'autozimu/LanguageClient-neovim'
-#rev = 'next'
-#build = 'bash ./install.sh'
+[[plugins]]
+repo = 'elmcast/elm-vim'
+on_ft = ['html', 'javascript', 'elm']

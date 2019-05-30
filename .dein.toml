@@ -72,3 +72,6 @@ repo = 'thinca/vim-quickrun'
 repo = 'neoclide/coc.nvim'
 hook_post_source = 'coc#util#install()'
 # create `~/.vim/coc-settings.json`
+hook_add = '''
+  command! -nargs=0 Format :call CocAction('format')
+'''

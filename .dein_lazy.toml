@@ -1,8 +1,27 @@
+###################################################
+# ハイライト/補完
+###################################################
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 depends = ['context_filetype.vim']
 on_event = 'InsertEnter'
 hook_post_source = '''
+  " 起動時に有効にする
+  let g:deoplete#enable_at_startup = 1
+
+  " 補完を開始する文字数
+  let g:deoplete#auto_complete_start_length = 1
+
+  " 大文字小文字を無視する
+  let g:deoplete#enable_ignore_case = 1
+
+  " バッファからも補完候補を読む
+  let g:deoplete#file#enable_buffer_path = 1
+
+  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+  \  neosnippet#expandable_or_jumpable() ?
+  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+
   call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
   call denite#custom#var('grep', 'command', ['ag'])
   call denite#custom#var('grep', 'recursive_opts', [])
@@ -14,52 +33,103 @@ hook_post_source = '''
 repo = 'Shougo/neosnippet.vim'
 depends = ['context_filetype.vim', 'neosnippet-snippets']
 on_event = 'InsertEnter'
+hook_post_source = '''
+  " キーマップ
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 depends = ['context_filetype.vim']
 on_event = 'InsertEnter'
 
+# toml
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
+# javascript
 [[plugins]]
-repo = 'derekwyatt/vim-scala'
-on_ft = 'scala'
+repo = 'carlitux/deoplete-ternjs'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+hook_post_source = '''
+  let g:deoplete#sources#ternjs#tern_bin = '/usr/local/bin/tern'
+  let g:deoplete#sources#ternjs#timeout = 1
+  let g:deoplete#sources#ternjs#filetypes = ['jsx', 'javascript.jsx', 'vue']
+'''
 
+# javascript
 [[plugins]]
 repo = 'billyvg/tigris.nvim'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
-[[plugins]]
-repo = 'othree/yajs.vim'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
+# javascript library
 [[plugins]]
 repo = 'othree/javascript-libraries-syntax.vim'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
+# ES6
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+
+# JSX
 [[plugins]]
 repo = 'maxmellon/vim-jsx-pretty'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
+# Vue.js
 [[plugins]]
 repo = 'posva/vim-vue'
 on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
 
+# Vue.js
 [[plugins]]
 repo = 'leafOfTree/vim-vue-plugin'
 on_ft = ['vue']
 
-[[plugins]]
-repo = 'w0rp/ale'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-[[plugins]]
-repo = 'carlitux/deoplete-ternjs'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
+# Elm
 [[plugins]]
 repo = 'elmcast/elm-vim'
 on_ft = ['html', 'javascript', 'elm']
+
+# Scala
+[[plugins]]
+repo = 'derekwyatt/vim-scala'
+on_ft = 'scala'
+
+###################################################
+# 構文チェック
+###################################################
+[[plugins]]
+repo = 'w0rp/ale'
+on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
+hook_post_source = '''
+  " 保存時のみ実行する
+  let g:ale_lint_on_text_changed = 0
+
+  " Lint
+  let g:ale_linters = {
+  \  'css': ['stylelint'],
+  \  'javascript': ['eslint'],
+  \  'vue': ['eslint'],
+  \}
+
+  " 整形
+  let g:ale_fix_on_save = 1
+  let g:ale_fixers = {
+  \  'javascript': ['prettier-eslint'],
+  \  'css': ['stylelint'],
+  \  'scss': ['stylelint'],
+  \}
+
+  " Ctrl + kで次の指摘へ、Ctrl + jで前の指摘へ移動
+  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+  nmap <silent> <C-j> <Plug>(ale_next_wrap)
+'''

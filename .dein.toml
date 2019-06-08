@@ -12,9 +12,49 @@ repo = 'Shougo/denite.nvim'
 hook_add = '''
   nmap <Space> [denite]
 
+  " floating window を使う
+  let s:denite_win_width_percent = 0.85
+  let s:denite_win_height_percent = 0.7
+
+  call denite#custom#option('default', {
+    \ 'split'     : 'floating',
+    \ 'winwidth'  : float2nr(&columns * s:denite_win_width_percent),
+    \ 'wincol'    : float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+    \ 'winheight' : float2nr(&lines * s:denite_win_height_percent),
+    \ 'winrow'    : float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+    \ })
+
+  " agを使用する
+  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
+  " grep設定
+  call denite#custom#var('grep', 'command', ['ag'])
+	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+	call denite#custom#var('grep', 'recursive_opts', [])
+	call denite#custom#var('grep', 'pattern_opt', [])
+	call denite#custom#var('grep', 'separator', ['--'])
+	call denite#custom#var('grep', 'final_opts', [])
+
+  autocmd FileType denite call s:denite_settings()
+
+  function! s:denite_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d
+    \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+    \ denite#do_map('toggle_select').'j'
+  endfunction
+
   " キーマップ
   " カレントディレクトリを表示
-  nnoremap <silent> [denite]a :Denite file_rec<CR>
+  nnoremap <silent> [denite]a :Denite file/rec<CR>
 
   " バッファを表示
   nnoremap <silent> [denite]b :Denite buffer<CR>
@@ -23,10 +63,14 @@ hook_add = '''
   nnoremap <silent> [denite]f :Denite -buffer-name=file file<CR>
 
   " 最近使ったファイルの一覧
-  nnoremap <silent> [denite]fr :Denite file_old<CR>
+  nnoremap <silent> [denite]fr :Denite file/old<CR>
+
+  " neoyank
+  nnoremap <silent> [denite]ny :Denite neoyank<CR>
 
   " プロンプトの左端に表示される文字を指定
   call denite#custom#option('default', 'prompt', '>')
+
   " deniteの起動位置をtopに変更
   call denite#custom#option('default', 'direction', 'top')
 
@@ -34,15 +78,15 @@ hook_add = '''
   call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
   call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
 
-  " ESCキーでdeniteを終了
-  call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
-
   " C-N,C-Pで上下移動
   call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
 
+  " ESCキーでdeniteを終了
+  call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
+
   " grep検索
-  nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
+"  nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
 
   " カーソル位置の単語をgrep検索
   nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
@@ -63,12 +107,12 @@ repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
-" diffを縦分割
-set diffopt+=vertical
+  " diffを縦分割
+  set diffopt+=vertical
 
-" ---------------------------------------
-" vim-gitgutter
-" ---------------------------------------
+  " ---------------------------------------
+  " vim-gitgutter
+  " ---------------------------------------
   highlight SignColumn ctermbg = lightgrey
 
   " diffを縦分割
@@ -124,7 +168,7 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'albfan/nerdtree-git-plugin'
+repo = 'Xuyuanp/nerdtree-git-plugin'
 hook_add = '''
   let g:NERDTreeIndicatorMapCustom = {
   \ "Modified"  : "➤",
@@ -218,6 +262,10 @@ hook_add = '''
   vmap <Leader>, <Plug>(caw:zeropos:toggle)
 '''
 
+[[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
 ###################################################
 # gtags
 ###################################################
@@ -257,4 +305,7 @@ build = 'yarn install --frozen-lockfile'
 # create `~/.vim/coc-settings.json`
 hook_add = '''
   command! -nargs=0 Format :call CocAction('format')
+
+  set updatetime=300
 '''
+

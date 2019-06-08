@@ -110,16 +110,17 @@ set hlsearch
 " カーソル行を強調表示する
 set cursorline
 
+" 改行コードを非表示にする
+set nolist
+
 " 強調表示する列を設定する
 "set colorcolumn=80
 
 " 対応するカッコを強調表示する
 set showmatch
 
-" ポップアップの色
-hi Pmenu ctermbg=145
-hi PmenuSel ctermbg=219
-hi PMenuSbar ctermbg=145
+" FloatWindow用にNormalFloatグループを設定
+highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
 
 " ---------------------------------------
 " Action

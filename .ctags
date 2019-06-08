@@ -9,3 +9,14 @@
 --regex-scala=/^[ \t]*package[ \t]+([a-zA-Z0-9_.]+)/\1/p,packages/
 --regex-scala=/^[ \t]*case class[ \t]+([a-zA-Z0-9_]+)/\1/c,case classes/
 --regex-scala=/^[ \t]*object[ \t]+([a-zA-Z0-9_]+)/\1/o,objects/
+
+--langdef=Elm
+--langmap=Elm:.elm
+--regex-Elm=/^ *([[:lower:]][[:alnum:]_]+)[[:blank:]]*:[^:].*->.*/\1/f,function,functions/
+--regex-Elm=/^ *([[:lower:]][[:alnum:]_]+)[[:blank:]]*:[^:][^-]+$/\1/c,constant,constants/
+--regex-Elm=/^port +([[:lower:]][[:alnum:]_]+)[[:blank:]]*:[^:]/\1/p,port,ports/
+--regex-Elm=/^type +([[:upper:]][[:alnum:]_]+)/\1/t,type,types/
+--regex-Elm=/^type[[:blank:]]+alias[[:blank:]]+([[:upper:]][[:alnum:]_]+)/\1/a,type-alias,type-aliases/
+--regex-Elm=/^[[:blank:]]+=[[:blank:]]([[:upper:]][[:alnum:]]+)+/\1/t,type-cons/
+--regex-Elm=/^[[:blank:]]+\|[[:blank:]]([[:upper:]][[:alnum:]]+)+/\1/t,type-cons/
+--regex-Elm=/^(port )?[:blank:]*module[[:blank:]](\.?([[:upper:]][[:alnum:]_]+))+/\3/m,module,modules/

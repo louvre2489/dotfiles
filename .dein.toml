@@ -189,6 +189,7 @@ hook_add = '''
 ###################################################
 [[plugins]]
 repo = 'itchyny/landscape.vim'
+#repo = 'junegunn/seoul256.vim'
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'
@@ -293,6 +294,14 @@ hook_add = '''
 ###################################################
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = ['fzf']
 
 ###################################################
 # LSP

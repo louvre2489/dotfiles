@@ -40,6 +40,7 @@ nmap du :call dein#update()<cr>
 " color scheme
 " ---------------------------------------
 colorscheme landscape
+"colorscheme seoul256
 
 " ---------------------------------------
 " File

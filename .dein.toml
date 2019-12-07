@@ -68,6 +68,19 @@ hook_add = '''
   " neoyank
   nnoremap <silent> [denite]ny :Denite neoyank<CR>
 
+  " grep検索
+  "  nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
+  nnoremap <silent> [denite]g  :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
+  " Denite grep検索結果を再表示する
+  nnoremap <silent> [denite]r :<C-u>Denite -resume -buffer-name=search-buffer-denite<CR>
+  " resumeした検索結果の次の行の結果へ飛ぶ
+  "nnoremap <silent> [denite]n :<C-u>Denite -resume -buffer-name=search-buffer-denite -select=+1 -immediately<CR>
+  " resumeした検索結果の前の行の結果へ飛ぶ
+  "nnoremap <silent> [denite]p :<C-u>Denite -resume -buffer-name=search-buffer-denite -select=-1 -immediately<CR>
+
+  " カーソル位置の単語をgrep検索
+  nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
+
   " プロンプトの左端に表示される文字を指定
   call denite#custom#option('default', 'prompt', '>')
 
@@ -75,8 +88,8 @@ hook_add = '''
   call denite#custom#option('default', 'direction', 'top')
 
   " denite/insert モードのときは，C- で移動できるようにする
-  call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
-  call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
+  "call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
+  "call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
 
   " C-N,C-Pで上下移動
   call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
@@ -84,12 +97,6 @@ hook_add = '''
 
   " ESCキーでdeniteを終了
   call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
-
-  " grep検索
-"  nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
-
-  " カーソル位置の単語をgrep検索
-  nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
 '''
 
 [[plugins]]
@@ -120,7 +127,7 @@ hook_add = '''
 
   " 表示列の背景色変更
   let gitgutter_override_sign_column_highlight = 0
-
+  "
   " 表示するマークのカスタマイズ
   let g:gitgutter_sign_added = '✚'
   let g:gitgutter_sign_modified = '➤'
@@ -226,6 +233,34 @@ hook_add = '''
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
+[[plugins]]
+repo = 'neoclide/coc-highlight'
+hook_add = '''
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+'''
+
+[[plugins]]
+repo = 'unblevable/quick-scope'
+hook_add = '''
+  " Trigger a highlight in the appropriate direction when pressing these keys
+  let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+'''
+
+[[plugins]]
+repo = 'andymass/vim-matchup'
+hook_add = '''
+  augroup matchup_matchparen_highlight
+    autocmd!
+    autocmd ColorScheme * hi MatchParen ctermbg=darkcyan guibg=darkcyan
+  augroup END
+'''
+
+[[plugins]]
+repo = 'luochen1990/rainbow'
+hook_add = '''
+  let g:rainbow_active = 1
+'''
+
 ###################################################
 # エディター系
 ###################################################
@@ -234,6 +269,9 @@ repo = 'bronson/vim-trailing-whitespace'
 
 [[plugins]]
 repo = 'tpope/vim-surround'
+
+[[pluginss]]
+repo = 'terryma/vim-multiple-cursors'
 
 [[plugins]]
 repo = 'othree/html5.vim'

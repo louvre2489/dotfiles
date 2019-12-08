@@ -336,16 +336,15 @@ repo = 'thinca/vim-quickrun'
 [[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = ['fzf']
 hook_add = '''
   " for Ag
   autocmd VimEnter * command! -bang -nargs=* Ag
     \ call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
 '''
-
-
-[[plugins]]
-repo = 'junegunn/fzf.vim'
-depends = ['fzf']
 
 ###################################################
 # LSP

@@ -211,10 +211,10 @@ inoremap <A-k> <Up>
 inoremap <A-l> <Right>
 
 " カッコ
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o>
+inoremap {<Enter> {}<Left><CR><ESC><S-o><TAB>
+inoremap [<Enter> []<Left><CR><ESC><S-o><TAB>
+inoremap (<Enter> ()<Left><CR><ESC><S-o><TAB>
+inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o><TAB>
 
 " ウィンドウ
 nnoremap s <Nop>

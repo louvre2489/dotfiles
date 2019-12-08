@@ -270,7 +270,7 @@ repo = 'bronson/vim-trailing-whitespace'
 [[plugins]]
 repo = 'tpope/vim-surround'
 
-[[pluginss]]
+[[plugins]]
 repo = 'terryma/vim-multiple-cursors'
 
 [[plugins]]
@@ -336,6 +336,12 @@ repo = 'thinca/vim-quickrun'
 [[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
+hook_add = '''
+  " for Ag
+  autocmd VimEnter * command! -bang -nargs=* Ag
+    \ call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
+'''
+
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'

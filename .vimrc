@@ -200,6 +200,9 @@ set showcmd
 " インサートモードから抜ける
 inoremap <silent>jj <ESC>
 
+" ターミナルモードでインサートモードから抜ける
+tnoremap <ESC> <C-\><C-n>
+
 " キー移動
 noremap <S-h> ^
 noremap <S-j> }

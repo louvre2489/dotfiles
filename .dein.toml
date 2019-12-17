@@ -12,45 +12,79 @@ repo = 'Shougo/denite.nvim'
 hook_add = '''
   nmap <Space> [denite]
 
-  " floating window を使う
+  " フローティング
   let s:denite_win_width_percent = 0.85
   let s:denite_win_height_percent = 0.7
 
-  call denite#custom#option('default', {
-    \ 'split'     : 'floating',
-    \ 'winwidth'  : float2nr(&columns * s:denite_win_width_percent),
-    \ 'wincol'    : float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-    \ 'winheight' : float2nr(&lines * s:denite_win_height_percent),
-    \ 'winrow'    : float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-    \ })
+  let s:denite_default_options = {
+      \ 'split': 'floating',
+      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+      \ 'highlight_filter_background': 'DeniteFilter',
+      \ 'prompt': '>>',
+      \ 'start_filter': v:true,
+      \ }
+
+  let s:denite_option_array = []
+
+  for [key, value] in items(s:denite_default_options)
+    call add(s:denite_option_array, '-'.key.'='.value)
+  endfor
+
+  call denite#custom#option('default', s:denite_default_options)
+
+  augroup denite_filter
+    autocmd FileType denite call s:denite_settings()
+
+    function! s:denite_settings() abort
+      nnoremap <silent><buffer><expr> <CR>
+      \ denite#do_map('do_action')
+      nnoremap <silent><buffer><expr> d
+      \ denite#do_map('do_action', 'delete')
+      nnoremap <silent><buffer><expr> p
+      \ denite#do_map('do_action', 'preview')
+      nnoremap <silent><buffer><expr> q
+      \ denite#do_map('quit')
+      nnoremap <silent><buffer><expr> i
+      \ denite#do_map('open_filter_buffer')
+      nnoremap <silent><buffer><expr> <Space>
+      \ denite#do_map('toggle_select').'j'
+    endfunction
+  augroup END
 
   " agを使用する
-  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+
+  " フィルタ設定
+  call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+    \ [ '.git/', '.ropeproject/', '__pycache__/',
+    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
   " grep設定
   call denite#custom#var('grep', 'command', ['ag'])
-	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--hidden'])
 	call denite#custom#var('grep', 'recursive_opts', [])
 	call denite#custom#var('grep', 'pattern_opt', [])
 	call denite#custom#var('grep', 'separator', ['--'])
 	call denite#custom#var('grep', 'final_opts', [])
 
-  autocmd FileType denite call s:denite_settings()
-
-  function! s:denite_settings() abort
-    nnoremap <silent><buffer><expr> <CR>
-    \ denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> d
-    \ denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> p
-    \ denite#do_map('do_action', 'preview')
-    nnoremap <silent><buffer><expr> q
-    \ denite#do_map('quit')
-    nnoremap <silent><buffer><expr> i
-    \ denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> <Space>
-    \ denite#do_map('toggle_select').'j'
+  command! -nargs=? Dgrep call s:Dgrep(<f-args>)
+  function s:Dgrep(...)
+    if a:0 > 0
+      execute(':Denite -buffer-name=grep-buffer-denite grep -path='.a:1)
+    else
+      execute(':Denite -buffer-name=grep-buffer-denite '.join(s:denite_option_array, ' ').' grep')
+    endif
   endfunction
+
+  " grep結果を再表示
+  command! Dresume execute(':Denite -resume -buffer-name=grep-buffer-denite '.join(s:denite_option_array, ' ').'')
+  " 次へ
+  command! Dnext execute(':Denite -resume -buffer-name=grep-buffer-denite -cursor-pos=+1 -immediately '.join(s:denite_option_array, ' ').'')
+  " 前へ
+  command! Dprev execute(':Denite -resume -buffer-name=grep-buffer-denite -cursor-pos=-1 -immediately '.join(s:denite_option_array, ' ').'')
 
   " キーマップ
   " カレントディレクトリを表示
@@ -69,23 +103,15 @@ hook_add = '''
   nnoremap <silent> [denite]ny :Denite neoyank<CR>
 
   " grep検索
-  "  nnoremap <silent> [denite],g :<C-u>Denite -buffer-name=search -mode=normal grep<CR>
   nnoremap <silent> [denite]g  :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
   " Denite grep検索結果を再表示する
   nnoremap <silent> [denite]r :<C-u>Denite -resume -buffer-name=search-buffer-denite<CR>
-  " resumeした検索結果の次の行の結果へ飛ぶ
-  "nnoremap <silent> [denite]n :<C-u>Denite -resume -buffer-name=search-buffer-denite -select=+1 -immediately<CR>
-  " resumeした検索結果の前の行の結果へ飛ぶ
-  "nnoremap <silent> [denite]p :<C-u>Denite -resume -buffer-name=search-buffer-denite -select=-1 -immediately<CR>
 
   " カーソル位置の単語をgrep検索
   nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
 
   " プロンプトの左端に表示される文字を指定
-  call denite#custom#option('default', 'prompt', '>')
-
-  " deniteの起動位置をtopに変更
-  call denite#custom#option('default', 'direction', 'top')
+  call denite#custom#option('default', 'prompt', '>>')
 
   " denite/insert モードのときは，C- で移動できるようにする
   "call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
@@ -222,11 +248,14 @@ hook_add = '''
   let g:airline_theme='jellybeans'
   let g:airline_powerline_fonts = 1
 
+  " ブランチ
   let g:airline#extensions#branch#enabled = 1
   let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
+
+  " レイアウト
   let g:airline#extensions#default#layout = [
   \ [ 'z', 'a', 'b', 'c' ],
-  \ [ 'y', 'x', 'error', 'warning']
+  \ [ 'x', 'y', 'error', 'warning']
   \ ]
 '''
 

@@ -29,7 +29,7 @@ conky.config = {
     background = true,
     border_width = 1,
     cpu_avg_samples = 2,
-	  default_color = 'cyan',
+	default_color = 'cyan',
     default_outline_color = 'white',
     default_shade_color = 'white',
     draw_borders = false,
@@ -37,7 +37,7 @@ conky.config = {
     draw_outline = false,
     draw_shades = false,
     minimum_height = 5,
-	  minimum_width = 200,
+	minimum_width = 200,
     net_avg_samples = 2,
     no_buffers = true,
     out_to_console = false,
@@ -61,7 +61,7 @@ conky.config = {
     gap_y = 20,
     override_utf8_locale = true,
     use_xft = true,
-    font = 'Anonymice Powerline:style=Regular:size=12',
+    font = 'Anonymice Powerline:style=Regular:size=11',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager'
 }
 
@@ -83,6 +83,14 @@ ${color white}CPU3 $color${alignr}${freq 3} MHz
 ${cpugraph cpu3 33f5f5 f0ff33}
 ${color white}CPU4 $color${alignr}${freq 4} MHz
 ${cpugraph cpu4 33f5f5 f0ff33}
+${color white}CPU5 $color${alignr}${freq 5} MHz
+${cpugraph cpu5 33f5f5 f0ff33}
+${color white}CPU6 $color${alignr}${freq 6} MHz
+${cpugraph cpu6 33f5f5 f0ff33}
+${color white}CPU7 $color${alignr}${freq 7} MHz
+${cpugraph cpu7 33f5f5 f0ff33}
+${color white}CPU8 $color${alignr}${freq 8} MHz
+${cpugraph cpu8 33f5f5 f0ff33}
 ${color white}RAM $color${alignr}$mem / $memmax ($memperc%)
 ${membar 7 33f5f5 f0ff33}
 ${memgraph 33f5f5 f0ff33}

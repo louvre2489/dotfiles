@@ -118,6 +118,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # webpack
 export PATH="$PATH:./node_modules/.bin"
 
+# LSP for Elm
+export PATH="$PATH:$HOME/LSP/elm-language-server"
+
 # ----------------------------------
 # alias
 # ----------------------------------
@@ -128,6 +131,9 @@ alias vim='nvim'
 alias la='ls -a --color=auto'
 alias ..='cd ..'
 alias gr='grep --color'
+
+# skanehira/docui
+alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
 
 # ----------------------------------
 # プロンプト

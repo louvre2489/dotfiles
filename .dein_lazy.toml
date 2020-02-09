@@ -96,13 +96,13 @@ on_ft = ['vue']
 # Elm
 [[plugins]]
 repo = 'ElmCast/elm-vim'
-on_ft = ['html', 'javascript', 'elm']
+on_ft = ['elm']
 hook_post_source = '''
 
   let g:elm_setup_keybindings = 0
 
-  let g:elm_format_autosave = 0
-  let g:elm_jump_to_error = 0
+  let g:elm_format_autosave = 1
+  let g:elm_jump_to_error = 1
 
   autocmd BufWritePre *.elm ElmFormat
 '''

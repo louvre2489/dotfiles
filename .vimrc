@@ -289,3 +289,10 @@ autocmd MyJsRc FileType html,javascript,javascript.jsx,vue,typescript call Enabl
 augroup MyHTML
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
+
+" ---------------------------------------
+" Json Setting
+" ---------------------------------------
+augroup MyJson
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+augroup END

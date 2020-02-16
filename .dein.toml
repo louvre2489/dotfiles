@@ -24,7 +24,7 @@ hook_add = '''
       \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
       \ 'highlight_filter_background': 'DeniteFilter',
       \ 'prompt': '>>',
-      \ 'start_filter': v:true,
+      \ 'start_filter': v:false
       \ }
 
   let s:denite_option_array = []
@@ -384,9 +384,13 @@ hook_add = '''
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merge = 0
+
 build = 'yarn install --frozen-lockfile'
-# hook_post_source = 'coc#util#install()'
-# create `~/.vim/coc-settings.json`
+
+hook_post_source = '''
+  call coc#util#install()
+'''
+
 hook_add = '''
   command! -nargs=0 Format :call CocAction('format')
 

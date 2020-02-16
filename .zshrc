@@ -61,7 +61,7 @@ export LS_COLORS='di=34:ln=35:so=32p:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:s
 
 # 標準エディタを設定する
 #export EDITOR=vim
-export EDITOR=neovim
+export EDITOR=nvim
 
 # ----------------------------------
 # autoload

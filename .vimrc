@@ -250,6 +250,49 @@ inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
 inoremap <silent> <C-j> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
+" Scala Setting
+" ---------------------------------------
+augroup MyScala
+  autocmd!
+augroup END
+
+function! EnableScala()
+  " Use tab for trigger completion with characters ahead and navigate.
+  " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " Used in the tab autocompletion for coc
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " Highlight symbol under cursor on CursorHold
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Remap keys for gotos
+  nmap <silent> cgd <Plug>(coc-definition)
+  nmap <silent> cgy <Plug>(coc-type-definition)
+  nmap <silent> cgi <Plug>(coc-implementation)
+  nmap <silent> cgr <Plug>(coc-references)
+
+  nnoremap <silent> cK :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+endfunction
+autocmd MyScala FileType scala,sbt call EnableScala()
+
+
+" ---------------------------------------
 " javaScript Setting
 " ---------------------------------------
 augroup MyJsRc

@@ -121,7 +121,10 @@ export PATH="$PATH:./node_modules/.bin"
 # LSP for Elm
 export PATH="$PATH:$HOME/LSP/elm-language-server"
 
-# ----------------------------------
+# Rust
+export PATH="$PATH:$HOME/.cargo/bin"
+
+ #----------------------------------
 # alias
 # ----------------------------------
 # 標準

@@ -2,7 +2,7 @@
 	email = louvre2489@gmail.com
 	name = louvre2489
 [core]
-	editor = vim
+	editor = nvim
 	precomposeunicode = true
 [color]
 	status = auto

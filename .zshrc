@@ -96,7 +96,7 @@ zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
 
 function _update_vcs_info_msg() {
     LANG=en_US.UTF-8 vcs_info
-    RPROMPT="${vcs_info_msg_0_}"
+#    RPROMPT="${vcs_info_msg_0_}"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
@@ -128,15 +128,19 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # alias
 # ----------------------------------
 # 標準
-alias rm='trash'
 alias vi='nvim'
 alias vim='nvim'
 alias la='ls -a --color=auto'
 alias ..='cd ..'
 alias gr='grep --color'
+alias sudovi='sudo nvim -u NONE'
+alias sudovim='sudo nvim -u NONE'
 
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
+
+# custom function
+alias gl='fshow'
 
 # ----------------------------------
 # プロンプト
@@ -315,3 +319,24 @@ fshow() {
 # ----------------------------------
 # 設定読み込み
 source ~/z/z.sh
+
+# ----------------------------------
+# Macの場合だけ読み込み
+# ----------------------------------
+case ${OSTYPE} in
+  darwin*)
+    # Mac向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='rmtrash'
+
+    # 開発用のシェル
+    source ~/dotfiles/.zshrc.cw
+    ;;
+  linux*)
+    # Linux向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='trash'
+    ;;
+esac

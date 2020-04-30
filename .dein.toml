@@ -305,6 +305,7 @@ hook_add = '''
     \ })
 
   " git アイコン
+  " Nerd Font をインストールする必要がある
   call defx#custom#column('git', 'indicators', {
     \ 'Modified'  : '✹',
     \ 'Staged'    : '✚',

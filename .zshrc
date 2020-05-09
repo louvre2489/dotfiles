@@ -55,9 +55,13 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     "zsh-users/zsh-autosuggestions"
 
+FAST_HIGHLIGHT_STYLES[path]="fg=cyan,underline"
+FAST_HIGHLIGHT_STYLES[path-to-dir]="fg=cyan"
+FAST_HIGHLIGHT_STYLES[path_pathseparator]="fg=cyan"
+
 # 補完
 zinit light "zsh-users/zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
 
 # Ctrl+r でコマンド履歴を検索
 zinit light "zdharma/history-search-multi-word"

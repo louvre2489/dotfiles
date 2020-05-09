@@ -212,13 +212,12 @@ prompt_git() {
     test -n "$(git status --porcelain --ignore-submodules)"
   }
 
+  # `git status`
+  git_status=`git status 2> /dev/null`
+
   ref="$vcs_info_msg_0_"
   if [[ -n "$ref" ]]; then
     if is_dirty; then
-
-      # `git status`
-      git_status=`git status 2> /dev/null`
-
       if [[ -n `echo "$git_status" | grep "^Changes not staged for commit"` ]]; then
         # git addされていないファイルがある状態
         bg_color=red
@@ -230,14 +229,21 @@ prompt_git() {
       elif [[ -n `echo "$git_status" | grep "to publish your local commits"` ]]; then
          # git pushされていないファイルがある状態
          bg_color=yellow
-         fg_color=black
+         fg_color=$PRIMARY_FG
       fi
 
       ref="${ref} $PLUSMINUS"
     else
-      bg_color=green
-      fg_color=black
-      ref="${ref} "
+      if [[ -n `echo "$git_status" | grep "to publish your local commits"` ]]; then
+         # git pushされていないファイルがある状態
+         bg_color=yellow
+         fg_color=$PRIMARY_FG
+      else
+        # すべてpush済の状態
+        bg_color=green
+        fg_color=$PRIMARY_FG
+        ref="${ref} "
+      fi
     fi
     if [[ "${ref/.../}" == "$ref" ]]; then
       ref="$BRANCH $ref"

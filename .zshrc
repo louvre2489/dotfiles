@@ -203,6 +203,53 @@ alias gl='fshow'
 zinit snippet OMZT::gnzh
 zinit light agnoster/agnoster-zsh-theme
 
+# prompt_git をオーバーライド
+prompt_git() {
+  local bg_color fg_color git_status ref
+
+  # リポジトリの変更有無を判定
+  is_dirty() {
+    test -n "$(git status --porcelain --ignore-submodules)"
+  }
+
+  ref="$vcs_info_msg_0_"
+  if [[ -n "$ref" ]]; then
+    if is_dirty; then
+
+      # `git status`
+      git_status=`git status 2> /dev/null`
+
+      if [[ -n `echo "$git_status" | grep "^Changes not staged for commit"` ]]; then
+        # git addされていないファイルがある状態
+        bg_color=red
+        fg_color=white
+      elif [[ -n `echo "$git_status" | grep "git reset HEAD <file>..."` ]]; then
+         # git commitされていないファイルがある状態
+         bg_color=yellow
+         fg_color=white
+      elif [[ -n `echo "$git_status" | grep "to publish your local commits"` ]]; then
+         # git pushされていないファイルがある状態
+         bg_color=yellow
+         fg_color=black
+      fi
+
+      ref="${ref} $PLUSMINUS"
+    else
+      bg_color=green
+      fg_color=black
+      ref="${ref} "
+    fi
+    if [[ "${ref/.../}" == "$ref" ]]; then
+      ref="$BRANCH $ref"
+    else
+      ref="$DETACHED ${ref/.../}"
+    fi
+    #prompt_segment $color $PRIMARY_FG
+    prompt_segment $bg_color $fg_color
+    print -n " $ref"
+  fi
+}
+
 # prompt_end をオーバーライド
 prompt_end() {
   if [[ -n $CURRENT_BG ]]; then

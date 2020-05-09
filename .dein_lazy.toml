@@ -123,6 +123,11 @@ hook_add = '''
   let g:rustfmt_autosave = 1
 '''
 
+# Haskell
+[[plugins]]
+repo = 'neovimhaskell/haskell-vim'
+on_ft = 'haskell'
+
 ###################################################
 # 構文チェック
 ###################################################

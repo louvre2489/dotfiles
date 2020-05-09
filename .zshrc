@@ -5,11 +5,76 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+## Source Prezto.
+#if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+#  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+#fi
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    "zinit-zsh/z-a-patch-dl" \
+    "zinit-zsh/z-a-as-monitor"\
+    "zinit-zsh/z-a-bin-gem-node"
+### End of Zinit's installer chunk
+
+# Preztoのセットアップ
+zinit snippet "PZT::modules/helper/init.zsh"
+
+# oh-my-zshのセットアップ
+zinit snippet "OMZL::git.zsh"
+zinit snippet "OMZP::git"
+zinit cdclear -q
+
+# ----------------------------------
+# プラグイン
+# ----------------------------------
+# 256カラー
+zplugin light "chrissicool/zsh-256color"
+
+# シンタックスハイライト
+zinit light "zdharma/fast-syntax-highlighting"
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    "zdharma/fast-syntax-highlighting" \
+ blockf \
+    "zsh-users/zsh-completions"\
+ atload"!_zsh_autosuggest_start" \
+    "zsh-users/zsh-autosuggestions"
+
+# 補完
+zinit light "zsh-users/zsh-autosuggestions"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
+
+# Ctrl+r でコマンド履歴を検索
+zinit light "zdharma/history-search-multi-word"
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=''
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
+HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=''
+
+# git completion by fzf
+# usage) git checkout **
+zinit light "hschne/fzf-git"
+
+# ssh connection manager
+zinit light "gko/ssh-connect"
+
+# ----------------------------------
+# シェル設定
+# ----------------------------------
 # 起動時にtmuxを起動する
 if [ $SHLVL = 1 ]; then
   tmux
@@ -101,12 +166,6 @@ function _update_vcs_info_msg() {
 add-zsh-hook precmd _update_vcs_info_msg
 
 # ----------------------------------
-# プラグイン
-# ----------------------------------
-# autosuggestionsの色
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
-
-# ----------------------------------
 # パス関連
 # ----------------------------------
 export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
@@ -135,6 +194,7 @@ alias ..='cd ..'
 alias gr='grep --color'
 alias sudovi='sudo nvim -u NONE'
 alias sudovim='sudo nvim -u NONE'
+alias kube='kubectl'
 
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
@@ -145,85 +205,22 @@ alias gl='fshow'
 # ----------------------------------
 # プロンプト
 # ----------------------------------
-function _git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
-#  echo "${ref/refs\/heads\// }$(parse_git_dirty)"
-  echo "${ref/refs\/heads\// }"
-}
+zinit snippet OMZT::gnzh
+zinit light agnoster/agnoster-zsh-theme
 
-#function parse_git_dirty() {
-#  local STATUS=''
-#  local -a FLAGS
-#  FLAGS=('--porcelain')
-#  if [[ "$(command git config --get oh-my-zsh.hide-dirty)" != "1" ]]; then
-#    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
-#      FLAGS+='--ignore-submodules=dirty'
-#    fi
-#    if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
-#      FLAGS+='--untracked-files=no'
-#    fi
-#    STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
-#  fi
-#  if [[ -n $STATUS ]]; then
-#    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-#  else
-#    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-#  fi
-#}
-
-function _git_info() {
-  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    local BG_COLOR=green
-    local FG_COLOR=black
-
-    st=`git status 2> /dev/null`
-#    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-#      # 全てcommitされてクリーンな状態
-#      BG_COLOR=green
-#      FG_COLOR=black
-#    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-#      # gitに管理されていないファイルがある状態
-#      BG_COLOR=yellow
-#      FG_COLOR=white
-    if [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
-      # git addされていないファイルがある状態
-      BG_COLOR=red
-      FG_COLOR=white
-    elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
-       # コンフリクトが起こった状態
-       BG_COLOR=gray
-       FG_COLOR=red
-    elif [[ -n `echo "$st" | grep "git reset HEAD <file>..."` ]]; then
-       # git commitされていないファイルがある状態
-       BG_COLOR=yellow
-       FG_COLOR=white
-    elif [[ -n `echo "$st" | grep "to publish your local commits"` ]]; then
-       # git pushされていないファイルがある状態
-       BG_COLOR=yellow
-       FG_COLOR=black
-    elif [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-      # 全てcommitされてクリーンな状態
-      BG_COLOR=green
-      FG_COLOR=black
-   fi
-
-    echo "%{%K{$BG_COLOR}%}%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}"
+# prompt_end をオーバーライド
+prompt_end() {
+  if [[ -n $CURRENT_BG ]]; then
+    print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
   else
-    echo "%{%K{blue}%}"
+    print -n "%{%k%}"
   fi
+  print -n "%{%f%}"
+  CURRENT_BG=''
+
+  #Adds the new line and ➜ as the start character.
+  printf "\n >";
 }
-
-function virtualenv_info {
-    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
-}
-
-PROMPT_HOST='%{%b%F{gray}%K{black}%} %(?.%{%F{green}%}✔.%{%F{red}%}✘)%{%F{yellow}%} %n %{%F{black}%}'
-PROMPT_DIR='%{%F{white}%} %~%  '
-PROMPT_SU='%(!.%{%k%F{blue}%K{black}%}%{%F{yellow}%} ⚡ %{%k%F{black}%}.%{%k%F{blue}%})%{%f%k%b%}'
-PROMPT_TIME='%{%F{green}%} [%*]%{%F{white}%}'
-
-PROMPT='$(_git_info)$PROMPT_DIR$PROMPT_SU$PROMPT_TIME
-$(virtualenv_info) > '
 
 # ----------------------------------
 # Ctrl-PとCtrl-Nで前方一致検索
@@ -246,31 +243,6 @@ function cdup() {
 }
 zle -N cdup
 bindkey '^\^' cdup
-
-# ----------------------------------
-# peco
-# ----------------------------------
-#function peco-select-history() {
-#  BUFFER=$(\history -n 1 | tac | peco)
-#  CURSOR=$#BUFFER
-#  zle clear-screen
-#}
-#zle -N peco-select-history
-#bindkey '^r' peco-select-history
-#
-## pecoとの連動
-#function peco-z-search
-#{
-#  local res=$(z | sort -rn | cut -c 12- | peco)
-#  if [ -n "$res" ]; then
-#    BUFFER+="cd $res"
-#    zle accept-line
-#  else
-#    return 1
-#  fi
-#}
-#zle -N peco-z-search
-#bindkey '^@' peco-z-search
 
 # ----------------------------------
 # fzf
@@ -321,6 +293,12 @@ fshow() {
 source ~/z/z.sh
 
 # ----------------------------------
+# kubectl
+# ----------------------------------
+# 補完スクリプト
+source <(kubectl completion zsh)
+
+# ----------------------------------
 # Macの場合だけ読み込み
 # ----------------------------------
 case ${OSTYPE} in
@@ -340,3 +318,4 @@ case ${OSTYPE} in
     alias rm='trash'
     ;;
 esac
+

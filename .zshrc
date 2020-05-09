@@ -32,7 +32,7 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 # Preztoのセットアップ
-zinit snippet "PZT::modules/helper/init.zsh"
+#zinit snippet "PZT::modules/helper/init.zsh"
 
 # oh-my-zshのセットアップ
 zinit snippet "OMZL::git.zsh"

@@ -76,6 +76,10 @@ zinit light "hschne/fzf-git"
 # ssh connection manager
 zinit light "gko/ssh-connect"
 
+# gitリポジトリのrootに移動する
+zinit light "mollifier/cd-gitroot"
+alias cdu="cd-gitroot"
+
 # ----------------------------------
 # シェル設定
 # ----------------------------------

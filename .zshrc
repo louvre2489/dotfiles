@@ -57,7 +57,7 @@ zinit wait lucid for \
 
 # 補完
 zinit light "zsh-users/zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12"
 
 # Ctrl+r でコマンド履歴を検索
 zinit light "zdharma/history-search-multi-word"

@@ -53,60 +53,6 @@ on_event = 'InsertEnter'
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
-# javascript
-[[plugins]]
-repo = 'carlitux/deoplete-ternjs'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-hook_post_source = '''
-  let g:deoplete#sources#ternjs#tern_bin = '/usr/local/bin/tern'
-  let g:deoplete#sources#ternjs#timeout = 1
-  let g:deoplete#sources#ternjs#filetypes = ['jsx', 'javascript.jsx', 'vue']
-'''
-
-# javascript
-[[plugins]]
-repo = 'billyvg/tigris.nvim'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-# javascript library
-[[plugins]]
-repo = 'othree/javascript-libraries-syntax.vim'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-# ES6
-[[plugins]]
-repo = 'othree/yajs.vim'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-# JSX
-[[plugins]]
-repo = 'maxmellon/vim-jsx-pretty'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-# Vue.js
-[[plugins]]
-repo = 'posva/vim-vue'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-
-# Vue.js
-[[plugins]]
-repo = 'leafOfTree/vim-vue-plugin'
-on_ft = ['vue']
-
-# Elm
-[[plugins]]
-repo = 'ElmCast/elm-vim'
-on_ft = ['elm']
-hook_post_source = '''
-
-  let g:elm_setup_keybindings = 0
-
-  let g:elm_format_autosave = 1
-  let g:elm_jump_to_error = 1
-
-  autocmd BufWritePre *.elm ElmFormat
-'''
-
 # Scala
 [[plugins]]
 repo = 'derekwyatt/vim-scala'
@@ -114,19 +60,6 @@ on_ft = 'scala'
 hook_add = '''
   au BufRead,BufNewFile *.sbt set filetype=scala
 '''
-
-# Rust
-[[plugins]]
-repo = 'rust-lang/rust.vim'
-on_ft = 'rust'
-hook_add = '''
-  let g:rustfmt_autosave = 1
-'''
-
-# Haskell
-[[plugins]]
-repo = 'neovimhaskell/haskell-vim'
-on_ft = 'haskell'
 
 ###################################################
 # 構文チェック

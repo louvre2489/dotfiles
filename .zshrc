@@ -142,6 +142,25 @@ alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skan
 # custom function
 alias gl='fshow'
 
+# rm
+case ${OSTYPE} in
+  darwin*)
+    # Mac向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='rmtrash'
+
+    # 開発用のシェル
+    source ~/dotfiles/.zshrc.cw
+    ;;
+  linux*)
+    # Linux向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='trash'
+    ;;
+esac
+
 # ----------------------------------
 # プロンプト
 # ----------------------------------
@@ -321,22 +340,9 @@ fshow() {
 source ~/z/z.sh
 
 # ----------------------------------
-# Macの場合だけ読み込み
+# Python
 # ----------------------------------
-case ${OSTYPE} in
-  darwin*)
-    # Mac向けの設定
-    #
-    # rmはゴミ箱に送る
-    alias rm='rmtrash'
-
-    # 開発用のシェル
-    source ~/dotfiles/.zshrc.cw
-    ;;
-  linux*)
-    # Linux向けの設定
-    #
-    # rmはゴミ箱に送る
-    alias rm='trash'
-    ;;
-esac
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"

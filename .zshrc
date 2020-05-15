@@ -196,7 +196,7 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
-alias ls="ls --color"
+#alias ls="ls --color"
 
 #----------------------------------
 # alias
@@ -209,13 +209,31 @@ alias ..='cd ..'
 alias gr='grep --color'
 alias sudovi='sudo nvim -u NONE'
 alias sudovim='sudo nvim -u NONE'
-alias kube='kubectl'
 
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
 
 # custom function
 alias gl='fshow'
+
+# rm
+case ${OSTYPE} in
+  darwin*)
+    # Mac向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='rmtrash'
+
+    # 開発用のシェル
+    source ~/dotfiles/.zshrc.cw
+    ;;
+  linux*)
+    # Linux向けの設定
+    #
+    # rmはゴミ箱に送る
+    alias rm='trash'
+    ;;
+esac
 
 # ----------------------------------
 # プロンプト
@@ -250,6 +268,10 @@ prompt_git() {
          # git pushされていないファイルがある状態
          bg_color=yellow
          fg_color=$PRIMARY_FG
+      elif [[ -n `echo "$git_status" | grep "Your branch is up to date"` ]]; then
+         # 変更がないが、未管理ファイルがある状態
+         bg_color=green
+         fg_color=red
       fi
 
       ref="${ref} $PLUSMINUS"
@@ -363,27 +385,22 @@ source ~/z/z.sh
 # ----------------------------------
 # kubectl
 # ----------------------------------
-# 補完スクリプト
-source <(kubectl completion zsh)
+alias kube='kubectl'
+
+kube_comp(){
+  # 補完スクリプト
+  source <(kubectl completion zsh)
+
+  complete -F __start_kubectl kube
+
+  echo "kube completion finished!!"
+}
 
 # ----------------------------------
-# Macの場合だけ読み込み
+# Python
 # ----------------------------------
-case ${OSTYPE} in
-  darwin*)
-    # Mac向けの設定
-    #
-    # rmはゴミ箱に送る
-    alias rm='rmtrash'
-
-    # 開発用のシェル
-    source ~/dotfiles/.zshrc.cw
-    ;;
-  linux*)
-    # Linux向けの設定
-    #
-    # rmはゴミ箱に送る
-    alias rm='trash'
-    ;;
-esac
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 

@@ -397,9 +397,9 @@ kube_comp(){
 }
 
 # ----------------------------------
-# Docker
+# Python
 # ----------------------------------
-if [ ! -e ~/.zsh/completion/_docker]; then
+if [ ! -e ~/.zsh/completion/_docker ]; then
   mkdir -p ~/.zsh/completion
   curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
 

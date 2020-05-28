@@ -402,6 +402,18 @@ kube_comp(){
 # ----------------------------------
 # Python
 # ----------------------------------
+if [ ! -e ~/.zsh/completion/_docker ]; then
+  mkdir -p ~/.zsh/completion
+  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
+
+  fpath=(~/.zsh/completion $fpath)
+  zstyle ':completion:*:*:docker:*' option-stacking yes
+  zstyle ':completion:*:*:docker-*:*' option-stacking yes
+fi
+
+# ----------------------------------
+# Python
+# ----------------------------------
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"

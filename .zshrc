@@ -144,7 +144,7 @@ export EDITOR=nvim
 # ----------------------------------
 # 補完機能を有効にする
 autoload -Uz compinit
-compinit
+compinit -i
 
 # フック機能を有効にする
 autoload -Uz add-zsh-hook
@@ -212,6 +212,9 @@ alias sudovim='sudo nvim -u NONE'
 
 # git
 alias gis='git status'
+
+# Kubernetes
+alias kube='kubectl'
 
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
@@ -386,32 +389,6 @@ fshow() {
 source ~/z/z.sh
 
 # ----------------------------------
-# kubectl
-# ----------------------------------
-alias kube='kubectl'
-
-kube_comp(){
-  # 補完スクリプト
-  source <(kubectl completion zsh)
-
-  complete -F __start_kubectl kube
-
-  echo "kube completion finished!!"
-}
-
-# ----------------------------------
-# Python
-# ----------------------------------
-if [ ! -e ~/.zsh/completion/_docker ]; then
-  mkdir -p ~/.zsh/completion
-  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
-
-  fpath=(~/.zsh/completion $fpath)
-  zstyle ':completion:*:*:docker:*' option-stacking yes
-  zstyle ':completion:*:*:docker-*:*' option-stacking yes
-fi
-
-# ----------------------------------
 # Python
 # ----------------------------------
 export PYENV_ROOT="$HOME/.pyenv"
@@ -419,3 +396,45 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+# ----------------------------------
+# 補完を有効にする
+# ----------------------------------
+# Docker
+if [ ! -e ~/.zsh/completion/_docker ]; then
+  mkdir -p ~/.zsh/completion
+  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
+fi
+
+docker_comp(){
+  fpath=(~/.zsh/completion $fpath)
+#  zstyle ':completion:*:*:docker:*' option-stacking yes
+#  zstyle ':completion:*:*:docker-*:*' option-stacking yes
+}
+
+docker_comp
+
+# Docker-Compose
+
+if [ ! -e ~/.zsh/completion/_docker-compose ]; then
+  mkdir -p ~/.zsh/completion
+  curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+fi
+
+docker_compose_comp(){
+  fpath=(~/.zsh/completion $fpath)
+#  zstyle ':completion:*:*:docker:*' option-stacking yes
+#  zstyle ':completion:*:*:docker-*:*' option-stacking yes
+}
+
+# Kubernetes
+kube_comp(){
+  # 補完スクリプト
+  source <(kubectl completion zsh)
+
+  complete -F __start_kubectl kube
+}
+
+kube_comp
+
+# おまじない
+autoload -Uz compinit && compinit -i

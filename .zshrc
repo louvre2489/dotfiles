@@ -210,6 +210,9 @@ alias gr='grep --color'
 alias sudovi='sudo nvim -u NONE'
 alias sudovim='sudo nvim -u NONE'
 
+# git
+alias gis='git status'
+
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
 

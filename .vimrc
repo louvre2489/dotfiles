@@ -343,5 +343,30 @@ augroup END
 " ---------------------------------------
 " Python Setting
 " ---------------------------------------
+" 設定方法
+" インストール可能なPythonのバージョンを確認
+" $ pyenv install --list
+" インストール済みのPythonバージョンを確認
+" $ pyenv versions
+
+" python2環境
+" $ pyenv install 2.X.X
+" $ pyenv virtualenv 2.X.X neovim2
+" $ pyenv activate neovim2
+" $ pip2 install neovim
+" $ pyenv which python
+"
+" python3環境
+" $ pyenv install 3.X.X
+" $ pyenv virtualenv 3.X.X neovim3
+" $ pyenv activate neovim3
+" $ pip install neovim
+" $ pyenv which python
+"
+" .zshrc には以下の設定を
+" export PYENV_ROOT="$HOME/.pyenv"
+" export PATH="$PYENV_ROOT/bin:$PATH"
+" eval "$(pyenv init -)"
+" eval "$(pyenv virtualenv-init -)"
 let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'

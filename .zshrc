@@ -82,6 +82,8 @@ alias cdu="cd-gitroot"
 
 # kubernetes information
 zplugin light jonmosco/kube-ps1
+KUBE_PS1_CTX_COLOR=magenta
+KUBE_PS1_NS_COLOR=cyan
 
 # ----------------------------------
 # シェル設定
@@ -170,20 +172,20 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # ----------------------------------
 # パス関連
 # ----------------------------------
-export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
-export PATH="$PATH:/usr/lib/jvm/java-8-oracle/jre/lib/ext"
+#export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
+#export PATH="$PATH:/usr/lib/jvm/java-8-oracle/jre/lib/ext"
 
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # webpack
-export PATH="$PATH:./node_modules/.bin"
+#export PATH="$PATH:./node_modules/.bin"
 
 # LSP for Elm
-export PATH="$PATH:$HOME/LSP/elm-language-server"
+#export PATH="$PATH:$HOME/LSP/elm-language-server"
 
 # Rust
-export PATH="$PATH:$HOME/.cargo/bin"
+#export PATH="$PATH:$HOME/.cargo/bin"
 
 #----------------------------------
 # ls の色付け
@@ -212,6 +214,7 @@ alias sudovim='sudo nvim -u NONE'
 
 # git
 alias gis='git status'
+alias gch='git switch'
 
 # Kubernetes
 alias kube='kubectl'
@@ -243,9 +246,19 @@ esac
 
 # ----------------------------------
 # プロンプト
+#   フォントは `SauceCodePro Nerd Font` を使用
 # ----------------------------------
 zinit snippet OMZT::gnzh
 zinit light agnoster/agnoster-zsh-theme
+
+# prompt_conext をオーバーライド
+prompt_context() {
+  local user=`whoami`
+
+  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user$(kube_ps1)"
+  fi
+}
 
 # prompt_git をオーバーライド
 prompt_git() {
@@ -397,10 +410,19 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # ----------------------------------
+# asdf
+# ----------------------------------
+if [ -e $HOME/.asdf/asdf.sh ]; then
+  # ファイルがある場合のみ設定
+  . $HOME/.asdf/asdf.sh
+fi
+
+# ----------------------------------
 # 補完を有効にする
 # ----------------------------------
 # Docker
 if [ ! -e ~/.zsh/completion/_docker ]; then
+  # ファイルがなければダウンロード
   mkdir -p ~/.zsh/completion
   curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
 fi
@@ -414,8 +436,8 @@ docker_comp(){
 docker_comp
 
 # Docker-Compose
-
 if [ ! -e ~/.zsh/completion/_docker-compose ]; then
+  # ファイルがなければダウンロード
   mkdir -p ~/.zsh/completion
   curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 fi
@@ -435,6 +457,15 @@ kube_comp(){
 }
 
 kube_comp
+
+# asdf
+asdf_comp(){
+  fpath=(${ASDF_DIR}/completions $fpath)
+}
+
+asdf_comp
+
+
 
 # おまじない
 autoload -Uz compinit && compinit -i

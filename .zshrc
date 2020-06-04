@@ -465,7 +465,5 @@ asdf_comp(){
 
 asdf_comp
 
-
-
 # おまじない
 autoload -Uz compinit && compinit -i

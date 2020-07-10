@@ -422,8 +422,6 @@ fi
 
 docker_comp(){
   fpath=(~/.zsh/completion $fpath)
-#  zstyle ':completion:*:*:docker:*' option-stacking yes
-#  zstyle ':completion:*:*:docker-*:*' option-stacking yes
 }
 
 docker_comp
@@ -437,8 +435,6 @@ fi
 
 docker_compose_comp(){
   fpath=(~/.zsh/completion $fpath)
-#  zstyle ':completion:*:*:docker:*' option-stacking yes
-#  zstyle ':completion:*:*:docker-*:*' option-stacking yes
 }
 
 # Kubernetes

@@ -61,6 +61,11 @@ hook_add = '''
   au BufRead,BufNewFile *.sbt set filetype=scala
 '''
 
+# Elm
+[[plugins]]
+repo = 'ElmCast/elm-vim'
+on_ft = 'elm'
+
 ###################################################
 # 構文チェック
 ###################################################

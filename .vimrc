@@ -247,7 +247,6 @@ function! ImInActivate()
 endfunction
 inoremap <silent> jj <ESC>:call ImInActivate()<CR>
 inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
-inoremap <silent> <C-j> <ESC>:call ImInActivate()<CR>
 
 " ---------------------------------------
 " Scala Setting

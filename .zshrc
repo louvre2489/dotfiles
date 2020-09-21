@@ -183,6 +183,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Rust
 #export PATH="$PATH:$HOME/.cargo/bin"
 
+# Haskell
+export PATH="$PATH:$HOME/.local/bin"
+
 #----------------------------------
 # ls の色付け
 # ----------------------------------

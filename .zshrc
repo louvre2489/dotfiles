@@ -221,7 +221,6 @@ alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skan
 # custom function
 alias gl='fshow'
 
-# rm
 case ${OSTYPE} in
   darwin*)
     # Mac向けの設定
@@ -237,8 +236,16 @@ case ${OSTYPE} in
     #
     # rmはゴミ箱に送る
     alias rm='trash'
+
+    # Linuxではxdg-openでブラウザ起動
+    alias open='xdg-open'
     ;;
 esac
+
+# github起動
+github() {
+  open 'https://github.com/'$1
+}
 
 # ----------------------------------
 # プロンプト

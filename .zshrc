@@ -349,7 +349,7 @@ bindkey "^n" history-beginning-search-forward-end
 function cdup() {
   echo
   cd ..
-  prompt_${prompt_theme}_precmd
+#  prompt_${prompt_theme}_precmd
   zle reset-prompt
   return 0
 }
@@ -446,6 +446,8 @@ fi
 docker_compose_comp(){
   fpath=(~/.zsh/completion $fpath)
 }
+
+docker_compose_comp
 
 # Kubernetes
 kube_comp(){

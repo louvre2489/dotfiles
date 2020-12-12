@@ -24,6 +24,9 @@
     }
   },
 
+  // for Rust
+  "rust.clippy_preference": "on",
+
   "yaml.format.enable": true,
 
   "yaml.schemas": {

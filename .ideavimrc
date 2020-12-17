@@ -18,6 +18,9 @@ set whichwrap=b,s,h,l,<,>,[,]
 " インサートモードから抜ける
 inoremap <silent>jj <ESC>
 
+" 行頭移動を0でトグルする
+noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
+
 " キー移動
 noremap <S-h> ^
 noremap <S-j> }
@@ -49,3 +52,6 @@ endfunction
 inoremap <silent> jj <ESC>:call ImInActivate()<CR>
 inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
 inoremap <silent> <C-j> <ESC>:call ImInActivate()<CR>
+
+" 検索機能をIDEA純正にする
+nnoremap / :<C-u>action Find<CR>

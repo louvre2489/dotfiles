@@ -203,6 +203,9 @@ inoremap <silent>jj <ESC>
 " ターミナルモードでインサートモードから抜ける
 tnoremap <ESC> <C-\><C-n>
 
+" 行頭移動を0でトグルする
+noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
+
 " キー移動
 noremap <S-h> ^
 noremap <S-j> }

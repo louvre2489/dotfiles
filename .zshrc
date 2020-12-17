@@ -69,9 +69,9 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=''
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
 HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=''
 
-# git completion by fzf
-# usage) git checkout **
-zinit light "hschne/fzf-git"
+## git completion by fzf
+## usage) git checkout **
+#zinit light "hschne/fzf-git"
 
 # ssh connection manager
 zinit light "gko/ssh-connect"

@@ -340,8 +340,9 @@ hook_add = '''
     \ 'Unknown'   : '?'
     \ })
 
-  " Ctrl+e  でDefxを呼び出し
+  " 起動時にDefxを呼び出し
   autocmd VimEnter * execute 'Defx'
+  " Ctrl+e  でDefxを呼び出し
   nnoremap <silent> <C-e> :<C-u> Defx <CR>
 
   " ファイルシステムとの自動同期
@@ -660,3 +661,19 @@ hook_add = '''
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 '''
 
+[[plugins]]
+repo = 'rhysd/committia.vim'
+hook_add = '''
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info)
+    " If no commit message, start with insert mode
+    if a:info.vcs ==# 'git' && getline(1) ==# ''
+"        startinsert
+    end
+
+    " Scroll the diff window from insert mode
+    " Map <C-n> and <C-p>
+    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
+  endfunction
+'''

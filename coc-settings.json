@@ -1,4 +1,4 @@
-// ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
+// ln -s ~/gotoParentrentdotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 {
   "languageserver":  {
     "metals": {
@@ -27,8 +27,16 @@
   // for Rust
   "rust.clippy_preference": "on",
 
-  "yaml.format.enable": true,
+  // for explorer
+  // CostomMappingsExamples: https://github.com/weirongxu/coc-explorer#custom-mappings-example
+  "explorer.file.showHiddenFiles": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.keyMappings.global": {
+    "h": ["wait", "gotoParent"]
+  },
 
+  // for yaml
+  "yaml.format.enable": true,
   "yaml.schemas": {
     "kubernetes": "/*.yaml"
   }

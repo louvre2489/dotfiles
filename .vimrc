@@ -210,10 +210,10 @@ tnoremap <ESC> <C-\><C-n>
 noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
 
 " キー移動
-noremap <S-h> ^
-noremap <S-j> }
-noremap <S-k> {
-noremap <S-l> $
+"noremap <S-h> ^
+"noremap <S-j> }
+"noremap <S-k> {
+"noremap <S-l> $
 inoremap <A-h> <Left>
 inoremap <A-j> <Down>
 inoremap <A-k> <Up>

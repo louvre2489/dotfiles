@@ -211,6 +211,7 @@ alias sudovim='sudo nvim -u NONE'
 # git
 alias gis='git status'
 alias gch='git switch'
+alias gt='git difftool'
 
 # Kubernetes
 alias kube='kubectl'

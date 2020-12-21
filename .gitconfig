@@ -1,6 +1,6 @@
 [user]
 	email = louvre2489@gmail.com
-	name = louvre2489
+	name = louvre2489@gmail.com
 [core]
 	editor = nvim
 	precomposeunicode = true
@@ -49,3 +49,6 @@
 
   # スタッシュを選択してdropする
   std = !git stl | xargs git stash drop
+[filesystem "AdoptOpenJDK|1.8.0_242|/dev/disk1s2"]
+	timestampResolution = 1001 milliseconds
+	minRacyThreshold = 0 nanoseconds

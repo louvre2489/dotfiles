@@ -1,4 +1,4 @@
-// ln -s ~/gotoParentrentdotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
+// ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 {
   "languageserver":  {
     "metals": {

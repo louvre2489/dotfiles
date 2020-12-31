@@ -266,6 +266,51 @@ hook_add = '''
 '''
 
 ###################################################
+# Nerd Tree
+###################################################
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+  nmap <C-e> [nerdtree]
+
+  nmap nt <plug>NERDTreeTabsToggle<cr>
+  nmap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+  vmap <silent> [nerdtree] <Esc> <plug>NERDTreeTabsToggle<CR>
+  omap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+  imap <silent> [nerdtree] <Esc> :<plug>NERDTreeTabsToggle<CR>
+
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+  let g:NERDTreeShowHidden=1
+'''
+
+[[plugins]]
+repo = 'jistr/vim-nerdtree-tabs'
+hook_add = '''
+  " ファイルが指定されていなければNERD treeを有効にする
+  if argc() == 0
+    let g:nerdtree_tabs_open_on_console_startup = 1
+  end
+'''
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+hook_add = '''
+  let g:NERDTreeGitStatusIndicatorMapCustom = {
+  \ "Modified"  : "➤",
+  \ "Staged"    : "✚",
+  \ "Untracked" : "✭",
+  \ "Renamed"   : "➜",
+  \ "Unmerged"  : "═",
+  \ "Deleted"   : "✖",
+  \ "Dirty"     : "✗",
+  \ "Clean"     : "✔︎",
+  \ 'Ignored'   : '☒',
+  \ "Unknown"   : "?"
+  \ }
+'''
+
+###################################################
 # エディター系
 ###################################################
 [[plugins]]
@@ -367,7 +412,6 @@ hook_add = '''
   " 使用するextension
   let g:coc_global_extensions = [
   \  'coc-neosnippet',
-  \  'coc-explorer',
   \  'coc-word',
   \  'coc-json',
   \  'coc-yaml',
@@ -385,10 +429,6 @@ hook_add = '''
   " Always show the signcolumn, otherwise it would shift the text each time
   " diagnostics appear/become resolved.
   set signcolumn=yes
-
-  " ファイエクスプローラーにcoc-explorerを使用する
-  :nmap <silent> <C-e> :CocCommand explorer<CR>
-  autocmd VimEnter * CocCommand explorer
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

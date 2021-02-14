@@ -43,5 +43,10 @@
         "before": ["<leader>", "d"],
         "commands": ["workbench.view.explorer"]
       }
-    ]
+    ],
+    "files.watcherExclude": {
+      "**/.bloop": true,
+      "**/.metals": true,
+      "**/.ammonite": true
+    }
 }

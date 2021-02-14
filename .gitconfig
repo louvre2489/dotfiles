@@ -4,6 +4,7 @@
 [core]
 	editor = nvim
 	precomposeunicode = true
+	autocrlf = input
 [diff]
   tool = nvimdiff
 [difftool "nvimdiff"]

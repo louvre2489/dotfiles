@@ -458,7 +458,9 @@ kube_comp(){
   complete -F __start_kubectl kube
 }
 
-kube_comp
+# kubectlは頻繁に使わないのに補完設定呼び出しに時間がかかるのでコメントアウト
+# 補完がほしければ自分でkube_compを叩くように運用で回避する
+#kube_comp
 
 # asdf
 asdf_comp(){

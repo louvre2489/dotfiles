@@ -219,6 +219,8 @@ alias kube='kubectl'
 # skanehira/docui
 alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui'
 
+alias chatwork_oauth='docker run --rm --env-file ~/workspace/rust/chatwork_oauth/.env chatwork_oauth'
+
 # custom function
 alias gl='fshow'
 

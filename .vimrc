@@ -206,6 +206,11 @@ inoremap <silent>jj <ESC>
 " ターミナルモードでインサートモードから抜ける
 tnoremap <ESC> <C-\><C-n>
 
+" nvim時はterminalを明示的に分割するようにする
+if has('nvim')
+  command! -nargs=* Term split | terminal <args>
+endif
+
 " 行頭移動を0でトグルする
 noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
 

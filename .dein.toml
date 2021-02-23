@@ -367,6 +367,7 @@ hook_add = '''
   " 使用するextension
   let g:coc_global_extensions = [
   \  'coc-neosnippet',
+  \  'coc-explorer',
   \  'coc-word',
   \  'coc-json',
   \  'coc-yaml',

@@ -265,49 +265,116 @@ hook_add = '''
   let g:rainbow_active = 1
 '''
 
-###################################################
-# Nerd Tree
-###################################################
+####################################################
+## Nerd Tree
+####################################################
+#[[plugins]]
+#repo = 'scrooloose/nerdtree'
+#hook_add = '''
+#  nmap <C-e> [nerdtree]
+#
+#  nmap nt <plug>NERDTreeTabsToggle<cr>
+#  nmap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+#  vmap <silent> [nerdtree] <Esc> <plug>NERDTreeTabsToggle<CR>
+#  omap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
+#  imap <silent> [nerdtree] <Esc> :<plug>NERDTreeTabsToggle<CR>
+#
+#  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+#
+#  let g:NERDTreeShowHidden=1
+#'''
+#
+#[[plugins]]
+#repo = 'jistr/vim-nerdtree-tabs'
+#hook_add = '''
+#  " ファイルが指定されていなければNERD treeを有効にする
+#  if argc() == 0
+#    let g:nerdtree_tabs_open_on_console_startup = 1
+#  end
+#'''
+#
+#[[plugins]]
+#repo = 'Xuyuanp/nerdtree-git-plugin'
+#hook_add = '''
+#  let g:NERDTreeGitStatusIndicatorMapCustom = {
+#  \ "Modified"  : "➤",
+#  \ "Staged"    : "✚",
+#  \ "Untracked" : "✭",
+#  \ "Renamed"   : "➜",
+#  \ "Unmerged"  : "═",
+#  \ "Deleted"   : "✖",
+#  \ "Dirty"     : "✗",
+#  \ "Clean"     : "✔︎",
+#  \ 'Ignored'   : '☒',
+#  \ "Unknown"   : "?"
+#  \ }
+#'''
+
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'lambdalisue/fern.vim'
 hook_add = '''
-  nmap <C-e> [nerdtree]
+"  " 起動時に呼び出し
+"  augroup fern_enter
+"    autocmd!
+"    autocmd VimEnter * ++nested Fern . -reveal=% -drawer
+"  augroup END
 
-  nmap nt <plug>NERDTreeTabsToggle<cr>
-  nmap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
-  vmap <silent> [nerdtree] <Esc> <plug>NERDTreeTabsToggle<CR>
-  omap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
-  imap <silent> [nerdtree] <Esc> :<plug>NERDTreeTabsToggle<CR>
+  " Ctrl+e 呼び出し
+  nnoremap <silent><C-e> :Fern . -reveal=% -drawer<CR>
 
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  let g:fern#default_hidden=1
 
-  let g:NERDTreeShowHidden=1
+  let g:fern#renderer="nerdfont"
+
+  function! FernInit() abort
+    nmap <buffer><expr>
+          \ <Plug>(fern-my-open-expand-collapse)
+          \ fern#smart#leaf(
+          \   "\<Plug>(fern-action-open:select)",
+          \   "\<Plug>(fern-action-expand)",
+          \   "\<Plug>(fern-action-collapse)",
+          \ )
+    nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+    nmap <buffer> o <Plug>(fern-my-open-expand-collapse)
+    nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
+    nmap <buffer> mf <Plug>(fern-action-new-file)
+    nmap <buffer> md <Plug>(fern-action-new-dir)
+    nmap <buffer> D <Plug>(fern-action-remove)
+    nmap <buffer> mv <Plug>(fern-action-move)
+    nmap <buffer> r <Plug>(fern-action-rename)
+    nmap <buffer> s <Plug>(fern-action-open:split)
+    nmap <buffer> v <Plug>(fern-action-open:vsplit)
+    nmap <buffer> R <Plug>(fern-action-reload)
+    nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
+    nmap <buffer> <nowait> < <Plug>(fern-action-leave)
+    nmap <buffer> <nowait> > <Plug>(fern-action-enter)
+  endfunction
+
+  augroup FernEvents
+    autocmd!
+    autocmd FileType fern call FernInit()
+  augroup END
 '''
 
 [[plugins]]
-repo = 'jistr/vim-nerdtree-tabs'
-hook_add = '''
-  " ファイルが指定されていなければNERD treeを有効にする
-  if argc() == 0
-    let g:nerdtree_tabs_open_on_console_startup = 1
-  end
-'''
+repo = 'lambdalisue/fern-git-status.vim'
 
 [[plugins]]
-repo = 'Xuyuanp/nerdtree-git-plugin'
+repo = 'lambdalisue/nerdfont.vim'
+
+[[plugins]]
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+
+[[plugins]]
+repo = 'https://github.com/ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'lambdalisue/glyph-palette.vim'
 hook_add = '''
-  let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ "Modified"  : "➤",
-  \ "Staged"    : "✚",
-  \ "Untracked" : "✭",
-  \ "Renamed"   : "➜",
-  \ "Unmerged"  : "═",
-  \ "Deleted"   : "✖",
-  \ "Dirty"     : "✗",
-  \ "Clean"     : "✔︎",
-  \ 'Ignored'   : '☒',
-  \ "Unknown"   : "?"
-  \ }
+  augroup my-glyph-palette
+    autocmd! *
+    autocmd FileType fern call glyph_palette#apply()
+  augroup END
 '''
 
 ###################################################

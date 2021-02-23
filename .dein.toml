@@ -266,50 +266,8 @@ hook_add = '''
 '''
 
 ####################################################
-## Nerd Tree
+## Fern
 ####################################################
-#[[plugins]]
-#repo = 'scrooloose/nerdtree'
-#hook_add = '''
-#  nmap <C-e> [nerdtree]
-#
-#  nmap nt <plug>NERDTreeTabsToggle<cr>
-#  nmap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
-#  vmap <silent> [nerdtree] <Esc> <plug>NERDTreeTabsToggle<CR>
-#  omap <silent> [nerdtree] <plug>NERDTreeTabsToggle<CR>
-#  imap <silent> [nerdtree] <Esc> :<plug>NERDTreeTabsToggle<CR>
-#
-#  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-#
-#  let g:NERDTreeShowHidden=1
-#'''
-#
-#[[plugins]]
-#repo = 'jistr/vim-nerdtree-tabs'
-#hook_add = '''
-#  " ファイルが指定されていなければNERD treeを有効にする
-#  if argc() == 0
-#    let g:nerdtree_tabs_open_on_console_startup = 1
-#  end
-#'''
-#
-#[[plugins]]
-#repo = 'Xuyuanp/nerdtree-git-plugin'
-#hook_add = '''
-#  let g:NERDTreeGitStatusIndicatorMapCustom = {
-#  \ "Modified"  : "➤",
-#  \ "Staged"    : "✚",
-#  \ "Untracked" : "✭",
-#  \ "Renamed"   : "➜",
-#  \ "Unmerged"  : "═",
-#  \ "Deleted"   : "✖",
-#  \ "Dirty"     : "✗",
-#  \ "Clean"     : "✔︎",
-#  \ 'Ignored'   : '☒',
-#  \ "Unknown"   : "?"
-#  \ }
-#'''
-
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''

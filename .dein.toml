@@ -265,75 +265,11 @@ hook_add = '''
   let g:rainbow_active = 1
 '''
 
-####################################################
-## Fern
-####################################################
-[[plugins]]
-repo = 'lambdalisue/fern.vim'
-hook_add = '''
-  " Ctrl+e 呼び出し
-  nnoremap <silent><C-e> :Fern . -reveal=% -drawer<CR>
-
-  let g:fern#default_hidden=1
-
-  let g:fern#renderer="nerdfont"
-
-  function! FernInit() abort
-    nmap <buffer><expr>
-          \ <Plug>(fern-my-open-expand-collapse)
-          \ fern#smart#leaf(
-          \   "\<Plug>(fern-action-open:select)",
-          \   "\<Plug>(fern-action-expand)",
-          \   "\<Plug>(fern-action-collapse)",
-          \ )
-    nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
-    nmap <buffer> o <Plug>(fern-my-open-expand-collapse)
-    nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
-    nmap <buffer> mf <Plug>(fern-action-new-file)
-    nmap <buffer> md <Plug>(fern-action-new-dir)
-    nmap <buffer> D <Plug>(fern-action-remove)
-    nmap <buffer> mv <Plug>(fern-action-move)
-    nmap <buffer> r <Plug>(fern-action-rename)
-    nmap <buffer> s <Plug>(fern-action-open:split)
-    nmap <buffer> v <Plug>(fern-action-open:vsplit)
-    nmap <buffer> R <Plug>(fern-action-reload)
-    nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
-    nmap <buffer> <nowait> < <Plug>(fern-action-leave)
-    nmap <buffer> <nowait> > <Plug>(fern-action-enter)
-  endfunction
-
-  augroup FernEvents
-    autocmd!
-    autocmd FileType fern call FernInit()
-  augroup END
-'''
-
-[[plugins]]
-repo = 'lambdalisue/fern-git-status.vim'
-
-[[plugins]]
-repo = 'lambdalisue/nerdfont.vim'
-
-[[plugins]]
-repo = 'lambdalisue/fern-renderer-nerdfont.vim'
-
-[[plugins]]
-repo = 'https://github.com/ryanoasis/vim-devicons'
-
-[[plugins]]
-repo = 'lambdalisue/glyph-palette.vim'
-hook_add = '''
-  augroup my-glyph-palette
-    autocmd! *
-    autocmd FileType fern call glyph_palette#apply()
-  augroup END
-'''
-
 ###################################################
 # エディター系
 ###################################################
 [[plugins]]
-repo = 'bronson/vim-trailing-whitespace'
+repo = 'ntpeters/vim-better-whitespace'
 
 [[plugins]]
 repo = 'tpope/vim-surround'
@@ -448,6 +384,9 @@ hook_add = '''
   " Always show the signcolumn, otherwise it would shift the text each time
   " diagnostics appear/become resolved.
   set signcolumn=yes
+
+  " ファイエクスプローラーにcoc-explorerを使用する
+  :nmap <silent> <C-e> :CocCommand explorer<CR>
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

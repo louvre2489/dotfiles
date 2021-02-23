@@ -271,12 +271,6 @@ hook_add = '''
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
-"  " 起動時に呼び出し
-"  augroup fern_enter
-"    autocmd!
-"    autocmd VimEnter * ++nested Fern . -reveal=% -drawer
-"  augroup END
-
   " Ctrl+e 呼び出し
   nnoremap <silent><C-e> :Fern . -reveal=% -drawer<CR>
 

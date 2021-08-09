@@ -242,6 +242,9 @@ case ${OSTYPE} in
 
     # Linuxではxdg-openでブラウザ起動
     alias open='xdg-open'
+
+    # 開発用のシェル
+    source ~/dotfiles/.zshrc.lc
     ;;
 esac
 

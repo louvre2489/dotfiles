@@ -21,6 +21,22 @@
       "command": "rustup",
       "args": ["run", "stable", "rls"],
       "filetypes": ["rust"]
+    },
+    // for Haskell
+    // 1) sudo apt install haskell-platform
+    // 2) curl -sSL https://get.haskellstack.org/ | sh
+    // 3) git clone https://github.com/haskell/haskell-language-server --recurse-submodules
+    // 4) stack ./install.hs hls
+    // 5) ghcupを入れてghcバージョンを最新にする
+    //      curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+    //      ghcup list
+    //      ghcup install ghc x.x.x
+    //      ghcup set ghc x.x.x
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"]
     }
   },
 

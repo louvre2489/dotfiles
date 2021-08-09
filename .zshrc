@@ -186,6 +186,15 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
+# ----------------------------------
+# sbt
+# ----------------------------------
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
+
+#export SBT_NATIVE_CLIENT=true
+
 #----------------------------------
 # ls の色付け
 # ----------------------------------
@@ -203,6 +212,7 @@ zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'c
 alias vi='nvim -c "CocCommand explorer"'
 alias vim='nvim -c "CocCommand explorer"'
 alias la='ls -a --color=auto'
+alias cls='clear;ls;'
 alias ..='cd ..'
 alias gr='grep --color'
 alias sudovi='sudo nvim -u NONE'

@@ -6,6 +6,7 @@ format = """
 $username\
 $hostname\
 $kubernetes\
+$directory\
 $git_branch\
 $git_commit\
 $git_state\
@@ -16,7 +17,6 @@ $helm\
 $aws\
 $env_var\
 $custom\
-$directory\
 $cmd_duration\
 $line_break\
 $time\
@@ -33,15 +33,13 @@ error_symbol = "[>>>](bold bright-red)"
 
 [directory]
 truncation_length = 100
-format = "[@ $path]($style)[$read_only]($read_only_style) "
 style = 'bright-cyan'
 
 [git_branch]
-format = "[$symbol$branch]($style) "
 style = 'bold purple'
 
 [git_status]
-format = '([\[$ahead_behind$conflicted$deleted$renamed$untracked$staged$modified$stashed\]]($style) )'
+format = '([\[$ahead_behind$conflicted$deleted$renamed$untracked$staged$modified$stashed \]]($style) )'
 style = 'white'
 conflicted = '### Conflict ###(bright-red)'
 deleted = '[ Deleted:$count](bright-red)'
@@ -50,9 +48,9 @@ untracked = '[ Untracked:$count](bright-red)'
 stashed = '[ Stash:$count](bright-blue)'
 modified = '[ Modified:$count](bright-green)'
 staged = '[ Staged:$count](bright-yellow)'
-ahead = '[⇡](bright-blue)'
-behind = '[⇣](bright-yellow)'
-diverged = '[⇕](bright-red)'
+ahead = '[ ⇡](bright-blue)'
+behind = '[ ⇣](bright-yellow)'
+diverged = '[ ⇕](bright-red)'
 
 [username]
 style_user = "bright-cyan"

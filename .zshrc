@@ -31,9 +31,6 @@ zinit light-mode for \
     "zinit-zsh/z-a-bin-gem-node"
 ### End of Zinit's installer chunk
 
-# Preztoのセットアップ
-#zinit snippet "PZT::modules/helper/init.zsh"
-
 # oh-my-zshのセットアップ
 zinit snippet "OMZL::git.zsh"
 zinit snippet "OMZP::git"
@@ -69,21 +66,12 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=''
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
 HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=''
 
-## git completion by fzf
-## usage) git checkout **
-#zinit light "hschne/fzf-git"
-
 # ssh connection manager
 zinit light "gko/ssh-connect"
 
 # gitリポジトリのrootに移動する
 zinit light "mollifier/cd-gitroot"
 alias cdu="cd-gitroot"
-
-# kubernetes information
-zplugin light jonmosco/kube-ps1
-KUBE_PS1_CTX_COLOR=magenta
-KUBE_PS1_NS_COLOR=cyan
 
 # ----------------------------------
 # シェル設定
@@ -168,17 +156,8 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # ----------------------------------
 # パス関連
 # ----------------------------------
-#export PATH="$PATH:$HOME/installApp/activator-dist-1.3.12/bin"
-#export PATH="$PATH:/usr/lib/jvm/java-8-oracle/jre/lib/ext"
-
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
-
-# webpack
-#export PATH="$PATH:./node_modules/.bin"
-
-# LSP for Elm
-#export PATH="$PATH:$HOME/LSP/elm-language-server"
 
 # Rust
 #export PATH="$PATH:$HOME/.cargo/bin"
@@ -189,7 +168,9 @@ export PATH="$PATH:$HOME/.local/bin"
 # ----------------------------------
 # sbt
 # ----------------------------------
-export JAVA_HOME=$(/usr/libexec/java_home)
+if [ -e /usr/libexec/java_home ]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+fi
 
 export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
 
@@ -265,90 +246,18 @@ github() {
 
 # ----------------------------------
 # プロンプト
-#   フォントは `SauceCodePro Nerd Font` を使用
 # ----------------------------------
-zinit snippet OMZT::gnzh
-zinit light agnoster/agnoster-zsh-theme
+if [ ! $(which starship) ]; then
+  # starshipが無ければダウンロード
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+fi
 
-# prompt_conext をオーバーライド
-prompt_context() {
-  local user=`whoami`
+# tomlはdotfiles内のファイルを直接参照する
+export STARSHIP_CONFIG=~/dotfiles/starship.toml
+# ログ出力先
+export STARSHIP_CACHE=~/.starship/cache
 
-  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user$(kube_ps1)"
-  fi
-}
-
-# prompt_git をオーバーライド
-prompt_git() {
-  local bg_color fg_color git_status ref
-
-  # リポジトリの変更有無を判定
-  is_dirty() {
-    test -n "$(git status --porcelain --ignore-submodules)"
-  }
-
-  # `git status`
-  git_status=`git status 2> /dev/null`
-
-  ref="$vcs_info_msg_0_"
-  if [[ -n "$ref" ]]; then
-    if is_dirty; then
-      if [[ -n `echo "$git_status" | grep "^Changes not staged for commit"` ]]; then
-        # git addされていないファイルがある状態
-        bg_color=red
-        fg_color=white
-      elif [[ -n `echo "$git_status" | grep "git reset HEAD <file>..."` ]]; then
-         # git commitされていないファイルがある状態
-         bg_color=yellow
-         fg_color=white
-      elif [[ -n `echo "$git_status" | grep "to publish your local commits"` ]]; then
-         # git pushされていないファイルがある状態
-         bg_color=yellow
-         fg_color=$PRIMARY_FG
-      elif [[ -n `echo "$git_status" | grep "Your branch is up to date"` ]]; then
-         # 変更がないが、未管理ファイルがある状態
-         bg_color=green
-         fg_color=red
-      fi
-
-      ref="${ref} $PLUSMINUS"
-    else
-      if [[ -n `echo "$git_status" | grep "to publish your local commits"` ]]; then
-         # git pushされていないファイルがある状態
-         bg_color=yellow
-         fg_color=$PRIMARY_FG
-      else
-        # すべてpush済の状態
-        bg_color=green
-        fg_color=$PRIMARY_FG
-        ref="${ref} "
-      fi
-    fi
-    if [[ "${ref/.../}" == "$ref" ]]; then
-      ref="$BRANCH $ref"
-    else
-      ref="$DETACHED ${ref/.../}"
-    fi
-
-    prompt_segment $bg_color $fg_color
-    print -n " $ref"
-  fi
-}
-
-# prompt_end をオーバーライド
-prompt_end() {
-  if [[ -n $CURRENT_BG ]]; then
-    print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
-  else
-    print -n "%{%k%}"
-  fi
-  print -n "%{%f%}"
-  CURRENT_BG=''
-
-  #Adds the new line and ➜ as the start character.
-  printf "\n >";
-}
+eval "$(starship init zsh)"
 
 # ----------------------------------
 # Ctrl-PとCtrl-Nで前方一致検索

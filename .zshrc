@@ -247,7 +247,7 @@ github() {
 # ----------------------------------
 # プロンプト
 # ----------------------------------
-if [ ! $(which starship) ]; then
+if ! [ $(which starship) ]; then
   # starshipが無ければダウンロード
   sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi

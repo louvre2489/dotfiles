@@ -166,9 +166,6 @@ hook_add = '''
   " diffを縦分割
   set diffopt+=vertical
 
-  " ---------------------------------------
-  " vim-gitgutter
-  " ---------------------------------------
   highlight SignColumn ctermbg = lightgrey
 
   " diffを縦分割
@@ -193,10 +190,21 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'tpope/vim-fugitive'
+repo = 'rhysd/committia.vim'
+hook_add = '''
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info)
+"    " If no commit message, start with insert mode
+"    if a:info.vcs ==# 'git' && getline(1) ==# ''
+"        startinsert
+"    end
 
-[[plugins]]
-repo = 'lambdalisue/gina.vim'
+    " Scroll the diff window from insert mode
+    " Map <C-n> and <C-p>
+    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
+  endfunction
+'''
 
 ###################################################
 # 装飾
@@ -278,20 +286,6 @@ repo = 'tpope/vim-surround'
 repo = 'terryma/vim-multiple-cursors'
 
 [[plugins]]
-repo = 'othree/html5.vim'
-
-[[plugins]]
-repo = 'mattn/emmet-vim'
-hook_add = '''
-  let g:user_emmet_settings = {
-  \  'variables': {
-  \  'lang': "ja"
-  \  },
-  \  'indentation': '  '
-  \}
-'''
-
-[[plugins]]
 repo = 'tyru/caw.vim'
 hook_add = '''
   " <Leader> is \
@@ -308,28 +302,6 @@ hook_add = '''
 [[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
-
-###################################################
-# gtags
-###################################################
-[[plugins]]
-repo = 'lighttiger2505/gtags.vim'
-hook_add = '''
-  let g:Gtags_Auto_Map = 0
-  let g:Gtags_OpenQuickfixWindow = 1
-
-  " キーマップ
-  " Show definetion of function cousor word on quickfix
-  nmap <silent> <C-]> :<C-u>exe("Gtags ".expand('<cword>'))<CR>
-  " Show reference of cousor word on quickfix
-  nmap <silent> <C-t> :<C-u>exe("Gtags -r ".expand('<cword>'))<CR>
-'''
-
-[[plugins]]
-repo = 'jsfaint/gen_tags.vim'
-hook_add = '''
-  let g:gen_tags#gtags_auto_gen = 1
-'''
 
 ###################################################
 # 便利ツール
@@ -519,19 +491,3 @@ hook_add = '''
         \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 '''
 
-[[plugins]]
-repo = 'rhysd/committia.vim'
-hook_add = '''
-  let g:committia_hooks = {}
-  function! g:committia_hooks.edit_open(info)
-"    " If no commit message, start with insert mode
-"    if a:info.vcs ==# 'git' && getline(1) ==# ''
-"        startinsert
-"    end
-
-    " Scroll the diff window from insert mode
-    " Map <C-n> and <C-p>
-    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
-    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
-  endfunction
-'''

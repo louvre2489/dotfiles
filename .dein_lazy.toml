@@ -61,11 +61,6 @@ hook_add = '''
   au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
 '''
 
-# Elm
-[[plugins]]
-repo = 'ElmCast/elm-vim'
-on_ft = 'elm'
-
 # Rust
 [[plugins]]
 repo = 'rust-lang/rust.vim'
@@ -74,32 +69,3 @@ hook_add = '''
 '''
 on_ft = 'rust'
 
-###################################################
-# 構文チェック
-###################################################
-[[plugins]]
-repo = 'w0rp/ale'
-on_ft = ['html', 'javascript', 'javascript.jsx', 'vue']
-hook_post_source = '''
-  " 保存時のみ実行する
-  let g:ale_lint_on_text_changed = 0
-
-  " Lint
-  let g:ale_linters = {
-  \  'css': ['stylelint'],
-  \  'javascript': ['eslint'],
-  \  'vue': ['eslint'],
-  \}
-
-  " 整形
-  let g:ale_fix_on_save = 1
-  let g:ale_fixers = {
-  \  'javascript': ['prettier-eslint'],
-  \  'css': ['stylelint'],
-  \  'scss': ['stylelint'],
-  \}
-
-  " Ctrl + kで次の指摘へ、Ctrl + jで前の指摘へ移動
-  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-  nmap <silent> <C-j> <Plug>(ale_next_wrap)
-'''

@@ -190,8 +190,8 @@ zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'c
 # alias
 # ----------------------------------
 # 標準
-alias vi='nvim -c "CocCommand explorer"'
-alias vim='nvim -c "CocCommand explorer"'
+alias vi='nvim'
+alias vim='nvim'
 alias la='ls -a --color=auto'
 alias cls='clear;ls;'
 alias ..='cd ..'

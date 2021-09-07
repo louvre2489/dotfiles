@@ -53,9 +53,6 @@ hook_add = '''
  augroup END
 '''
 
-#[[plugins]]
-#repo = 'lambdalisue/fern-git-status.vim'
-
 [[plugins]]
 repo = 'lambdalisue/nerdfont.vim'
 
@@ -68,11 +65,11 @@ repo = 'csch0/vim-startify-renderer-nerdfont'
 [[plugins]]
 repo = 'lambdalisue/glyph-palette.vim'
 hook_add = '''
- augroup my-glyph-palette
-   autocmd! *
-   autocmd FileType fern call glyph_palette#apply()
-   autocmd FileType nerdtree,startify call glyph_palette#apply()
- augroup END
+  augroup my-glyph-palette
+    autocmd! *
+    autocmd FileType fern call glyph_palette#apply()
+    autocmd FileType nerdtree,startify call glyph_palette#apply()
+  augroup END
 '''
 
 ###################################################

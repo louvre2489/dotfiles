@@ -262,6 +262,9 @@ endfunction
 inoremap <silent> jj <ESC>:call ImInActivate()<CR>
 inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
 
+" 保存時にsudo権限で無理やり保存
+cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
+
 " ---------------------------------------
 " Scala Setting
 " ---------------------------------------

@@ -165,6 +165,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
+# Rust
+source $HOME/.cargo/env
+
 # ----------------------------------
 # sbt
 # ----------------------------------

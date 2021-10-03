@@ -73,136 +73,6 @@ hook_add = '''
 '''
 
 ###################################################
-# denite
-###################################################
-[[plugins]]
-repo = 'Shougo/denite.nvim'
-hook_add = '''
-  nmap <Space> [denite]
-
-  " フローティング
-  let s:denite_win_width_percent = 0.85
-  let s:denite_win_height_percent = 0.7
-
-  let s:denite_default_options = {
-      \ 'split': 'floating',
-      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
-      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
-      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-      \ 'highlight_filter_background': 'DeniteFilter',
-      \ 'prompt': '>>',
-      \ 'start_filter': v:false
-      \ }
-
-  let s:denite_option_array = []
-
-  for [key, value] in items(s:denite_default_options)
-    call add(s:denite_option_array, '-'.key.'='.value)
-  endfor
-
-  call denite#custom#option('default', s:denite_default_options)
-
-  augroup denite_filter
-    autocmd FileType denite call s:denite_settings()
-
-    function! s:denite_settings() abort
-      nnoremap <silent><buffer><expr> <CR>
-      \ denite#do_map('do_action')
-      nnoremap <silent><buffer><expr> d
-      \ denite#do_map('do_action', 'delete')
-      nnoremap <silent><buffer><expr> p
-      \ denite#do_map('do_action', 'preview')
-      nnoremap <silent><buffer><expr> q
-      \ denite#do_map('quit')
-      nnoremap <silent><buffer><expr> i
-      \ denite#do_map('open_filter_buffer')
-      nnoremap <silent><buffer><expr> <Space>
-      \ denite#do_map('toggle_select').'j'
-    endfunction
-  augroup END
-
-  " agを使用する
-  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
-
-  " フィルタ設定
-  call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-    \ [ '.git/', '.ropeproject/', '__pycache__/',
-    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
-  " grep設定
-  call denite#custom#var('grep', 'command', ['ag'])
-	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--hidden'])
-	call denite#custom#var('grep', 'recursive_opts', [])
-	call denite#custom#var('grep', 'pattern_opt', [])
-	call denite#custom#var('grep', 'separator', ['--'])
-	call denite#custom#var('grep', 'final_opts', [])
-
-  command! -nargs=? Dgrep call s:Dgrep(<f-args>)
-  function s:Dgrep(...)
-    if a:0 > 0
-      execute(':Denite -buffer-name=grep-buffer-denite grep -path='.a:1)
-    else
-      execute(':Denite -buffer-name=grep-buffer-denite '.join(s:denite_option_array, ' ').' grep')
-    endif
-  endfunction
-
-  " grep結果を再表示
-  command! Dresume execute(':Denite -resume -buffer-name=grep-buffer-denite '.join(s:denite_option_array, ' ').'')
-  " 次へ
-  command! Dnext execute(':Denite -resume -buffer-name=grep-buffer-denite -cursor-pos=+1 -immediately '.join(s:denite_option_array, ' ').'')
-  " 前へ
-  command! Dprev execute(':Denite -resume -buffer-name=grep-buffer-denite -cursor-pos=-1 -immediately '.join(s:denite_option_array, ' ').'')
-
-  " キーマップ
-  " カレントディレクトリを表示
-  nnoremap <silent> [denite]a :Denite file/rec<CR>
-
-  " バッファを表示
-  nnoremap <silent> [denite]b :Denite buffer<CR>
-
-  " ファイル一覧を表示
-  nnoremap <silent> [denite]f :Denite -buffer-name=file file<CR>
-
-  " 最近使ったファイルの一覧
-  nnoremap <silent> [denite]fr :Denite file/old<CR>
-
-  " neoyank
-  nnoremap <silent> [denite]ny :Denite neoyank<CR>
-
-  " grep検索
-  nnoremap <silent> [denite]g  :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
-  " Denite grep検索結果を再表示する
-  nnoremap <silent> [denite]r :<C-u>Denite -resume -buffer-name=search-buffer-denite<CR>
-
-  " カーソル位置の単語をgrep検索
-  nnoremap <silent> [denite],cg :<C-u>DeniteCursorWord grep -buffer-name=search line<CR><C-R><C-W><CR>
-
-  " プロンプトの左端に表示される文字を指定
-  call denite#custom#option('default', 'prompt', '>>')
-
-  " denite/insert モードのときは，C- で移動できるようにする
-  "call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
-  "call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
-
-  " C-N,C-Pで上下移動
-  call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-  call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-
-  " ESCキーでdeniteを終了
-  call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
-'''
-
-[[plugins]]
-repo = 'Shougo/neomru.vim'
-
-[[plugins]]
-repo = 'Shougo/neoyank.vim'
-
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-###################################################
 # vim-buffergator
 ###################################################
 [[plugins]]
@@ -372,6 +242,9 @@ hook_add = '''
   vmap <Leader>, <Plug>(caw:zeropos:toggle)
 '''
 
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
 [[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
@@ -383,17 +256,23 @@ depends = ['context_filetype.vim']
 repo = 'thinca/vim-quickrun'
 
 [[plugins]]
+repo = 'LeafCage/yankround.vim'
+
+[[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
 
 [[plugins]]
-repo = 'junegunn/fzf.vim'
-depends = ['fzf']
-hook_add = '''
-  " for Ag
-  autocmd VimEnter * command! -bang -nargs=* Ag
-    \ call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
-'''
+repo = 'yuki-yano/fzf-preview.vim'
+rev = 'release/rpc'
+
+###################################################
+# 開発ツール
+###################################################
+# F#
+[[plugins]]
+repo = 'ionide/Ionide-vim'
+build = 'make fsautocomplete'
 
 ###################################################
 # Coc.nvim
@@ -408,13 +287,20 @@ hook_post_source = '''
   call coc#util#install()
 '''
 
+depends = ['yankround.vim']
+
 hook_add = '''
   " 使用するextension
+  " coc-fzf-preview
+  "   - rg のインストールが必要
   let g:coc_global_extensions = [
   \  'coc-neosnippet',
   \  'coc-word',
   \  'coc-json',
   \  'coc-yaml',
+  \  'coc-fzf-preview',
+  \  'coc-yank',
+  \  'coc-fsharp',
   \  'coc-metals',
   \  'coc-rust-analyzer'
   \]
@@ -558,5 +444,30 @@ hook_add = '''
   " Currently used for the formatOnType feature.
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
         \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+  "---------------------------------------------------
+  " coc-fzf-preview
+  "---------------------------------------------------
+  nmap <Space> [fzf-p]
+  xmap <Space> [fzf-p]
+
+  " Git Status
+  nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+  " バッファー
+  nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+  nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+  nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+  nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+  nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+  xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+  nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+
+  "---------------------------------------------------
+  " coc-yank
+  "---------------------------------------------------
+  " Show yank list by coc-yank
+  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+  " Clean yank list by coc-yank
+  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
 '''
 

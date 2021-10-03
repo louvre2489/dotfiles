@@ -2,51 +2,141 @@
 # ハイライト/補完
 ###################################################
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-depends = ['context_filetype.vim']
+repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
-hook_post_source = '''
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
+hook_source = '''
+  " <TAB>: completion.
+  inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#map#manual_complete()
 
-  " 起動時に有効にする
-  let g:deoplete#enable_at_startup = 1
+  " <S-TAB>: completion back.
+  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
 
-  " 補完を開始する文字数
-  let g:deoplete#auto_complete_start_length = 1
+  " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
+  call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  " 大文字小文字を無視する
-  let g:deoplete#enable_ignore_case = 1
+  call ddc#custom#patch_global('sources', ['around', 'vsnip', 'next_word'])
 
-  " バッファからも補完候補を読む
-  let g:deoplete#file#enable_buffer_path = 1
+  call ddc#custom#patch_global('sourceOptions', {
+       \ '_': {
+         \   'matchers': ['matcher_head'],
+         \   'sorters': ['sorter_rank'],
+         \   'minAutoCompleteLength': 1
+         \ },
+         \ 'around': {'mark': 'A'},
+         \ 'nextword': {'mark': 'nextword'},
+         \ })
 
-  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-  \  neosnippet#expandable_or_jumpable() ?
-  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+  call ddc#custom#patch_global('sourceParams', {
+       \ 'around': {'maxSize': 500},
+       \ })
+
+  "---------------------------------------
+  " deoppet
+  "---------------------------------------
+"  call ddc#custom#patch_global('sources', ['deoppet'])
+
+  " Change source options
+"  call ddc#custom#patch_global('sourceOptions', {
+"        \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
+"        \ })
+
+  call ddc#enable()
 '''
 
-[[plugins]]
-repo = 'Shougo/neosnippet.vim'
-depends = ['context_filetype.vim', 'neosnippet-snippets']
-on_event = 'InsertEnter'
-hook_post_source = '''
-  " キーマップ
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
+#[[plugins]]
+#repo = 'Shougo/deoppet.nvim'
+#depends = ['ddc.vim']
+#on_event = 'InsertEnter'
+#hook_source = '''
+#  call deoppet#initialize()
+#  call deoppet#custom#option('snippets',
+#  \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
+#  \     { _, val -> { 'path': val } }))
+#
+#  imap <C-k>  <Plug>(deoppet_expand)
+#  imap <C-f>  <Plug>(deoppet_jump_forward)
+#  imap <C-b>  <Plug>(deoppet_jump_backward)
+#  smap <C-f>  <Plug>(deoppet_jump_forward)
+#  smap <C-b>  <Plug>(deoppet_jump_backward)
+#'''
 
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-'''
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
+on_source = 'ddc.vim'
 
 [[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-depends = ['context_filetype.vim']
-on_event = 'InsertEnter'
+repo = 'hrsh7th/vim-vsnip'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-nvim-lsp'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+on_source = 'ddc.vim'
+
+#[[plugins]]
+#repo = 'Shougo/deoplete.nvim'
+#depends = ['context_filetype.vim']
+#on_event = 'InsertEnter'
+#hook_post_source = '''
+#  if !has('nvim')
+#    call dein#add('roxma/nvim-yarp')
+#    call dein#add('roxma/vim-hug-neovim-rpc')
+#  endif
+#
+#  " 起動時に有効にする
+#  let g:deoplete#enable_at_startup = 1
+#
+#  " 補完を開始する文字数
+#  let g:deoplete#auto_complete_start_length = 1
+#
+#  " 大文字小文字を無視する
+#  let g:deoplete#enable_ignore_case = 1
+#
+#  " バッファからも補完候補を読む
+#  let g:deoplete#file#enable_buffer_path = 1
+#
+#  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+#  \  neosnippet#expandable_or_jumpable() ?
+#  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+#'''
+#
+#[[plugins]]
+#repo = 'Shougo/neosnippet.vim'
+#depends = ['context_filetype.vim', 'neosnippet-snippets']
+#on_event = 'InsertEnter'
+#hook_post_source = '''
+#  " キーマップ
+#  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+#  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+#  xmap <C-k> <Plug>(neosnippet_expand_target)
+#
+#  if has('conceal')
+#    set conceallevel=2 concealcursor=niv
+#  endif
+#'''
+#
+#[[plugins]]
+#repo = 'Shougo/neosnippet-snippets'
+#depends = ['context_filetype.vim']
+#on_event = 'InsertEnter'
 
 # toml
 [[plugins]]

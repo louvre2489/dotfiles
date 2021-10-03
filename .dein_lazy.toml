@@ -17,7 +17,7 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  call ddc#custom#patch_global('sources', ['around', 'vsnip', 'next_word'])
+  call ddc#custom#patch_global('sources', ['file', 'around', 'vsnip', 'deoppet', 'next_word'])
 
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
@@ -26,6 +26,12 @@ hook_source = '''
          \   'minAutoCompleteLength': 1
          \ },
          \ 'around': {'mark': 'A'},
+         \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
+         \ 'file': {
+         \   'mark': 'F',
+         \   'isVolatile': v:true,
+         \   'forceCompletionPattern': '\S/\S*',
+         \ },
          \ 'nextword': {'mark': 'nextword'},
          \ })
 
@@ -33,35 +39,25 @@ hook_source = '''
        \ 'around': {'maxSize': 500},
        \ })
 
-  "---------------------------------------
-  " deoppet
-  "---------------------------------------
-"  call ddc#custom#patch_global('sources', ['deoppet'])
-
-  " Change source options
-"  call ddc#custom#patch_global('sourceOptions', {
-"        \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
-"        \ })
-
   call ddc#enable()
 '''
 
-#[[plugins]]
-#repo = 'Shougo/deoppet.nvim'
-#depends = ['ddc.vim']
-#on_event = 'InsertEnter'
-#hook_source = '''
-#  call deoppet#initialize()
-#  call deoppet#custom#option('snippets',
-#  \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
-#  \     { _, val -> { 'path': val } }))
-#
-#  imap <C-k>  <Plug>(deoppet_expand)
-#  imap <C-f>  <Plug>(deoppet_jump_forward)
-#  imap <C-b>  <Plug>(deoppet_jump_backward)
-#  smap <C-f>  <Plug>(deoppet_jump_forward)
-#  smap <C-b>  <Plug>(deoppet_jump_backward)
-#'''
+[[plugins]]
+repo = 'Shougo/deoppet.nvim'
+depends = ['ddc.vim']
+on_event = 'InsertEnter'
+hook_source = '''
+  call deoppet#initialize()
+  call deoppet#custom#option('snippets',
+  \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
+  \     { _, val -> { 'path': val } }))
+
+  imap <C-k>  <Plug>(deoppet_expand)
+  imap <C-f>  <Plug>(deoppet_jump_forward)
+  imap <C-b>  <Plug>(deoppet_jump_backward)
+  smap <C-f>  <Plug>(deoppet_jump_forward)
+  smap <C-b>  <Plug>(deoppet_jump_backward)
+'''
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'

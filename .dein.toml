@@ -265,6 +265,46 @@ build = './install --all'
 [[plugins]]
 repo = 'yuki-yano/fzf-preview.vim'
 rev = 'release/rpc'
+hook_add = '''
+  nmap <Space> [fzf-p]
+  xmap <Space> [fzf-p]
+  " Git Status
+  nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
+  " バッファー
+  nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
+  nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
+  nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+  nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+  nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
+  xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+  nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
+'''
+
+###################################################
+# Coc.nvim
+###################################################
+#[[plugins]]
+#repo = 'neoclide/coc.nvim'
+#merge = 0
+#build = 'yarn install --frozen-lockfile'
+#hook_post_source = '''
+#  call coc#util#install()
+#'''
+#hook_add = '''
+#  " 使用するextension
+#  " coc-yankの代替が見つからないので、そのためだけにcoc.nvimを利用する
+#  let g:coc_global_extensions = [
+#  \  'coc-yank'
+#  \]
+#
+#  "---------------------------------------------------
+#  " coc-yank
+#  "---------------------------------------------------
+#  " Show yank list by coc-yank
+#  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+#  " Clean yank list by coc-yank
+#  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
+#'''
 
 ###################################################
 # 開発ツール

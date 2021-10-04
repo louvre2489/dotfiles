@@ -17,12 +17,12 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  call ddc#custom#patch_global('sources', ['file', 'around', 'vsnip', 'deoppet', 'next_word'])
-
+  call ddc#custom#patch_global('sources', ['file', 'vsnip', 'deoppet', 'nvim-lsp', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
          \   'matchers': ['matcher_head'],
          \   'sorters': ['sorter_rank'],
+         \   'converters': ['converter_remove_overlap'],
          \   'minAutoCompleteLength': 1
          \ },
          \ 'around': {'mark': 'A'},
@@ -32,22 +32,29 @@ hook_source = '''
          \   'isVolatile': v:true,
          \   'forceCompletionPattern': '\S/\S*',
          \ },
-         \ 'nextword': {'mark': 'nextword'},
+         \ 'nvim-lsp': {
+	       \   'mark': 'lsp',
+	       \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+         \ },
          \ })
 
   call ddc#custom#patch_global('sourceParams', {
        \ 'around': {'maxSize': 500},
+	     \ 'nvim-lsp': {'maxSize': 500},
        \ })
 
   call ddc#enable()
+  call ddc_nvim_lsp_doc#enable()
 '''
 
 [[plugins]]
 repo = 'Shougo/deoppet.nvim'
-depends = ['ddc.vim']
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_source = 'ddc.vim'
 on_event = 'InsertEnter'
 hook_source = '''
   call deoppet#initialize()
+
   call deoppet#custom#option('snippets',
   \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
   \     { _, val -> { 'path': val } }))
@@ -60,15 +67,14 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
 on_source = 'ddc.vim'
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-nvim-lsp'
 on_source = 'ddc.vim'
 
 [[plugins]]
@@ -87,52 +93,31 @@ on_source = 'ddc.vim'
 repo = 'Shougo/ddc-sorter_rank'
 on_source = 'ddc.vim'
 
-#[[plugins]]
-#repo = 'Shougo/deoplete.nvim'
-#depends = ['context_filetype.vim']
-#on_event = 'InsertEnter'
-#hook_post_source = '''
-#  if !has('nvim')
-#    call dein#add('roxma/nvim-yarp')
-#    call dein#add('roxma/vim-hug-neovim-rpc')
-#  endif
-#
-#  " 起動時に有効にする
-#  let g:deoplete#enable_at_startup = 1
-#
-#  " 補完を開始する文字数
-#  let g:deoplete#auto_complete_start_length = 1
-#
-#  " 大文字小文字を無視する
-#  let g:deoplete#enable_ignore_case = 1
-#
-#  " バッファからも補完候補を読む
-#  let g:deoplete#file#enable_buffer_path = 1
-#
-#  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-#  \  neosnippet#expandable_or_jumpable() ?
-#  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
-#'''
-#
-#[[plugins]]
-#repo = 'Shougo/neosnippet.vim'
-#depends = ['context_filetype.vim', 'neosnippet-snippets']
-#on_event = 'InsertEnter'
-#hook_post_source = '''
-#  " キーマップ
-#  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-#  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-#  xmap <C-k> <Plug>(neosnippet_expand_target)
-#
-#  if has('conceal')
-#    set conceallevel=2 concealcursor=niv
-#  endif
-#'''
-#
-#[[plugins]]
-#repo = 'Shougo/neosnippet-snippets'
-#depends = ['context_filetype.vim']
-#on_event = 'InsertEnter'
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+on_source = 'ddc.vim'
+
+###################################################
+# LSP関連
+###################################################
+[[plugins]]
+repo = 'Shougo/ddc-nvim-lsp'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'matsui54/ddc-nvim-lsp-doc'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+depends = 'impatient.nvim'
+on_ft = ['rust']
+depends = 'ddc.vim'
+hook_source = '''
+  lua << EOF
+require'lspconfig'.rust_analyzer.setup{}
+EOF
+'''
 
 # toml
 [[plugins]]
@@ -150,8 +135,8 @@ hook_add = '''
 # Rust
 [[plugins]]
 repo = 'rust-lang/rust.vim'
+on_source = 'ddc.vim'
+on_ft = 'rust'
 hook_add = '''
   let g:rustfmt_autosave = 1
 '''
-on_ft = 'rust'
-

@@ -159,13 +159,15 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Rust
-#export PATH="$PATH:$HOME/.cargo/bin"
+# Scala
+## Metals
+export PATH="$PATH:/Users/cw-tsushi/Library/Application Support/Coursier/bin"
 
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
 # Rust
+#export PATH="$PATH:$HOME/.cargo/bin"
 source $HOME/.cargo/env
 
 # Deno

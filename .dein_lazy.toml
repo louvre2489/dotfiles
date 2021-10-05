@@ -2,51 +2,130 @@
 # ハイライト/補完
 ###################################################
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-depends = ['context_filetype.vim']
+repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
-hook_post_source = '''
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
+hook_source = '''
+  " <TAB>: completion.
+  inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#map#manual_complete()
 
-  " 起動時に有効にする
-  let g:deoplete#enable_at_startup = 1
+  " <S-TAB>: completion back.
+  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
 
-  " 補完を開始する文字数
-  let g:deoplete#auto_complete_start_length = 1
+  " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
+  call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  " 大文字小文字を無視する
-  let g:deoplete#enable_ignore_case = 1
+  setlocal dictionary+=/usr/share/dict/words
 
-  " バッファからも補完候補を読む
-  let g:deoplete#file#enable_buffer_path = 1
+  call ddc#custom#patch_global('sources', ['file', 'vsnip', 'nvim-lsp', 'deoppet', 'around', 'dictionary'])
+  call ddc#custom#patch_global('sourceOptions', {
+       \ '_': {
+         \   'matchers': ['matcher_head'],
+         \   'sorters': ['sorter_rank'],
+         \   'converters': ['converter_remove_overlap'],
+         \   'minAutoCompleteLength': 2
+         \ },
+         \ 'around': {'mark': 'A'},
+         \ 'dictionary': {'mark': 'D'},
+         \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
+         \ 'file': {
+         \   'mark': 'F',
+         \   'isVolatile': v:true,
+         \   'forceCompletionPattern': '\S/\S*',
+         \ },
+         \ 'nvim-lsp': {
+	       \   'mark': 'lsp',
+	       \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+         \ },
+         \ })
 
-  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-  \  neosnippet#expandable_or_jumpable() ?
-  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+  call ddc#custom#patch_global('sourceParams', {
+       \ 'around': {'maxSize': 500},
+	     \ 'dictionary': {'smartCase': v:true},
+	     \ 'nvim-lsp': {'maxSize': 500},
+       \ })
+
+  call ddc#enable()
+  call ddc_nvim_lsp_doc#enable()
 '''
 
 [[plugins]]
-repo = 'Shougo/neosnippet.vim'
-depends = ['context_filetype.vim', 'neosnippet-snippets']
+repo = 'Shougo/deoppet.nvim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_source = 'ddc.vim'
 on_event = 'InsertEnter'
-hook_post_source = '''
-  " キーマップ
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
+hook_source = '''
+  call deoppet#initialize()
 
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
+  call deoppet#custom#option('snippets',
+  \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
+  \     { _, val -> { 'path': val } }))
+
+  imap <C-k>  <Plug>(deoppet_expand)
+  imap <C-f>  <Plug>(deoppet_jump_forward)
+  imap <C-b>  <Plug>(deoppet_jump_backward)
+  smap <C-f>  <Plug>(deoppet_jump_forward)
+  smap <C-b>  <Plug>(deoppet_jump_backward)
 '''
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
-depends = ['context_filetype.vim']
-on_event = 'InsertEnter'
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'matsui54/ddc-dictionary'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+on_source = 'ddc.vim'
+
+###################################################
+# LSP関連
+###################################################
+[[plugins]]
+repo = 'Shougo/ddc-nvim-lsp'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'matsui54/ddc-nvim-lsp-doc'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+depends = ['impatient.nvim', 'ddc.vim']
+on_ft = ['rust', 'scala']
+hook_source = '''
+lua << EOF
+require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.metals.setup{}
+EOF
+'''
 
 # toml
 [[plugins]]
@@ -64,8 +143,8 @@ hook_add = '''
 # Rust
 [[plugins]]
 repo = 'rust-lang/rust.vim'
+on_source = 'ddc.vim'
+on_ft = 'rust'
 hook_add = '''
   let g:rustfmt_autosave = 1
 '''
-on_ft = 'rust'
-

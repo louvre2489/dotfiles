@@ -22,24 +22,24 @@ hook_source = '''
   call ddc#custom#patch_global('sources', ['file', 'vsnip', 'nvim-lsp', 'deoppet', 'around', 'dictionary'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
-         \   'matchers': ['matcher_head'],
-         \   'sorters': ['sorter_rank'],
-         \   'converters': ['converter_remove_overlap'],
-         \   'minAutoCompleteLength': 1
-         \ },
-         \ 'around': {'mark': 'A'},
-         \ 'dictionary': {'mark': 'D'},
-         \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
-         \ 'file': {
-         \   'mark': 'F',
-         \   'isVolatile': v:true,
-         \   'forceCompletionPattern': '\S/\S*',
-         \ },
-         \ 'nvim-lsp': {
-	       \   'mark': 'lsp',
-	       \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
-         \ },
-         \ })
+       \   'matchers': ['matcher_head'],
+       \   'sorters': ['sorter_rank'],
+       \   'converters': ['converter_remove_overlap'],
+       \   'minAutoCompleteLength': 1
+       \ },
+       \ 'around': {'mark': 'A'},
+       \ 'dictionary': {'mark': 'D'},
+       \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
+       \ 'file': {
+       \   'mark': 'F',
+       \   'isVolatile': v:true,
+       \   'forceCompletionPattern': '\S/\S*',
+       \ },
+       \ 'nvim-lsp': {
+	     \   'mark': 'lsp',
+	     \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+       \ },
+       \ })
 
   call ddc#custom#patch_global('sourceParams', {
        \ 'around': {'maxSize': 500},

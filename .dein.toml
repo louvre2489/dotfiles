@@ -280,31 +280,31 @@ hook_add = '''
   nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
 '''
 
-####################################################
-## Coc.nvim
-####################################################
-#[[plugins]]
-#repo = 'neoclide/coc.nvim'
-#merge = 0
-#build = 'yarn install --frozen-lockfile'
+###################################################
+# Coc.nvim
+###################################################
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merge = 0
+build = 'yarn install --frozen-lockfile'
 #hook_post_source = '''
 #  call coc#util#install()
 #'''
-#hook_add = '''
-#  " 使用するextension
-#  " coc-yankの代替が見つからないので、そのためだけにcoc.nvimを利用する
-#  let g:coc_global_extensions = [
-#  \  'coc-yank'
-#  \]
-#
-#  "---------------------------------------------------
-#  " coc-yank
-#  "---------------------------------------------------
-#  " Show yank list by coc-yank
-#  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-#  " Clean yank list by coc-yank
-#  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
-#'''
+hook_add = '''
+  " 使用するextension
+  " coc-yankの代替が見つからないので、そのためだけにcoc.nvimを利用する
+  let g:coc_global_extensions = [
+  \  'coc-yank'
+  \]
+
+  "---------------------------------------------------
+  " coc-yank
+  "---------------------------------------------------
+  " Show yank list by coc-yank
+  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+  " Clean yank list by coc-yank
+  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
+'''
 
 ###################################################
 # 開発ツール

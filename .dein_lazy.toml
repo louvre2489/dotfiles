@@ -25,7 +25,7 @@ hook_source = '''
          \   'matchers': ['matcher_head'],
          \   'sorters': ['sorter_rank'],
          \   'converters': ['converter_remove_overlap'],
-         \   'minAutoCompleteLength': 2
+         \   'minAutoCompleteLength': 1
          \ },
          \ 'around': {'mark': 'A'},
          \ 'dictionary': {'mark': 'D'},

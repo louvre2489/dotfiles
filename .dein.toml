@@ -99,32 +99,14 @@ hook_add = '''
 # Git
 ###################################################
 [[plugins]]
-repo = 'airblade/vim-gitgutter'
+repo = 'mhinz/vim-signify'
 hook_add = '''
-  " diffを縦分割
-  set diffopt+=vertical
+  set updatetime=200
 
-  highlight SignColumn ctermbg = lightgrey
-
-  " diffを縦分割
-  set diffopt+=vertical
-
-  " 表示列の背景色変更
-  let gitgutter_override_sign_column_highlight = 0
-  "
-  " 表示するマークのカスタマイズ
-  let g:gitgutter_sign_added = '✚'
-  let g:gitgutter_sign_modified = '➤'
-  let g:gitgutter_sign_removed = '✘'
-  let g:gitgutter_sign_modified_removed = "➜"
-
-  " 変更箇所に着色
-  let g:gitgutter_highlight_lines = 1
-
-  autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
-  autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
-  autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=52
-  autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=53
+  let g:signify_sign_add               = '+'
+  let g:signify_sign_delete            = '-'
+  let g:signify_sign_delete_first_line = '-'
+  let g:signify_sign_change            = '　'
 '''
 
 [[plugins]]

@@ -138,7 +138,8 @@ highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
 " ---------------------------------------
 " [インデント/タブ/スペース]
 " 自動インデント
-set autoindent
+"set autoindent
+set smartindent
 
 " タブの代わりにスペースを挿入する
 set expandtab

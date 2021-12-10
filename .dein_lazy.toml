@@ -106,7 +106,7 @@ repo = 'Shougo/ddc-converter_remove_overlap'
 on_source = 'ddc.vim'
 
 ###################################################
-# LSP関連
+# LSP & シンタクスハイライト関連
 ###################################################
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'

@@ -309,10 +309,10 @@ hook_add = '''
 ###################################################
 # 開発ツール
 ###################################################
-# F#
-[[plugins]]
-repo = 'ionide/Ionide-vim'
-build = 'make fsautocomplete'
+## F#
+#[[plugins]]
+#repo = 'ionide/Ionide-vim'
+#build = 'make fsautocomplete'
 
 ###################################################
 # deno

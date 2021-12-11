@@ -280,6 +280,15 @@ hook_add = '''
   nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
 '''
 
+[[plugins]]
+repo = 'Shougo/deol.nvim'
+hook_add = '''
+  " 【Ctrl + o】 float windowでターミナルを表示
+  nnoremap <silent><C-o> :<C-u>Deol -split=floating -winheight=30 -winwidth=100<CR>
+  " 【ESC】 ターミナルモードから抜ける
+  tnoremap <ESC>   <C-\><C-n>
+'''
+
 ###################################################
 # Coc.nvim
 ###################################################

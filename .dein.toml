@@ -8,69 +8,121 @@ repo = 'Shougo/dein.vim'
 # ファイラ
 ###################################################
 [[plugins]]
-repo = 'lambdalisue/fern.vim'
+repo = 'Shougo/defx.nvim'
 hook_add = '''
- " 起動時に呼び出し
- augroup fern_enter
-   autocmd!
-   autocmd VimEnter * ++nested Fern . -reveal=% -drawer
- augroup END
+	autocmd FileType defx call s:defx_my_settings()
 
- " Ctrl+e 呼び出し
- nnoremap <silent><C-e> :Fern . -reveal=% -drawer -toggle<CR>
+	function! s:defx_my_settings() abort
+	  " Define mappings
+	  nnoremap <silent><buffer><expr> <CR>
+		\ defx#do_action('multi', ['drop', 'quit'])
+	  nnoremap <silent><buffer><expr> c
+	  \ defx#do_action('copy')
+	  nnoremap <silent><buffer><expr> m
+	  \ defx#do_action('move')
+	  nnoremap <silent><buffer><expr> p
+	  \ defx#do_action('paste')
+	  nnoremap <silent><buffer><expr> E
+	  \ defx#do_action('drop', 'vsplit')
+	  nnoremap <silent><buffer><expr> P
+	  \ defx#do_action('drop', 'pedit')
+	  nnoremap <silent><buffer><expr> o
+	  \ defx#do_action('open_or_close_tree')
+	  nnoremap <silent><buffer><expr> K
+	  \ defx#do_action('new_directory')
+	  nnoremap <silent><buffer><expr> N
+	  \ defx#do_action('new_file')
+	  nnoremap <silent><buffer><expr> M
+	  \ defx#do_action('new_multiple_files')
+	  nnoremap <silent><buffer><expr> C
+	  \ defx#do_action('toggle_columns',
+	  \                'mark:indent:icon:filename:type:size:time')
+	  nnoremap <silent><buffer><expr> S
+	  \ defx#do_action('toggle_sort', 'time')
+	  nnoremap <silent><buffer><expr> d
+	  \ defx#do_action('remove')
+	  nnoremap <silent><buffer><expr> r
+	  \ defx#do_action('rename')
+	  nnoremap <silent><buffer><expr> !
+	  \ defx#do_action('execute_command')
+	  nnoremap <silent><buffer><expr> x
+	  \ defx#do_action('execute_system')
+	  nnoremap <silent><buffer><expr> yy
+	  \ defx#do_action('yank_path')
+	  nnoremap <silent><buffer><expr> .
+	  \ defx#do_action('toggle_ignored_files')
+	  nnoremap <silent><buffer><expr> ;
+	  \ defx#do_action('repeat')
+	  nnoremap <silent><buffer><expr> h
+	  \ defx#do_action('cd', ['..'])
+	  nnoremap <silent><buffer><expr> ~
+	  \ defx#do_action('cd')
+	  nnoremap <silent><buffer><expr> q
+	  \ defx#do_action('quit')
+	  nnoremap <silent><buffer><expr> <Space>
+	  \ defx#do_action('toggle_select') . 'j'
+	  nnoremap <silent><buffer><expr> *
+	  \ defx#do_action('toggle_select_all')
+	  nnoremap <silent><buffer><expr> j
+	  \ line('.') == line('$') ? 'gg' : 'j'
+	  nnoremap <silent><buffer><expr> k
+	  \ line('.') == 1 ? 'G' : 'k'
+	  nnoremap <silent><buffer><expr> <C-l>
+	  \ defx#do_action('redraw')
+	  nnoremap <silent><buffer><expr> <C-g>
+	  \ defx#do_action('print')
+	  nnoremap <silent><buffer><expr> cd
+	  \ defx#do_action('change_vim_cwd')
+	endfunction
 
- " レイアウト
- let g:fern#default_hidden=1
- let g:fern#renderer="nerdfont"
+  " エクスプローラーの設定
+  call defx#custom#column('time', {
+        \ 'format': '%Y/%m/%d %H:%M',
+	      \ })
+  call defx#custom#option('_', {
+    \ 'winwidth': 130,
+    \ 'split': 'floating',
+    \ 'direction': 'topleft',
+    \ 'show_ignored_files': 1,
+    \ 'buffer_name': 'explorer',
+    \ 'toggle': 1,
+    \ 'resume': 1,
+    \ 'columns': 'git:icons:filename:mark:type:time',
+    \ })
 
- function! FernInit() abort
-   nmap <buffer><expr>
-         \ <Plug>(fern-my-open-expand-collapse)
-         \ fern#smart#leaf(
-         \   "\<Plug>(fern-action-open:select)",
-         \   "\<Plug>(fern-action-expand)",
-         \   "\<Plug>(fern-action-collapse)",
-         \ )
-   nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
-   nmap <buffer> o <Plug>(fern-my-open-expand-collapse)
-   nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
-   nmap <buffer> mf <Plug>(fern-action-new-file)
-   nmap <buffer> md <Plug>(fern-action-new-dir)
-   nmap <buffer> D <Plug>(fern-action-remove)
-   nmap <buffer> mv <Plug>(fern-action-move)
-   nmap <buffer> r <Plug>(fern-action-rename)
-   nmap <buffer> s <Plug>(fern-action-open:split)
-   nmap <buffer> v <Plug>(fern-action-open:vsplit)
-   nmap <buffer> R <Plug>(fern-action-reload)
-   nmap <buffer> <nowait> d <Plug>(fern-action-hidden:toggle)
-   nmap <buffer> <nowait> < <Plug>(fern-action-leave)
-   nmap <buffer> <nowait> > <Plug>(fern-action-enter)
- endfunction
+  " git アイコン
+  " Nerd Font をインストールする必要がある
+  call defx#custom#column('git', 'indicators', {
+    \ 'Modified'  : '✹',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '✖',
+    \ 'Ignored'   : '☒',
+    \ 'Deleted'   : '✖',
+    \ 'Unknown'   : '?'
+    \ })
 
- augroup FernEvents
-   autocmd!
-   autocmd FileType fern call FernInit()
- augroup END
+  " 起動時にDefxを呼び出し
+"  autocmd VimEnter * execute 'Defx'
+  " Ctrl+e  でDefxを呼び出し
+  nnoremap <silent> <C-e> :<C-u> Defx <CR>
+  " ファイルシステムとの自動同期
+  autocmd BufWritePost * call defx#redraw()
+  autocmd BufEnter * call defx#redraw()
 '''
 
+# Defxでアイコンを表示するために必要
 [[plugins]]
-repo = 'lambdalisue/nerdfont.vim'
+repo = 'ryanoasis/vim-devicons'
 
+# Defxでアイコンを表示するために必要
 [[plugins]]
-repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+repo = 'kristijanhusak/defx-icons'
 
+# DefxでGitのステータスを表示するために必要
 [[plugins]]
-repo = 'csch0/vim-startify-renderer-nerdfont'
-
-[[plugins]]
-repo = 'lambdalisue/glyph-palette.vim'
-hook_add = '''
-  augroup my-glyph-palette
-    autocmd! *
-    autocmd FileType fern call glyph_palette#apply()
-    autocmd FileType nerdtree,startify call glyph_palette#apply()
-  augroup END
-'''
+repo = 'kristijanhusak/defx-git'
 
 ###################################################
 # vim-buffergator

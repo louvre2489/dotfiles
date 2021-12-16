@@ -199,14 +199,14 @@ zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'c
 # alias
 # ----------------------------------
 # 標準
-alias vi='nvim'
-alias vim='nvim'
+alias vi='nvim -c "Defx"'
+alias vim='nvim -c "Defx"'
+alias sudovi='sudo nvim -u NONE -c "Defx"'
+alias sudovim='sudo nvim -u NONE -c "Defx"'
 alias la='ls -a --color=auto'
 alias cls='clear;ls;'
 alias ..='cd ..'
 alias gr='grep --color'
-alias sudovi='sudo nvim -u NONE'
-alias sudovim='sudo nvim -u NONE'
 
 # git
 alias gis='git status'

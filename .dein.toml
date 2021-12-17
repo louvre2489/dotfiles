@@ -103,29 +103,6 @@ repo = 'kristijanhusak/defx-icons'
 repo = 'kristijanhusak/defx-git'
 
 ###################################################
-# vim-buffergator
-###################################################
-[[plugins]]
-repo = 'jeetsukumaran/vim-buffergator'
-hook_add = '''
-  """ How To Use """
-  "<Leader>b    Open buffer
-  "cs           Cycle through sort regimes.
-  "cd           Cycle through display regimes.
-  "cp           Toggle showing full paths (only "basename" display regime)
-  "cw           Cycle through window (viewport) split modes.
-  "cq           Cycle through quit (autodismiss-on-select) policies.
-  "r            Update (rebuild/refresh) index.
-  "d            Delete the selected buffer.
-  "D            Unconditionally delete the selected buffer.
-  "x            Wipe the selected buffer.
-  "X            Unconditionally wipe the selected buffer.
-  "q            Quit the index/catalog window.
-  """"""""""""""""""
-  let g:buffergator_viewport_split_policy = "T"
-'''
-
-###################################################
 # Git
 ###################################################
 [[plugins]]
@@ -251,12 +228,12 @@ hook_add = '''
 ###################################################
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
-
-[[plugins]]
-repo = 'tpope/vim-surround'
-
-[[plugins]]
-repo = 'terryma/vim-multiple-cursors'
+hook_add = '''
+  " 保存時に末尾の空白を自動的に削除する
+  let g:better_whitespace_enabled=1
+  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_confirm=0
+'''
 
 [[plugins]]
 repo = 'tyru/caw.vim'
@@ -272,10 +249,13 @@ hook_add = '''
   vmap <Leader>, <Plug>(caw:zeropos:toggle)
 '''
 
+###################################################
+# ファイルタイプ判断
+###################################################
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 
-[[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
+[[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 
@@ -284,9 +264,6 @@ depends = ['context_filetype.vim']
 ###################################################
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-
-[[plugins]]
-repo = 'LeafCage/yankround.vim'
 
 [[plugins]]
 repo = 'junegunn/fzf'
@@ -302,12 +279,8 @@ hook_add = '''
   nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
   " バッファー
   nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
-  nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
   nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
   nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-  nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
-  xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-  nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
 '''
 
 [[plugins]]

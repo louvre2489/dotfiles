@@ -24,21 +24,12 @@ hook_add = '''
 	  \ defx#do_action('paste')
 	  nnoremap <silent><buffer><expr> E
 	  \ defx#do_action('drop', 'vsplit')
-	  nnoremap <silent><buffer><expr> P
-	  \ defx#do_action('drop', 'pedit')
 	  nnoremap <silent><buffer><expr> o
 	  \ defx#do_action('open_or_close_tree')
 	  nnoremap <silent><buffer><expr> K
 	  \ defx#do_action('new_directory')
 	  nnoremap <silent><buffer><expr> N
 	  \ defx#do_action('new_file')
-	  nnoremap <silent><buffer><expr> M
-	  \ defx#do_action('new_multiple_files')
-	  nnoremap <silent><buffer><expr> C
-	  \ defx#do_action('toggle_columns',
-	  \                'mark:indent:icon:filename:type:size:time')
-	  nnoremap <silent><buffer><expr> S
-	  \ defx#do_action('toggle_sort', 'time')
 	  nnoremap <silent><buffer><expr> d
 	  \ defx#do_action('remove')
 	  nnoremap <silent><buffer><expr> r
@@ -51,28 +42,14 @@ hook_add = '''
 	  \ defx#do_action('yank_path')
 	  nnoremap <silent><buffer><expr> .
 	  \ defx#do_action('toggle_ignored_files')
-	  nnoremap <silent><buffer><expr> ;
-	  \ defx#do_action('repeat')
-	  nnoremap <silent><buffer><expr> h
-	  \ defx#do_action('cd', ['..'])
-	  nnoremap <silent><buffer><expr> ~
-	  \ defx#do_action('cd')
 	  nnoremap <silent><buffer><expr> q
 	  \ defx#do_action('quit')
-	  nnoremap <silent><buffer><expr> <Space>
-	  \ defx#do_action('toggle_select') . 'j'
-	  nnoremap <silent><buffer><expr> *
-	  \ defx#do_action('toggle_select_all')
 	  nnoremap <silent><buffer><expr> j
 	  \ line('.') == line('$') ? 'gg' : 'j'
 	  nnoremap <silent><buffer><expr> k
 	  \ line('.') == 1 ? 'G' : 'k'
 	  nnoremap <silent><buffer><expr> <C-l>
 	  \ defx#do_action('redraw')
-	  nnoremap <silent><buffer><expr> <C-g>
-	  \ defx#do_action('print')
-	  nnoremap <silent><buffer><expr> cd
-	  \ defx#do_action('change_vim_cwd')
 	endfunction
 
   " エクスプローラーの設定
@@ -80,6 +57,7 @@ hook_add = '''
         \ 'format': '%Y/%m/%d %H:%M',
 	      \ })
   call defx#custom#option('_', {
+    \ 'winheight': 40,
     \ 'winwidth': 130,
     \ 'split': 'floating',
     \ 'direction': 'topleft',
@@ -87,7 +65,7 @@ hook_add = '''
     \ 'buffer_name': 'explorer',
     \ 'toggle': 1,
     \ 'resume': 1,
-    \ 'columns': 'git:icons:filename:mark:type:time',
+    \ 'columns': 'git:icons:filename:type:time',
     \ })
 
   " git アイコン
@@ -156,14 +134,16 @@ hook_add = '''
   " diffを縦分割
   set diffopt+=vertical
 
-  highlight SignColumn ctermbg = lightgrey
+  set updatetime=500
 
-  " diffを縦分割
-  set diffopt+=vertical
+  " ghでdiffをハイライトする
+  nnoremap gh :GitGutterLineHighlightsToggle<CR>
+  " gpでカーソル行のdiffを表示する
+  nnoremap gp :GitGutterPreviewHunk<CR>
 
   " 表示列の背景色変更
   let gitgutter_override_sign_column_highlight = 0
-  "
+
   " 表示するマークのカスタマイズ
   let g:gitgutter_sign_added = '✚'
   let g:gitgutter_sign_modified = '➤'
@@ -172,6 +152,8 @@ hook_add = '''
 
   " 変更箇所に着色
   let g:gitgutter_highlight_lines = 1
+
+  highlight SignColumn ctermbg = lightgrey
 
   autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
   autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
@@ -184,10 +166,6 @@ repo = 'rhysd/committia.vim'
 hook_add = '''
   let g:committia_hooks = {}
   function! g:committia_hooks.edit_open(info)
-    " commitia使用時はfernが不要なので閉じる
-    autocmd VimEnter * ++nested Fern . -reveal=% -drawer -toggle
-    autocmd WinNew * <C-w><LEFT>  " なぜかcommitiaの右ウインドウにフォーカスが移ってしまうので、左のウインドウに移動させる
-
     " Scroll the diff window from insert mode
     " Map <C-n> and <C-p>
     imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
@@ -339,6 +317,19 @@ hook_add = '''
   nnoremap <silent><C-o> :<C-u>Deol -split=floating -winheight=30 -winwidth=100<CR>
   " 【ESC】 ターミナルモードから抜ける
   tnoremap <ESC>   <C-\><C-n>
+'''
+
+[[plugins]]
+repo = 'reireias/vim-cheatsheet'
+hook_add = '''
+  let g:cheatsheet#cheat_file = '~/dotfiles/cheatsheet.md'
+
+  let g:cheatsheet#float_window = 1
+
+  let g:cheatsheet#float_window_width_ratio = 0.6
+  let g:cheatsheet#float_window_height_ratio = 0.6
+
+  :command CH Cheat
 '''
 
 ###################################################

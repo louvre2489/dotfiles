@@ -329,7 +329,11 @@ hook_add = '''
   let g:cheatsheet#float_window_width_ratio = 0.6
   let g:cheatsheet#float_window_height_ratio = 0.6
 
-  :command CH Cheat
+  " チートシートの編集
+  command! EditCheat :edit ~/dotfiles/cheatsheet.md
+
+  nnoremap <Space>? <Cmd>Cheat<CR>
+  nnoremap <Space>E <Cmd>EditCheat<CR>
 '''
 
 ###################################################

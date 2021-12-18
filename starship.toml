@@ -36,7 +36,7 @@ truncation_length = 100
 style = 'bright-cyan'
 
 [git_branch]
-style = 'bold purple'
+style = 'bold fg:213'
 
 [git_status]
 format = '([\[$ahead_behind$conflicted$deleted$renamed$untracked$staged$modified$stashed \]]($style) )'

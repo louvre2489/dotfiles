@@ -160,8 +160,7 @@ hook_add = '''
 # 装飾
 ###################################################
 [[plugins]]
-repo = 'itchyny/landscape.vim'
-#repo = 'junegunn/seoul256.vim'
+repo = 'morhetz/gruvbox'
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'
@@ -184,7 +183,7 @@ hook_add = '''
   let g:airline#extensions#tabline#show_close_button = 0
 
   " テーマ
-  let g:airline_theme='jellybeans'
+  let g:airline_theme = 'base16_gruvbox_dark_hard'
   let g:airline_powerline_fonts = 1
 
   " ブランチ

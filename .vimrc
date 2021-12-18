@@ -49,8 +49,7 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup END
 
-colorscheme landscape
-"colorscheme seoul256
+colorscheme gruvbox
 
 " ---------------------------------------
 " File

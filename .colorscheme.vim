@@ -1,5 +1,9 @@
 " 参考）https://github.com/itchyny/landscape.vim/blob/master/colors/landscape.vim
-let g:colors_name = 'landscape'
+"let g:colors_name = 'landscape'
+
+highlight clear
+set background=dark
+
 if exists('syntax_on')
   syntax reset
 endif

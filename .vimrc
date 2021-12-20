@@ -1,6 +1,9 @@
 "unlet! skip_defaults_vim
 "source $VIMRUNTIME/defaults.vim
 
+" syntax
+syntax on
+
 " ---------------------------------------
 " encoding
 " ---------------------------------------
@@ -36,7 +39,7 @@ if dein#check_install()
   call dein#install()
 endif
 
-	autocmd VimEnter * call dein#call_hook('post_source')
+autocmd VimEnter * call dein#call_hook('post_source')
 " キーマップ
 nmap du :call dein#update()<cr>
 
@@ -59,9 +62,6 @@ set hidden
 " ---------------------------------------
 " color scheme
 " ---------------------------------------
-highlight clear
-set background=dark
-
 source ~/dotfiles/.colorscheme.vim
 
 augroup qs_colors
@@ -71,15 +71,12 @@ augroup qs_colors
 augroup END
 
 " FloatWindow用にNormalFloatグループを設定
-highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
+highlight NormalFloat ctermfg=231 ctermbg=240
 
 " ---------------------------------------
 " Display
 " ---------------------------------------
 " [基本的な見た目]
-" syntax
-syntax on
-
 " 編集中のファイル名を表示する
 set title
 

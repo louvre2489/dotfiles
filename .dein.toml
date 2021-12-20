@@ -58,14 +58,14 @@ hook_add = '''
     \ })
   call defx#custom#option('_', {
     \ 'winheight': 40,
-    \ 'winwidth': 130,
+    \ 'winwidth': 80,
     \ 'split': 'floating',
     \ 'direction': 'topleft',
     \ 'show_ignored_files': 1,
     \ 'buffer_name': 'explorer',
     \ 'toggle': 1,
     \ 'resume': 1,
-    \ 'columns': 'git:icons:filename:type:time',
+    \ 'columns': 'git:icons:filename:time',
     \ })
 
   " git アイコン

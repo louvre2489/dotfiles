@@ -41,17 +41,6 @@ endif
 nmap du :call dein#update()<cr>
 
 " ---------------------------------------
-" color scheme
-" ---------------------------------------
-augroup qs_colors
-  autocmd!
-  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-augroup END
-
-colorscheme gruvbox
-
-" ---------------------------------------
 " File
 " ---------------------------------------
 set noswapfile
@@ -66,6 +55,23 @@ set confirm
 
 " ファイル変更中に他のファイルを表示可能にする
 set hidden
+
+" ---------------------------------------
+" color scheme
+" ---------------------------------------
+highlight clear
+set background=dark
+
+source ~/dotfiles/.colorscheme.vim
+
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
+" FloatWindow用にNormalFloatグループを設定
+highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
 
 " ---------------------------------------
 " Display
@@ -128,9 +134,6 @@ set nolist
 
 " 対応するカッコを強調表示する
 set showmatch
-
-" FloatWindow用にNormalFloatグループを設定
-highlight NormalFloat ctermfg=231 ctermbg=240  cterm=NONE
 
 " ---------------------------------------
 " Action

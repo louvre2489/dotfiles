@@ -159,8 +159,8 @@ hook_add = '''
 ###################################################
 # 装飾
 ###################################################
-[[plugins]]
-repo = 'morhetz/gruvbox'
+# [[plugins]]
+# repo = 'itchyny/landscape.vim'    なぜかlandscapeがうまく設定できないので、プラグインの設置内容を持ってきて解決する
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'
@@ -183,7 +183,8 @@ hook_add = '''
   let g:airline#extensions#tabline#show_close_button = 0
 
   " テーマ
-  let g:airline_theme = 'base16_gruvbox_dark_hard'
+  " let g:airline_theme = 'base16_gruvbox_dark_hard'
+  let g:airline_theme = 'jellybeans'
   let g:airline_powerline_fonts = 1
 
   " ブランチ

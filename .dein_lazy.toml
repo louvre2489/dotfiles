@@ -119,11 +119,15 @@ on_source = 'ddc.vim'
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
 depends = ['impatient.nvim', 'ddc.vim']
-on_ft = ['rust', 'scala']
+on_ft = ['rust', 'scala', 'typescript']
 hook_source = '''
 lua << EOF
 require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.metals.setup{}
+require'lspconfig'.tsserver.setup{     -- typescript-language-serverが必要
+  filetypes = { "typescript" },
+  root_dir = function() return vim.loop.cwd() end
+}
 EOF
 '''
 
@@ -148,3 +152,9 @@ on_ft = 'rust'
 hook_add = '''
   let g:rustfmt_autosave = 1
 '''
+
+# TypeScript
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_source = 'ddc.vim'
+on_ft = 'typescript'

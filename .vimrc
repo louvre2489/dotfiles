@@ -303,3 +303,9 @@ augroup END
 " eval "$(pyenv virtualenv-init -)"
 let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
+
+" ---------------------------------------
+" for Dev
+" ---------------------------------------
+"set runtimepath^=プラグインの場所
+"let g:denops#debug = 1

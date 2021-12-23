@@ -248,6 +248,10 @@ nnoremap sQ :<C-u>bd<CR>
 " クリップボードの内容で検索する
 nnoremap g/ /\V<C-r>=join(map(getreg(v:register,1,1),{k,v->escape(v,'\/')}),'\n')<CR><CR>
 
+" インサートモード中にペーストする
+inoremap <expr> <C-v> printf('<C-r><C-o>%s', has('linux') \|\| has('unix') ? '+' : '*')
+cnoremap <expr> <C-v> printf('<C-r><C-o>%s', has('linux') \|\| has('unix') ? '+' : '*')
+
 " vimgrep
 nnoremap [q :cprevious<CR>   " 前へ
 nnoremap ]q :cnext<CR>       " 次へ

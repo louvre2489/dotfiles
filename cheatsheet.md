@@ -33,6 +33,7 @@
 ターミナルを終了する         Esc
 
 # fzf - ファジーファインダー
+ファイルを検索する           Space + p
 git statusのプレビュー       Space + gs
 バッファーを検索する         Space + b
 現在のバッファから検索する   Space + /

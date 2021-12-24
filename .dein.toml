@@ -285,6 +285,8 @@ rev = 'release/rpc'
 hook_add = '''
   nmap <Space> [fzf-p]
   xmap <Space> [fzf-p]
+  " ファイル
+  nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
   " Git Status
   nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
   " バッファー

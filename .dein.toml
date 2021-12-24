@@ -253,6 +253,12 @@ hook_add = '''
   vmap <Leader>, <Plug>(caw:zeropos:toggle)
 '''
 
+[[plugins]]
+repo = 'machakann/vim-highlightedyank'
+hook_add = '''
+  let g:highlightedyank_highlight_duration = 500
+'''
+
 ###################################################
 # ファイルタイプ判断
 ###################################################
@@ -311,32 +317,6 @@ hook_add = '''
 
   nnoremap <Space>? <Cmd>Cheat<CR>
   nnoremap <Space>E <Cmd>EditCheat<CR>
-'''
-
-###################################################
-# Coc.nvim
-###################################################
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-merge = 0
-build = 'yarn install --frozen-lockfile'
-#hook_post_source = '''
-#  call coc#util#install()
-#'''
-hook_add = '''
-  " 使用するextension
-  " coc-yankの代替が見つからないので、そのためだけにcoc.nvimを利用する
-  let g:coc_global_extensions = [
-  \  'coc-yank'
-  \]
-
-  "---------------------------------------------------
-  " coc-yank
-  "---------------------------------------------------
-  " Show yank list by coc-yank
-  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-  " Clean yank list by coc-yank
-  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
 '''
 
 ###################################################

@@ -105,6 +105,39 @@ on_source = 'ddc.vim'
 repo = 'Shougo/ddc-converter_remove_overlap'
 on_source = 'ddc.vim'
 
+[[plugins]]
+repo = 'kyazdani42/nvim-web-devicons'
+hook_source = '''
+lua << EOF
+require'nvim-web-devicons'.setup {
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+  default = true;
+}
+EOF
+'''
+
+[[plugins]]
+repo = 'folke/trouble.nvim'
+depends = ['nvim-web-devicons']
+hook_add = '''
+  nnoremap <S-t><S-t> :<C-u> TroubleToggle<CR>
+  nnoremap <S-t><S-w> :<C-u> TroubleToggle workspace_diagnostics<CR>
+  nnoremap <S-t><S-d> :<C-u> TroubleToggle document_diagnostics<CR>
+  nnoremap <S-t><S-q> :<C-u> TroubleToggle quickfix<CR>
+  nnoremap <S-t><S-l> :<C-u> TroubleToggle loclist<CR>
+  nnoremap <S-t><S-r> :<C-u> TroubleToggle lsp_references<CR>
+
+  :command TR                TroubleRefresh
+'''
+hook_source = '''
+lua << EOF
+  require("trouble").setup {}
+EOF
+'''
+
+
+
 ###################################################
 # LSP & シンタクスハイライト関連
 ###################################################

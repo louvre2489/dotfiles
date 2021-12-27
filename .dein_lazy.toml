@@ -17,9 +17,7 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  setlocal dictionary+=/usr/share/dict/words
-
-  call ddc#custom#patch_global('sources', ['file', 'vsnip', 'nvim-lsp', 'deoppet', 'around', 'dictionary'])
+  call ddc#custom#patch_global('sources', ['file', 'vsnip', 'nvim-lsp', 'deoppet', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
        \   'matchers': ['matcher_head'],
@@ -28,7 +26,6 @@ hook_source = '''
        \   'minAutoCompleteLength': 1
        \ },
        \ 'around': {'mark': 'A'},
-       \ 'dictionary': {'mark': 'D'},
        \ 'deoppet': {'dup': v:true, 'mark': 'dp'},
        \ 'file': {
        \   'mark': 'F',
@@ -43,7 +40,6 @@ hook_source = '''
 
   call ddc#custom#patch_global('sourceParams', {
        \ 'around': {'maxSize': 500},
-	     \ 'dictionary': {'smartCase': v:true},
 	     \ 'nvim-lsp': {'maxSize': 500},
        \ })
 
@@ -87,10 +83,6 @@ on_source = 'ddc.vim'
 
 [[plugins]]
 repo = 'Shougo/ddc-around'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'matsui54/ddc-dictionary'
 on_source = 'ddc.vim'
 
 [[plugins]]

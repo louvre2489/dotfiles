@@ -49,5 +49,5 @@ git statusのプレビュー       Space + gs
 エラー一覧を開く(quickfix)                Shit + t Shift + q
 エラー一覧を開く*(loclist)                 Shit + t Shift + l
 エラー一覧を開く(lsp_references)          Shit + t Shift + r
-エラー一覧を最新化                        :TR  or  :TroubleRefresh
-エラー一覧を閉じる                        q    or  :TroubleClose
+エラー一覧を最新化                        :TR
+エラー一覧を閉じる                        :TC(trouble.nvimのウインドウでならqでも閉じられる)

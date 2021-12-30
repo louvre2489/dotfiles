@@ -321,6 +321,125 @@ hook_add = '''
   nnoremap <Space>E <Cmd>EditCheat<CR>
 '''
 
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merge = 0
+
+build = 'yarn install --frozen-lockfile'
+
+#hook_post_source = '''
+#  call coc#util#install()
+#'''
+
+depends = ['yankround.vim']
+
+hook_add = '''
+  " 使用するextension
+  let g:coc_global_extensions = [
+  \  'coc-neosnippet',
+  \  'coc-json',
+  \  'coc-yaml',
+  \  'coc-yank',
+  \  'coc-metals',
+  \  'coc-rust-analyzer'
+  \]
+
+  " 反映時間
+  set updatetime=300
+
+  " Don't pass messages to |ins-completion-menu|.
+  set shortmess+=c
+
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  set signcolumn=yes
+
+  " ハイライト
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " TAB関連
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " 補完の呼び出し
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  " <cr>で補完の確定
+  if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  else
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  endif
+
+  " エラー一覧を表示する
+  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+  " エラー箇所に飛ぶ
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  " ナビゲーション
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " ドキュメントプレビュー
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " リネーム
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " 選択範囲の変更
+  nmap <silent> <TAB> <Plug>(coc-range-select)
+  xmap <silent> <TAB> <Plug>(coc-range-select)
+
+  " import の整理
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+  " シンボル一覧
+  nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+  " シンボル検索
+  nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+
+  " エクステンション一覧
+  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  " コマンド一覧
+  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+
+  " Notify coc.nvim that <enter> has been pressed.
+  " Currently used for the formatOnType feature.
+  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
+
+  "---------------------------------------------------
+  " coc-yank
+  "---------------------------------------------------
+  " Show yank list by coc-yank
+  nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+  " Clean yank list by coc-yank
+  nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
+'''
 ###################################################
 # 開発ツール
 ###################################################

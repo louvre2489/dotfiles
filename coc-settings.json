@@ -1,8 +1,7 @@
 // ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 {
-  // coc-yankだけを使いたいので、補完は機能しないようにする
-  // またcoc.nvimに戻ってきたくなったらこいつを削除する
-  "suggest.autoTrigger": "none",
+  // 自動補完のON/OFF
+//  "suggest.autoTrigger": "none",
 
   "languageserver":  {
     "metals": {

@@ -334,7 +334,10 @@ hook_add = '''
   " 使用するextension
   let g:coc_global_extensions = [
   \  'coc-neosnippet',
+  \  'coc-snippets',
+  \  'coc-spell-checker',
   \  'coc-json',
+  \  'coc-toml',
   \  'coc-yaml',
   \  'coc-yank',
   \  'coc-metals',

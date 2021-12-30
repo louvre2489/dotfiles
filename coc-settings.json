@@ -51,6 +51,9 @@
     }
   },
 
+  // for Scala
+  "metals.serverVersion":"0.10.9",
+
   // for Rust
   "rust.clippy_preference": "on",
 
@@ -127,6 +130,7 @@
       "--define:NETSTANDARD1_6",
       "--optimize-"
   ],
-  "fsharp.project.includeCompileBefore": true
+  "fsharp.project.includeCompileBefore": true,
+  "toml.toml.": ""
 }
 

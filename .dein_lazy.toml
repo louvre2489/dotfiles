@@ -1,29 +1,6 @@
 ###################################################
 # LSP & シンタクスハイライト関連
 ###################################################
-#[[plugins]]
-#repo = 'Shougo/ddc-nvim-lsp'
-#on_source = 'ddc.vim'
-#
-#[[plugins]]
-#repo = 'matsui54/ddc-nvim-lsp-doc'
-#on_source = 'ddc.vim'
-#
-#[[plugins]]
-#repo = 'neovim/nvim-lspconfig'
-#depends = ['impatient.nvim', 'ddc.vim']
-#on_ft = ['rust', 'scala', 'typescript']
-#hook_source = '''
-#lua << EOF
-#require'lspconfig'.rust_analyzer.setup{}
-#require'lspconfig'.metals.setup{}
-#require'lspconfig'.tsserver.setup{     -- typescript-language-serverが必要
-#  filetypes = { "typescript" },
-#  root_dir = function() return vim.loop.cwd() end
-#}
-#EOF
-#'''
-
 # toml
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -40,7 +17,6 @@ hook_add = '''
 # Rust
 [[plugins]]
 repo = 'rust-lang/rust.vim'
-on_source = 'ddc.vim'
 on_ft = 'rust'
 hook_add = '''
   let g:rustfmt_autosave = 1
@@ -49,5 +25,4 @@ hook_add = '''
 # TypeScript
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
-on_source = 'ddc.vim'
 on_ft = 'typescript'

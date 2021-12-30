@@ -376,6 +376,8 @@ hook_add = '''
   endif
 
   " エラー一覧を表示する
+  nnoremap <silent> <space>e  :<C-u>CocDiagnostics 10<cr>
+  " エラー一覧を表示する(ファジーファインダー)
   nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
   " エラー箇所に飛ぶ
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -412,7 +414,7 @@ hook_add = '''
   nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 
   " エクステンション一覧
-  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  nnoremap <silent> <space>x  :<C-u>CocList extensions<cr>
   " コマンド一覧
   nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 

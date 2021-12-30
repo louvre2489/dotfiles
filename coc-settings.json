@@ -2,6 +2,14 @@
 {
   // 自動補完のON/OFF
 //  "suggest.autoTrigger": "none",
+  "diagnostic": {
+    "virtualText": true,
+    "virtualTextAlignRight": false,
+    "virtualTextCurrentLineOnly": false,
+    "virtualTextPrefix": "　■ "
+  },
+
+  "hover.target": "float",
 
   "languageserver":  {
     "metals": {

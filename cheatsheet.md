@@ -69,13 +69,3 @@ git statusのプレビュー       Space + gs
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c
 コードの先頭でコメント       <Leader> + ,
-
-# trouble.nvim - エラー箇所
-エラー一覧を開く                          Shit + t Shift + t
-エラー一覧を開く(workspace_diagnostics)   Shit + t Shift + w
-エラー一覧を開く(document_diagnostics)    Shit + t Shift + d
-エラー一覧を開く(quickfix)                Shit + t Shift + q
-エラー一覧を開く*(loclist)                 Shit + t Shift + l
-エラー一覧を開く(lsp_references)          Shit + t Shift + r
-エラー一覧を最新化                        :TR
-エラー一覧を閉じる                        :TC(trouble.nvimのウインドウでならqでも閉じられる)

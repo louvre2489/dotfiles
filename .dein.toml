@@ -253,12 +253,6 @@ hook_add = '''
   vmap <Leader>, <Plug>(caw:zeropos:toggle)
 '''
 
-[[plugins]]
-repo = 'machakann/vim-highlightedyank'
-hook_add = '''
-  let g:highlightedyank_highlight_duration = 500
-'''
-
 ###################################################
 # ファイルタイプ判断
 ###################################################
@@ -321,6 +315,9 @@ hook_add = '''
   nnoremap <Space>E <Cmd>EditCheat<CR>
 '''
 
+###################################################
+# coc.nvim
+###################################################
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merge = 0
@@ -440,6 +437,7 @@ hook_add = '''
   " Clean yank list by coc-yank
   nnoremap <silent> <space>Y  :<C-u>CocCommand yank.clean<cr>
 '''
+
 ###################################################
 # 開発ツール
 ###################################################

@@ -306,7 +306,7 @@ hook_add = '''
   let g:cheatsheet#float_window = 1
 
   let g:cheatsheet#float_window_width_ratio = 0.6
-  let g:cheatsheet#float_window_height_ratio = 0.6
+  let g:cheatsheet#float_window_height_ratio = 1.0
 
   " チートシートの編集
   command! EditCheat :edit ~/dotfiles/cheatsheet.md

@@ -270,23 +270,40 @@ depends = ['context_filetype.vim']
 repo = 'thinca/vim-quickrun'
 
 [[plugins]]
-repo = 'junegunn/fzf'
-build = './install --all'
+repo = 'nvim-lua/plenary.nvim'
 
 [[plugins]]
-repo = 'yuki-yano/fzf-preview.vim'
-rev = 'release/rpc'
+repo = 'kyazdani42/nvim-web-devicons'
+
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
 hook_add = '''
-  nmap <Space> [fzf-p]
-  xmap <Space> [fzf-p]
-  " ファイル
-  nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
-  " Git Status
-  nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
-  " バッファー
-  nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
-  nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-  nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+  nmap <Space> [telescope]
+
+  nnoremap <silent> [telescope]p <cmd>lua
+    \ require('telescope.builtin').find_files{
+    \ }<cr>
+  nnoremap <silent> [telescope]hp <cmd>lua
+    \ require('telescope.builtin').find_files{
+    \   hidden = true,
+    \ }<cr>
+  nnoremap <silent> [telescope]b  <cmd>lua
+    \ require('telescope.builtin').buffers{
+    \  ignore_current_buffer = true,
+    \  sort_lastused = true,
+    \ }<cr>
+  nnoremap <silent> [telescope]gr <cmd>lua
+    \ require('telescope.builtin').live_grep{
+    \ }<cr>
+  nnoremap <silent> [telescope]gs  <cmd>lua
+    \ require('telescope.builtin').git_status{
+    \ }<cr>
+
+lua << EOF
+require('telescope').setup{
+  -- 設定が必要になったらここへ
+}
+EOF
 '''
 
 [[plugins]]

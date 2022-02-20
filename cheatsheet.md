@@ -61,11 +61,12 @@ importの整理                 :OR
 ターミナルを起動する         Ctrl + o
 ターミナルを終了する         Esc
 
-# fzf - ファジーファインダー
-ファイルを検索する           Space + p
-git statusのプレビュー       Space + gs
-バッファーを検索する         Space + b
-現在のバッファから検索する   Space + /
+# telescope - ファジーファインダー
+ファイルを検索する                      Space + p
+ファイルを検索する（隠しファイル含む）  Space + hp
+バッファーを検索する                    Space + b
+Grep                                    Space + gr
+git statusのプレビュー                  Space + gs
 
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c

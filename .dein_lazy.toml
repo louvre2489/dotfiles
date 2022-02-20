@@ -26,3 +26,8 @@ hook_add = '''
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
+
+# Dockerfile
+[[plugins]]
+repo = 'honza/dockerfile.vim'
+on_ft = 'Dockerfile'

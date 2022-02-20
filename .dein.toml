@@ -340,6 +340,7 @@ hook_add = '''
   \  'coc-toml',
   \  'coc-yaml',
   \  'coc-yank',
+  \  'coc-docker',
   \  'coc-metals',
   \  'coc-rust-analyzer'
   \]

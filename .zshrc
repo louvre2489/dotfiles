@@ -174,6 +174,9 @@ source $HOME/.cargo/env
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+# pict
+export PATH="$PATH:$HOME/software/pict"
+
 # ----------------------------------
 # sbt
 # ----------------------------------

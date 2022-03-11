@@ -359,7 +359,8 @@ hook_add = '''
   \  'coc-yank',
   \  'coc-docker',
   \  'coc-metals',
-  \  'coc-rust-analyzer'
+  \  'coc-rust-analyzer',
+  \  'coc-tsserver'
   \]
 
   " 反映時間

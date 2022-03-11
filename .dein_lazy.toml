@@ -22,6 +22,18 @@ hook_add = '''
   let g:rustfmt_autosave = 1
 '''
 
+# JavaScript
+[[plugins]]
+repo = 'neovim/node-host'
+build = 'npm install'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'billyvg/tigris.nvim'
+depends = ['node-host']
+build = './install.sh'
+on_ft = 'javascript'
+
 # TypeScript
 [[plugins]]
 repo = 'leafgarland/typescript-vim'

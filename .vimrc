@@ -62,16 +62,8 @@ set hidden
 " ---------------------------------------
 " color scheme
 " ---------------------------------------
-source ~/dotfiles/.colorscheme.vim
-
-augroup qs_colors
-  autocmd!
-  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-augroup END
-
-" FloatWindow用にNormalFloatグループを設定
-highlight NormalFloat ctermfg=231 ctermbg=240
+"source ~/dotfiles/.colorscheme.vim
+colorscheme landscape
 
 " ---------------------------------------
 " Display

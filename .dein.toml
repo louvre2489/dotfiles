@@ -354,7 +354,7 @@ hook_add = '''
 ###################################################
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-merge = 0
+merged = 0
 
 build = 'yarn install --frozen-lockfile'
 

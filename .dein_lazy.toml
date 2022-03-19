@@ -33,6 +33,11 @@ repo = 'billyvg/tigris.nvim'
 depends = ['node-host']
 build = './install.sh'
 on_ft = 'javascript'
+hook_add = '''
+  let g:tigris#enabled = 1
+  let g:tigris#on_the_fly_enabled = 1
+  let g:tigris#delay = 300
+'''
 
 # TypeScript
 [[plugins]]

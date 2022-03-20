@@ -52,14 +52,6 @@ importの整理                 :OR
 シンボル一覧の表示           <Space> + o
 シンボルの検索               <Space> + s
 
-## coc.nvimの管理機能
-エクステンションの表示       <Space> + x
-コマンドの表示               <Space> + c
-
-# coc-yank - ヤンクツール
-ヤンク一覧を開く             Space + y
-ヤンク一覧を削除する         Space + Y
-
 # deol - ターミナル
 ターミナルを起動する         Ctrl + o
 ターミナルを終了する         Esc

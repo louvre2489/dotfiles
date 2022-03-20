@@ -52,7 +52,11 @@
   },
 
   // for Scala
-  "metals.serverVersion":"0.10.9",
+//  "metals.serverVersion":"0.10.9",
+  "metals.showInferredType": true,
+  "metals.showImplicitArguments": true,
+  "metals.showImplicitConversionsAndClasses": true,
+  "metals.enableIndentOnPaste": true,
 
   // for Rust
   "rust.clippy_preference": "on",

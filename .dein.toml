@@ -367,7 +367,6 @@ depends = ['yankround.vim']
 hook_add = '''
   " 使用するextension
   let g:coc_global_extensions = [
-  \  'coc-neosnippet',
   \  'coc-snippets',
   \  'coc-spell-checker',
   \  'coc-json',

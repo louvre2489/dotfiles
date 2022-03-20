@@ -220,8 +220,8 @@ inoremap <A-l> <Right>
 " カッコ
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o>
+"inoremap (<Enter> ()<Left><CR><ESC><S-o>
+"inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o>
 
 " ウィンドウ
 nnoremap s <Nop>
@@ -233,8 +233,7 @@ nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
 nnoremap sn :<C-u>bnext<CR>
 nnoremap sp :<C-u>bprevious<CR>
-nnoremap sq :<C-u>q<CR>
-nnoremap sQ :<C-u>bd<CR>
+nnoremap sq :<C-u>bd<CR>
 
 " クリップボードの内容で検索する
 nnoremap g/ /\V<C-r>=join(map(getreg(v:register,1,1),{k,v->escape(v,'\/')}),'\n')<CR><CR>

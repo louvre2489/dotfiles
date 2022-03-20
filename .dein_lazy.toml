@@ -1,5 +1,5 @@
 ###################################################
-# ハイライト/補完
+# LSP
 ###################################################
 [[plugins]]
 repo = 'Shougo/ddc.vim'
@@ -33,7 +33,7 @@ hook_source = '''
        \   'forceCompletionPattern': '\S/\S*',
        \ },
        \ 'nvim-lsp': {
-	     \   'mark': 'lsp',
+	     \   'mark': 'LSP',
 	     \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
        \ },
        \ })
@@ -44,7 +44,6 @@ hook_source = '''
        \ })
 
   call ddc#enable()
-  call ddc_nvim_lsp_doc#enable()
 '''
 
 [[plugins]]
@@ -71,11 +70,23 @@ repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
-on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'rafamadriz/friendly-snippets'
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
-on_source = 'ddc.vim'
+on_event = 'InsertEnter'
+depends = ['vim-vsnip-integ', 'friendly-snippets']
+hook_add = '''
+  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  let g:vsnip_filetypes = {}
+'''
 
 [[plugins]]
 repo = 'LumaKernel/ddc-file'
@@ -102,17 +113,55 @@ repo = 'Shougo/ddc-nvim-lsp'
 on_source = 'ddc.vim'
 
 [[plugins]]
-repo = 'matsui54/ddc-nvim-lsp-doc'
+repo = 'matsui54/denops-popup-preview.vim'
 on_source = 'ddc.vim'
+hook_source = '''
+  call popup_preview#enable()
+'''
+
+[[plugins]]
+repo = 'matsui54/denops-signature_help'
+on_source = 'ddc.vim'
+hook_source = '''
+  call signature_help#enable()
+'''
 
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
 depends = ['impatient.nvim', 'ddc.vim']
-on_ft = ['rust', 'scala', 'typescript']
+on_event = 'BufEnter'
+#on_ft = ['rust', 'scala', 'typescript']
 hook_source = '''
 lua << EOF
+local opts = { noremap=true, silent=true }
+vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.metals.setup{}
+require'lspconfig'.metals.setup{on_attach = on_attach, capabilities = capabilities}
 -- ↓↓↓使うにはtypescript-language-serverが必要
 --require'lspconfig'.tsserver.setup{
 --  filetypes = { "typescript" },
@@ -128,13 +177,8 @@ EOF
 repo = 'folke/trouble.nvim'
 depends = ['nvim-web-devicons']
 hook_add = '''
-  nnoremap <S-t><S-t> :<C-u> TroubleToggle<CR>
-  nnoremap <S-t><S-w> :<C-u> TroubleToggle workspace_diagnostics<CR>
+  nnoremap <S-t><S-t> :<C-u> TroubleToggle workspace_diagnostics<CR>
   nnoremap <S-t><S-d> :<C-u> TroubleToggle document_diagnostics<CR>
-  nnoremap <S-t><S-q> :<C-u> TroubleToggle quickfix<CR>
-  nnoremap <S-t><S-l> :<C-u> TroubleToggle loclist<CR>
-  nnoremap <S-t><S-r> :<C-u> TroubleToggle lsp_references<CR>
-  :command TR                TroubleRefresh
   :command TC                TroubleClose
 '''
 hook_source = '''
@@ -144,7 +188,7 @@ EOF
 '''
 
 ###################################################
-# LSP & シンタクスハイライト関連
+# シンタクスハイライト関連
 ###################################################
 # toml
 [[plugins]]

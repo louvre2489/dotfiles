@@ -7,12 +7,12 @@ on_event = 'InsertEnter'
 hook_source = '''
   " <TAB>: completion.
   inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<C-n>' :
+  \ pumvisible() ? '<Down>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
   \ '<TAB>' : ddc#map#manual_complete()
 
   " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+  inoremap <expr><S-TAB>  pumvisible() ? '<Up>' : '<C-h>'
 
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')

@@ -315,10 +315,10 @@ repo = 'nvim-telescope/telescope.nvim'
 hook_add = '''
   nmap <Space> [telescope]
 
-  nnoremap <silent> [telescope]p <cmd>lua
+  nnoremap <silent> [telescope]<Space> <cmd>lua
     \ require('telescope.builtin').find_files{
     \ }<cr>
-  nnoremap <silent> [telescope]hp <cmd>lua
+  nnoremap <silent> [telescope]h<Space> <cmd>lua
     \ require('telescope.builtin').find_files{
     \   hidden = true,
     \ }<cr>

@@ -46,8 +46,8 @@
 シグネチャヘルプ             Ctrl + k
 
 ## その他
-コードアクション             Space + ca
-フォーマット                 Space + f
+コードアクション             Space ca
+フォーマット                 Space f
 
 # エラー一覧
 エラー一覧の呼び出し(全体のエラー)          Shift + t Shift + t
@@ -59,11 +59,11 @@
 ターミナルを終了する         Esc
 
 # telescope - ファジーファインダー
-ファイルを検索する                      Space + p
-ファイルを検索する（隠しファイル含む）  Space + hp
-バッファーを検索する                    Space + b
-Grep                                    Space + gr
-git statusのプレビュー                  Space + gs
+ファイルを検索する                      Space * 2
+ファイルを検索する（隠しファイル含む）  Space h Space
+バッファーを検索する                    Space b
+Grep                                    Space gr
+git statusのプレビュー                  Space gs
 
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c

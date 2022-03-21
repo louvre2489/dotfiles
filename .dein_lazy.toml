@@ -7,12 +7,14 @@ on_event = 'InsertEnter'
 hook_source = '''
   " <TAB>: completion.
   inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<Down>' :
+  \ pumvisible() ? '<C-n>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
   \ '<TAB>' : ddc#map#manual_complete()
 
   " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? '<Up>' : '<C-h>'
+  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+  " C-n/C-pで補完候補を選択した時は<C-y>で選択確定しないとauto-importが実行されない
+  inoremap <silent><expr> <CR> pumvisible() ? '<C-y>' : '<CR>'
 
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
@@ -160,13 +162,29 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+------------------------------------------------
+-- Scala
+------------------------------------------------
+require'lspconfig'.metals.setup{
+  on_attach    = on_attach;
+  capabilities = capabilities;
+
+  settings = {};
+}
+
+------------------------------------------------
+-- Rust
+------------------------------------------------
 require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.metals.setup{on_attach = on_attach, capabilities = capabilities}
--- ↓↓↓使うにはtypescript-language-serverが必要
---require'lspconfig'.tsserver.setup{
---  filetypes = { "typescript" },
---  root_dir = function() return vim.loop.cwd() end
---}
+
+------------------------------------------------
+-- JavaScript/TypeScript
+------------------------------------------------
+-- 使うにはtypescript-language-serverが必要
+require'lspconfig'.tsserver.setup{
+  filetypes = { "typescript" },
+  root_dir = function() return vim.loop.cwd() end
+}
 EOF
 '''
 

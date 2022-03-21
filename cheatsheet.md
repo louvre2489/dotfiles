@@ -43,7 +43,11 @@
 
 ## ドキュメント
 ヘッダコメントを参照する     K
-シグネチャヘルプ             Ctrl + k
+メソッドシグネチャのヘルプ   Ctrl + k
+
+## Metals 専用
+### with telescope.nvim
+バッファ内シンボル検索        Space gw
 
 ## その他
 コードアクション             Space ca

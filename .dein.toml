@@ -333,10 +333,17 @@ hook_add = '''
   nnoremap <silent> [telescope]gs  <cmd>lua
     \ require('telescope.builtin').git_status{
     \ }<cr>
-
+  nnoremap <silent> [telescope]gw  <cmd>lua
+    \ require('telescope.builtin').lsp_document_symbols{
+    \ }<cr>
 lua << EOF
 require('telescope').setup{
   -- 設定が必要になったらここへ
+  defaults = {
+    file_ignore_patterns = {
+      'target/'
+    },
+  }
 }
 EOF
 '''

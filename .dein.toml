@@ -341,7 +341,10 @@ require('telescope').setup{
   -- 設定が必要になったらここへ
   defaults = {
     file_ignore_patterns = {
-      'target/'
+      '.git/',
+      'target/',
+      '.metals/',
+      '.bloop/'
     },
   }
 }

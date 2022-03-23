@@ -229,6 +229,7 @@ lua << EOF
     showImplicitArguments = true,
     showInferredType = true,
   }
+EOF
 '''
 
 ###################################################

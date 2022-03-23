@@ -226,10 +226,15 @@ lua << EOF
   metals_config = require("metals").bare_config()
 
   metals_config.settings = {
+    excludedPackages = { "akka.actor.typed.javadsl", "java.util.concurrent" },
     showImplicitArguments = true,
     showInferredType = true,
   }
 EOF
+
+  " TVP
+  :command TVP  lua require("metals.tvp").toggle_tree_view()
+  :command TVPR lua require("metals.tvp").reveal_in_tree()
 '''
 
 ###################################################

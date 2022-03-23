@@ -336,6 +336,9 @@ hook_add = '''
   nnoremap <silent> [telescope]gw  <cmd>lua
     \ require('telescope.builtin').lsp_document_symbols{
     \ }<cr>
+  nnoremap <silent> [telescope]in  <cmd>lua
+    \ require('telescope.builtin').lsp_code_actions{
+    \ }<cr>
 lua << EOF
 require('telescope').setup{
   -- 設定が必要になったらここへ

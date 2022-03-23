@@ -47,7 +47,11 @@
 
 ## Metals 専用
 ### with telescope.nvim
-バッファ内シンボル検索        Space gw
+バッファ内シンボル検索       Space gw
+コードアクション             Space ca
+  - 変数/メソッドの型を自動補完
+  - Importの追加
+  - などなど
 
 ## その他
 コードアクション             Space ca
@@ -68,6 +72,7 @@
 バッファーを検索する                    Space b
 Grep                                    Space gr
 git statusのプレビュー                  Space gs
+LSPのコードアクション一覧を表示する     Space in
 
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c

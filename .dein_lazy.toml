@@ -35,8 +35,9 @@ hook_source = '''
        \   'forceCompletionPattern': '\S/\S*',
        \ },
        \ 'nvim-lsp': {
-	     \   'mark': 'LSP',
-	     \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+       \   'mark': 'LSP',
+       \   'dup': v:true,
+       \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
        \ },
        \ })
 
@@ -226,7 +227,7 @@ lua << EOF
   metals_config = require("metals").bare_config()
 
   metals_config.settings = {
-    excludedPackages = { "akka.actor.typed.javadsl", "java.util.concurrent" },
+    excludedPackages = { "akka.actor.typed.javadsl" },
     showImplicitArguments = true,
     showInferredType = true,
   }

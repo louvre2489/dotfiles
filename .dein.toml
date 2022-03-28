@@ -355,6 +355,16 @@ EOF
 '''
 
 [[plugins]]
+repo = 'jeetsukumaran/vim-buffergator'
+hook_add = '''
+
+  let g:buffergator_viewport_split_policy = 'T'
+
+  " 起動方法
+  :command BB :BuffergatorOpen
+'''
+
+[[plugins]]
 repo = 'Shougo/deol.nvim'
 hook_add = '''
   " 【Ctrl + o】 float windowでターミナルを表示

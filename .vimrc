@@ -301,5 +301,5 @@ let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
 " ---------------------------------------
 " for Dev
 " ---------------------------------------
-"set runtimepath^=プラグインの場所
+"set runtimepath^=~/workspace/ts/tool-repo
 "let g:denops#debug = 1

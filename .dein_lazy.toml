@@ -176,16 +176,26 @@ lua << EOF
   ------------------------------------------------
   -- Rust
   ------------------------------------------------
-  require'lspconfig'.rust_analyzer.setup{}
+  require'lspconfig'.rust_analyzer.setup{
+    on_attach = on_attach
+  }
 
   ------------------------------------------------
   -- JavaScript/TypeScript
   ------------------------------------------------
-  -- 使うにはtypescript-language-serverが必要
-  require'lspconfig'.tsserver.setup{
-    filetypes = { "typescript" },
-    root_dir = function() return vim.loop.cwd() end
+--  -- 使うにはtypescript-language-serverが必要
+--  require'lspconfig'.tsserver.setup{
+--    filetypes = { "typescript" },
+--    root_dir =  function() return vim.loop.cwd() end
+--  }
+
+  ------------------------------------------------
+  -- Deno
+  ------------------------------------------------
+  require'lspconfig'.denols.setup{
+    on_attach = on_attach
   }
+
 EOF
 '''
 

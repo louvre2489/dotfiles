@@ -71,8 +71,8 @@
 ターミナルを終了する         Esc
 
 # telescope - ファジーファインダー
-ファイルを検索する                      Space * 2
-ファイルを検索する（隠しファイル含む）  Space h Space
+ファイルを検索する                      Space Space
+ファイルを検索する（隠しファイル含む）  Space h
 バッファーを検索する                    Space b
 Grep                                    Space gr
 git statusのプレビュー                  Space gs

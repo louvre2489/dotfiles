@@ -315,7 +315,7 @@ function fzf-z-search() {
     fi
 }
 zle -N fzf-z-search
-bindkey '^@' fzf-z-search
+bindkey '^x' fzf-z-search
 
 # Git log をキレイに見せる
 fshow() {

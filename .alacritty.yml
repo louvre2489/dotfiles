@@ -35,34 +35,23 @@ colors:
       foreground: '#d8dee9'
 
   normal:
-    black: '#3b4252'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#88c0d0'
-    white: '#e5e9f0'
-
+    black: '#2E3436'
+    red: '#CC0000'
+    green: '#4E9A06'
+    yellow: '#C4A000'
+    blue: '#3465A4'
+    magenta: '#75507B'
+    cyan: '#06989A'
+    white: '#D3D7CF'
   bright:
-    black: '#4c566a'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#8fbcbb'
-    white: '#eceff4'
-
-  dim:
-    black: '#373e4d'
-    red: '#94545d'
-    green: '#809575'
-    yellow: '#b29e75'
-    blue: '#68809a'
-    magenta: '#8c738c'
-    cyan: '#6d96a5'
-    white: '#aeb3bb'
+    black: '#555753'
+    red: '#EF2929'
+    green: '#8AE234'
+    yellow: '#FCE94F'
+    blue: '#729FCF'
+    magenta: '#AD7FA8'
+    cyan: '#34E2E2'
+    white: '#EEEEEC'
 
 ###########################
 # Font

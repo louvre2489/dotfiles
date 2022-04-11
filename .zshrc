@@ -409,5 +409,12 @@ asdf_comp(){
 
 asdf_comp
 
+# Alacritty
+alacritty_comp(){
+  fpath=(~/.zsh_functions $fpath)
+}
+
+alacritty_comp
+
 # 補完機能を有効にする
 autoload -Uz compinit && compinit -i

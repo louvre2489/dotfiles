@@ -235,6 +235,11 @@ nnoremap sn :<C-u>bnext<CR>
 nnoremap sp :<C-u>bprevious<CR>
 nnoremap sq :<C-u>bd<CR>
 
+" q:、q/、q? は無効化する
+:nnoremap q: <NOP>
+:nnoremap q/ <NOP>
+:nnoremap q? <NOP>
+
 " クリップボードの内容で検索する
 nnoremap g/ /\V<C-r>=join(map(getreg(v:register,1,1),{k,v->escape(v,'\/')}),'\n')<CR><CR>
 

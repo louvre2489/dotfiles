@@ -306,5 +306,5 @@ let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
 " ---------------------------------------
 " for Dev
 " ---------------------------------------
-"set runtimepath^=~/workspace/ts/tool-repo
+"set runtimepath^=~/workspace/ts/denops-yankedhighlight
 "let g:denops#debug = 1

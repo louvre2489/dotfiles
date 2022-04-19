@@ -147,10 +147,14 @@ hook_add = '''
 
   highlight SignColumn ctermbg = lightgrey
 
-  autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
-  autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
-  autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=52
-  autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=53
+"  autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
+"  autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
+"  autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=52
+"  autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=53
+  autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=none
+  autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=none
+  autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=none
+  autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=none
 '''
 
 [[plugins]]
@@ -390,10 +394,17 @@ hook_add = '''
   nnoremap <Space>E <Cmd>EditCheat<CR>
 '''
 
+#[[plugins]]
+#repo = 'machakann/vim-highlightedyank'
+#hook_add = '''
+#  let g:highlightedyank_highlight_duration = 500
+#'''
 [[plugins]]
-repo = 'machakann/vim-highlightedyank'
+repo = 'louvre2489/denops-yankedhighlight'
 hook_add = '''
-  let g:highlightedyank_highlight_duration = 500
+  let g:yankedhighlight_duration = 500
+  let g:yankedhighlight_bg_color= 220
+  let g:yankedhighlight_fg_color= 16
 '''
 
 [[plugins]]

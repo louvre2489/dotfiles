@@ -77,9 +77,9 @@ alias cdu="cd-gitroot"
 # シェル設定
 # ----------------------------------
 # 起動時にtmuxを起動する
-if [ $SHLVL = 1 ]; then
-  tmux
-fi
+#if [ $SHLVL = 1 ]; then
+#  tmux
+#fi
 
 # emacsのキーバインド
 bindkey -e

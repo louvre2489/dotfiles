@@ -1,29 +1,45 @@
 local wezterm = require("wezterm")
-local utils = require("utils")
+local utils = require("wez_utils")
 
 ---------------------------------------------------------------
 --- keybinds
 ---------------------------------------------------------------
+local default_keybinds = {
+  -- コピペ
+  { key = "c", mods = "CTRL", action = wezterm.action({ CopyTo = "Clipboard" }) },
+  { key = "v", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+
+  -- フォントサイズ
+  { key = "=", mods = "CTRL", action = "ResetFontSize" },
+  { key = "+", mods = "CTRL|SHIFT", action = "IncreaseFontSize" },
+  { key = "-", mods = "CTRL", action = "DecreaseFontSize" },
+
+  -- ページ操作
+  { key = "b", mods = "CTRL", action = wezterm.action({ ScrollByPage = -1 }) },
+  { key = "f", mods = "CTRL", action = wezterm.action({ ScrollByPage = 1 }) },
+
+  -- タプ起動
+  { key = "k", mods = "ALT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+  -- タブ終了
+  { key = "x", mods = "ALT", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
+  -- タブ移動
+  { key = "o", mods = "ALT|SHIFT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+  { key = "o", mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+
+  -- tmuxキーバインド
+  { key = "a", mods = "CTRL", action = wezterm.action({ EmitEvent = "toggle-tmux-keybinds" }) },
+
+  { key = "e", mods = "ALT", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
+
+  -- 設定再読み込み
+  { key = "r", mods = "ALT", action = "ReloadConfiguration" },
+}
+
 local tmux_keybinds = {
-	{ key = "k", mods = "ALT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-	{ key = "j", mods = "ALT", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
-	{ key = "h", mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
-	{ key = "l", mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-	{ key = "h", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = -1 }) },
-	{ key = "l", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = 1 }) },
-	{ key = "k", mods = "ALT|CTRL", action = "ActivateCopyMode" },
-	{ key = "j", mods = "ALT|CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
-	{ key = "1", mods = "ALT", action = wezterm.action({ ActivateTab = 0 }) },
-	{ key = "2", mods = "ALT", action = wezterm.action({ ActivateTab = 1 }) },
-	{ key = "3", mods = "ALT", action = wezterm.action({ ActivateTab = 2 }) },
-	{ key = "4", mods = "ALT", action = wezterm.action({ ActivateTab = 3 }) },
-	{ key = "5", mods = "ALT", action = wezterm.action({ ActivateTab = 4 }) },
-	{ key = "6", mods = "ALT", action = wezterm.action({ ActivateTab = 5 }) },
-	{ key = "7", mods = "ALT", action = wezterm.action({ ActivateTab = 6 }) },
-	{ key = "8", mods = "ALT", action = wezterm.action({ ActivateTab = 7 }) },
-	{ key = "9", mods = "ALT", action = wezterm.action({ ActivateTab = 8 }) },
+  -- ペイン操作
 	{ key = "-", mods = "ALT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
 	{ key = "\\", mods = "ALT", action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }) },
+  { key = "j", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
 	{ key = "h", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
 	{ key = "l", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
 	{ key = "k", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
@@ -32,24 +48,10 @@ local tmux_keybinds = {
 	{ key = "l", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
 	{ key = "k", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
 	{ key = "j", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
-	{ key = "Enter", mods = "ALT", action = "QuickSelect" },
-}
 
-local default_keybinds = {
-	{ key = "c", mods = "CTRL|SHIFT", action = wezterm.action({ CopyTo = "Clipboard" }) },
-	{ key = "v", mods = "CTRL|SHIFT", action = wezterm.action({ PasteFrom = "Clipboard" }) },
-	{ key = "Insert", mods = "SHIFT", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
-	{ key = "=", mods = "CTRL", action = "ResetFontSize" },
-	{ key = "+", mods = "CTRL", action = "IncreaseFontSize" },
-	{ key = "-", mods = "CTRL", action = "DecreaseFontSize" },
-	{ key = "Space", mods = "CTRL|SHIFT", action = "QuickSelect" },
-	{ key = "x", mods = "CTRL|SHIFT", action = "ActivateCopyMode" },
-	{ key = "PageUp", mods = "ALT", action = wezterm.action({ ScrollByPage = -1 }) },
-	{ key = "PageDown", mods = "ALT", action = wezterm.action({ ScrollByPage = 1 }) },
-	{ key = "r", mods = "ALT", action = "ReloadConfiguration" },
-	{ key = "r", mods = "ALT|SHIFT", action = wezterm.action({ EmitEvent = "toggle-tmux-keybinds" }) },
-	{ key = "e", mods = "ALT", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
-	{ key = "x", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
+	{ key = "k", mods = "ALT|CTRL", action = "ActivateCopyMode" },
+	{ key = "j", mods = "ALT|CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
+	{ key = "Enter", mods = "ALT", action = "QuickSelect" },
 }
 
 local function create_keybinds()
@@ -140,7 +142,7 @@ local local_config = load_local_config()
 --- Config
 ---------------------------------------------------------------
 local config = {
-  font = wezterm.font("SauceCodePro Nerd Font"),
+  font=wezterm.font('SauceCodePro Nerd Font', {weight="Bold", stretch='Normal', style='Normal'}),
   use_ime = true, -- これがないとIMEが動かない
   font_size = 14,
   color_scheme = "OneHalfDark", -- テーマ：https://wezfurlong.org/wezterm/colorschemes/index.html

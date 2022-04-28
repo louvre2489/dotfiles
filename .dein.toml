@@ -223,7 +223,7 @@ hook_add = '''
 
   " レイアウト
   let g:airline#extensions#default#layout = [
-  \ [ 'z', 'a', 'b', 'c' ],
+  \ [ 'a', 'b', 'c' ],
   \ [ 'x', 'y', 'error', 'warning']
   \ ]
 '''
@@ -402,13 +402,10 @@ hook_add = '''
 [[plugins]]
 repo = 'louvre2489/denops-yankedhighlight'
 hook_add = '''
-  let g:yankedhighlight_duration = 500
-  let g:yankedhighlight_bg_color= 220
-  let g:yankedhighlight_fg_color= 16
+"  let g:yankedhighlight_duration = 500
+"  let g:yankedhighlight_bg_color= 228
+"  let g:yankedhighlight_fg_color= 16
 '''
-
-[[plugins]]
-repo = 'louvre2489/denops-addsymbols'
 
 ###################################################
 # LSP

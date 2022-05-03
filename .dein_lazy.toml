@@ -377,3 +377,55 @@ on_ft = 'typescript'
 [[plugins]]
 repo = 'honza/dockerfile.vim'
 on_ft = 'Dockerfile'
+
+# Clojure
+[[plugins]]
+repo = 'clojure-vim/clojure.vim'
+on_ft = 'clojure'
+hook_post_source = '''
+lua << EOF
+  ------------------------------------------------
+  -- LSP Server Start
+  ------------------------------------------------
+  local lsp_installer_servers = require'nvim-lsp-installer.servers'
+  local name = 'clojure_lsp'
+
+  -- available_server: nvim-lsp-installerが対応しているサーバーかを示す
+  -- default_config: 対応している場合は、そのサーバーのdefault configが含まれている
+  local available_server, default_config = lsp_installer_servers.get_server(name)
+
+  -- nvim-lsp-installerに対応していないサーバーの場合はエラーを表示して終了
+  if not available_server then
+    error(string.format("nvim-lsp-installer doesn't support %s server.", name))
+    return
+  end
+
+  default_config:on_ready(function ()
+    local opts = {}
+    default_config:setup(opts)
+  end)
+
+  -- サーバーがインストールされていない場合はインストールする
+  if not default_config:is_installed() then
+    default_config:install()
+  end
+
+  ------------------------------------------------
+  -- LSP mapping
+  ------------------------------------------------
+  local function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then
+      options = vim.tbl_extend("force", options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+  end
+
+  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+  map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+  map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+EOF
+'''

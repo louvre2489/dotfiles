@@ -267,7 +267,7 @@ hook_add = '''
   \			'parentheses_options': 'containedin=markdownCode contained',
   \		},
   \		'clojure': {
-  \			'ctermfgs': ['red', 'blue', 'yellow', 'magenta', 'white', 'cyan'],
+  \			'ctermfgs': ['red', 'blue', 'yellow', 'magenta', 'green', 'white', 'cyan'],
   \		},
   \		'vim': {
   \			'parentheses_options': 'containedin=vimFuncBody,vimExecute',

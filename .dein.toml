@@ -171,6 +171,11 @@ hook_add = '''
   endfunction
 '''
 
+# Vim 上で Git の操作を行うつもりはあまりないんだけど、
+# Status Line に Git のステータスを表示させるために入れる
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
 ###################################################
 # 装飾
 ###################################################
@@ -209,18 +214,17 @@ hook_add = '''
   let g:airline#extensions#tabline#show_close_button = 0
 
   " テーマ
-  " let g:airline_theme = 'base16_gruvbox_dark_hard'
   let g:airline_theme = 'jellybeans'
   let g:airline_powerline_fonts = 1
 
   " ブランチ
   let g:airline#extensions#branch#enabled = 1
-  let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
+  let g:airline#extensions#branch#vcs_priority = ["git"]
 
   " レイアウト
   let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
-  \ [ 'x', 'y', 'error', 'warning']
+  \ [ 'x', 'y' ]
   \ ]
 '''
 

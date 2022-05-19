@@ -106,7 +106,8 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set listchars=eol:?
 
 " 文字崩れの発生を抑止
-set ambiwidth=double
+"set ambiwidth=double
+set ambiwidth=single
 
 " [強調]
 " 検索結果をハイライト表示する

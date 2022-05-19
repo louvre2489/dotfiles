@@ -291,11 +291,11 @@ lua << EOF
       lualine_z = {}
     },
     tabline = {
-      lualine_a = {'filename'},
+      lualine_a = {'buffers'},
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},
-      lualine_y = {'buffers'},
+      lualine_y = {},
       lualine_z = {}
     },
     extensions = {}

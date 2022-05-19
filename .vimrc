@@ -229,11 +229,11 @@ nnoremap sj <C-w>j
 nnoremap sk <C-w>k
 nnoremap sl <C-w>l
 nnoremap sh <C-w>h
-nnoremap ss :<C-u>sp<CR>
-nnoremap sv :<C-u>vs<CR>
-nnoremap sn :<C-u>bnext<CR>
-nnoremap sp :<C-u>bprevious<CR>
-nnoremap sq :<C-u>bd<CR>
+nnoremap <silent> ss :<C-u>sp<CR>
+nnoremap <silent> sv :<C-u>vs<CR>
+nnoremap <silent> sn :<C-u>bnext<CR>
+nnoremap <silent> sp :<C-u>bprevious<CR>
+nnoremap <silent> sq :<C-u>bd<CR>
 
 " q:、q/、q? は無効化する
 :nnoremap q: <NOP>

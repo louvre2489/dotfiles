@@ -202,34 +202,106 @@ hook_add = '''
   let g:indentLine_color_gui = '#708090'
 '''
 
+#[[plugins]]
+#repo = 'vim-airline/vim-airline'
+#hook_add = '''
+#  " タブバーのカスタマイズを有効にする
+#  let g:airline#extensions#tabline#enabled = 1
+#
+#  " タブバーの右領域を非表示にする
+#  let g:airline#extensions#tabline#show_splits = 0
+#  let g:airline#extensions#tabline#show_tab_type = 0
+#  let g:airline#extensions#tabline#show_close_button = 0
+#
+#  " テーマ
+#  let g:airline_theme = 'jellybeans'
+#  let g:airline_powerline_fonts = 1
+#
+#  " ブランチ
+#  let g:airline#extensions#branch#enabled = 1
+#  let g:airline#extensions#branch#vcs_priority = ["git"]
+#
+#  " レイアウト
+#  let g:airline#extensions#default#layout = [
+#  \ [ 'a', 'b', 'c' ],
+#  \ [ 'x', 'y' ]
+#  \ ]
+#'''
+#
+#[[plugins]]
+#repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
-repo = 'vim-airline/vim-airline'
+repo = 'nvim-lualine/lualine.nvim'
 hook_add = '''
-  " タブバーのカスタマイズを有効にする
-  let g:airline#extensions#tabline#enabled = 1
+lua << EOF
+  require('lualine').setup {
+    options = {
+      icons_enabled = true,
+      theme = 'material',
+      component_separators = { left = '|', right = '|'},
+      section_separators = { left = '', right = ''},
+      disabled_filetypes = {},
+      always_divide_middle = true,
+      colored = false,
+    },
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {'branch', 'diff'},
+      lualine_c = {
+        {
+          'filename',
+          path = 1,
+          file_status = true,
+          shorting_target = 40,
+          symbols = {
+            modified = ' [+]',
+            readonly = ' [RO]',
+            unnamed = 'Untitled',
+          }
+        },
+        'progress'
+      },
+      lualine_x = {'filetype', 'encoding'},
+      lualine_y = {
+        {
+          'diagnostics',
+          source = {'nvim-lsp'},
+          sections = { 'error', 'warn', 'info', 'hint' },
 
-  " タブバーの右領域を非表示にする
-  let g:airline#extensions#tabline#show_splits = 0
-  let g:airline#extensions#tabline#show_tab_type = 0
-  let g:airline#extensions#tabline#show_close_button = 0
-
-  " テーマ
-  let g:airline_theme = 'jellybeans'
-  let g:airline_powerline_fonts = 1
-
-  " ブランチ
-  let g:airline#extensions#branch#enabled = 1
-  let g:airline#extensions#branch#vcs_priority = ["git"]
-
-  " レイアウト
-  let g:airline#extensions#default#layout = [
-  \ [ 'a', 'b', 'c' ],
-  \ [ 'x', 'y' ]
-  \ ]
+          diagnostics_color = {
+            error = 'DiagnosticError',
+            warn  = 'DiagnosticWarn',
+            info  = 'DiagnosticInfo',
+            hint  = 'DiagnosticHint',
+          },
+          symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
+          colored = true,
+          update_in_insert = false,
+          always_visible = false,
+        }
+      },
+      lualine_z = {'location'}
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {}
+    },
+    tabline = {
+      lualine_a = {'filename'},
+      lualine_b = {},
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {'buffers'},
+      lualine_z = {}
+    },
+    extensions = {}
+  }
+EOF
 '''
-
-[[plugins]]
-repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'unblevable/quick-scope'

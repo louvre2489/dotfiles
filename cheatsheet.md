@@ -78,6 +78,9 @@ Grep                                    Space gr
 git statusのプレビュー                  Space gs
 LSPのコードアクション一覧を表示する     Space in
 
+# blamer.nvim
+git blame の表示ON/OFF       :BlamerToggle
+
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c
 コードの先頭でコメント       <Leader> + ,

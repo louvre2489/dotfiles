@@ -171,6 +171,16 @@ hook_add = '''
   endfunction
 '''
 
+[[plugins]]
+repo = 'APZelos/blamer.nvim'
+hook_add = '''
+  let g:blamer_enabled = 1
+  let g:blamer_delay = 500
+  let g:blamer_date_format = '%Y/%m/%d'
+  let g:blamer_prefix = '     [blame]  '
+  let g:blamer_template = '<commit-short>, <committer>, <committer-time>, <summary>'
+'''
+
 ###################################################
 # 装飾
 ###################################################
@@ -197,34 +207,6 @@ hook_add = '''
   let g:indentLine_color_gui = '#708090'
 '''
 
-#[[plugins]]
-#repo = 'vim-airline/vim-airline'
-#hook_add = '''
-#  " タブバーのカスタマイズを有効にする
-#  let g:airline#extensions#tabline#enabled = 1
-#
-#  " タブバーの右領域を非表示にする
-#  let g:airline#extensions#tabline#show_splits = 0
-#  let g:airline#extensions#tabline#show_tab_type = 0
-#  let g:airline#extensions#tabline#show_close_button = 0
-#
-#  " テーマ
-#  let g:airline_theme = 'jellybeans'
-#  let g:airline_powerline_fonts = 1
-#
-#  " ブランチ
-#  let g:airline#extensions#branch#enabled = 1
-#  let g:airline#extensions#branch#vcs_priority = ["git"]
-#
-#  " レイアウト
-#  let g:airline#extensions#default#layout = [
-#  \ [ 'a', 'b', 'c' ],
-#  \ [ 'x', 'y' ]
-#  \ ]
-#'''
-#
-#[[plugins]]
-#repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'nvim-lualine/lualine.nvim'
 hook_add = '''

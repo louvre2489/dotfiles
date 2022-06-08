@@ -259,11 +259,12 @@ EOF
 '''
 
 ###################################################
-# エラー一覧
+# エラー関連
 ###################################################
 [[plugins]]
 repo = 'folke/trouble.nvim'
 depends = ['nvim-web-devicons']
+on_event = 'BufEnter'
 hook_add = '''
   nnoremap <S-t><S-t> :<C-u> TroubleToggle workspace_diagnostics<CR>
   nnoremap <S-t><S-d> :<C-u> TroubleToggle document_diagnostics<CR>
@@ -272,6 +273,15 @@ hook_add = '''
 hook_source = '''
 lua << EOF
   require("trouble").setup {}
+EOF
+'''
+
+[[plugins]]
+repo = 'Maan2003/lsp_lines.nvim'
+on_event = 'BufEnter'
+hook_source = '''
+lua << EOF
+  require("lsp_lines").register_lsp_virtual_lines()
 EOF
 '''
 

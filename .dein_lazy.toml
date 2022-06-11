@@ -173,6 +173,10 @@ lua << EOF
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+  -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+  )
   ------------------------------------------------
   -- Rust
   ------------------------------------------------

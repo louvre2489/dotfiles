@@ -1,6 +1,3 @@
-"unlet! skip_defaults_vim
-"source $VIMRUNTIME/defaults.vim
-
 " syntax
 syntax on
 
@@ -62,7 +59,6 @@ set hidden
 " ---------------------------------------
 " color scheme
 " ---------------------------------------
-"source ~/dotfiles/.colorscheme.vim
 colorscheme landscape
 
 " ---------------------------------------
@@ -100,13 +96,11 @@ autocmd FileType text setlocal textwidth=0
 " 文字コードを設定する
 set encoding=utf8
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
-"set enc=japan
 
 " 不可視文字の表示方法を設定する
 set listchars=eol:?
 
 " 文字崩れの発生を抑止
-"set ambiwidth=double
 set ambiwidth=single
 
 " [強調]
@@ -118,9 +112,6 @@ set cursorline
 
 " 改行コードを非表示にする
 set nolist
-
-" 強調表示する列を設定する
-"set colorcolumn=80
 
 " 対応するカッコを強調表示する
 set showmatch
@@ -208,21 +199,9 @@ endif
 " 行頭移動を0でトグルする
 noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
 
-" キー移動
-"noremap <S-h> ^
-"noremap <S-j> }
-"noremap <S-k> {
-"noremap <S-l> $
-inoremap <A-h> <Left>
-inoremap <A-j> <Down>
-inoremap <A-k> <Up>
-inoremap <A-l> <Right>
-
 " カッコ
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
-"inoremap (<Enter> ()<Left><CR><ESC><S-o>
-"inoremap ({<Enter> ({})<Left><Left><CR><ESC><S-o>
 
 " ウィンドウ
 nnoremap s <Nop>

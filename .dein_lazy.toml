@@ -19,7 +19,8 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  call ddc#custom#patch_global('sources', ['file', 'vsnip', 'nvim-lsp', 'deoppet', 'around'])
+  " call ddc#custom#patch_global('sources', ['file', vsnip', 'nvim-lsp', 'deoppet', 'around'])
+  call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'vsnip', 'deoppet', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
        \   'matchers': ['matcher_head'],
@@ -181,7 +182,25 @@ lua << EOF
   -- Rust
   ------------------------------------------------
   require'lspconfig'.rust_analyzer.setup{
-    on_attach = on_attach
+    on_attach = on_attach,
+    settings = {
+      ["rust-analyzer"] = {
+        imports = {
+          granularity = {
+            group = "module",
+          },
+          prefix = "self",
+        },
+        cargo = {
+          buildScripts = {
+            enable = true,
+          },
+        },
+        procMacro = {
+          enable = true
+        },
+      }
+    }
   }
 
   ------------------------------------------------
@@ -280,14 +299,14 @@ lua << EOF
 EOF
 '''
 
-[[plugins]]
-repo = 'Maan2003/lsp_lines.nvim'
-on_event = 'BufEnter'
-hook_source = '''
-lua << EOF
-  require("lsp_lines").register_lsp_virtual_lines()
-EOF
-'''
+#[[plugins]]
+#repo = 'Maan2003/lsp_lines.nvim'
+#on_event = 'BufEnter'
+#hook_source = '''
+#lua << EOF
+#  require("lsp_lines").register_lsp_virtual_lines()
+#EOF
+#'''
 
 ###################################################
 # シンタクスハイライト関連

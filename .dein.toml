@@ -19,103 +19,36 @@ EOF
 # ファイラ
 ###################################################
 [[plugins]]
-repo = 'Shougo/defx.nvim'
+repo = 'obaland/vfiler.vim'
 hook_add = '''
-  autocmd FileType defx call s:defx_my_settings()
+lua << EOF
+  require('vfiler/config').setup{
+    options = {
+      columns = 'indent,git,devicons,name,type,time',
+      show_hidden_files = false,
+      layout = 'floating',
+      width = 90,
+      height = 30,
+      quit = true,
+      git = {
+        enabled = true,
+        ignored = true,
+        untracked = true,
+      },
+      preview = {
+        layout = 'floating',
+        width = 0,
+        height = 0,
+      },
+    },
+  }
+EOF
 
-  function! s:defx_my_settings() abort
-    " Define mappings
-    nnoremap <silent><buffer><expr> <CR>
-    \ defx#do_action('multi', ['drop', 'quit'])
-    nnoremap <silent><buffer><expr> c
-    \ defx#do_action('copy')
-    nnoremap <silent><buffer><expr> m
-    \ defx#do_action('move')
-    nnoremap <silent><buffer><expr> p
-    \ defx#do_action('paste')
-    nnoremap <silent><buffer><expr> E
-    \ defx#do_action('drop', 'vsplit')
-    nnoremap <silent><buffer><expr> o
-    \ defx#do_action('open_or_close_tree')
-    nnoremap <silent><buffer><expr> K
-    \ defx#do_action('new_directory')
-    nnoremap <silent><buffer><expr> N
-    \ defx#do_action('new_file')
-    nnoremap <silent><buffer><expr> d
-    \ defx#do_action('remove')
-    nnoremap <silent><buffer><expr> r
-    \ defx#do_action('rename')
-    nnoremap <silent><buffer><expr> !
-    \ defx#do_action('execute_command')
-    nnoremap <silent><buffer><expr> x
-    \ defx#do_action('execute_system')
-    nnoremap <silent><buffer><expr> yy
-    \ defx#do_action('yank_path')
-    nnoremap <silent><buffer><expr> .
-    \ defx#do_action('toggle_ignored_files')
-	  nnoremap <silent><buffer><expr> h
-	  \ defx#do_action('cd', ['..'])
-	  nnoremap <silent><buffer><expr> ~
-	  \ defx#do_action('cd')
-    nnoremap <silent><buffer><expr> q
-    \ defx#do_action('quit')
-    nnoremap <silent><buffer><expr> j
-    \ line('.') == line('$') ? 'gg' : 'j'
-    nnoremap <silent><buffer><expr> k
-    \ line('.') == 1 ? 'G' : 'k'
-    nnoremap <silent><buffer><expr> <C-l>
-    \ defx#do_action('redraw')
-  endfunction
-
-  " エクスプローラーの設定
-  call defx#custom#column('time', {
-    \ 'format': '%Y/%m/%d %H:%M',
-    \ })
-  call defx#custom#option('_', {
-    \ 'winheight': 40,
-    \ 'winwidth': 120,
-    \ 'split': 'floating',
-    \ 'direction': 'topleft',
-    \ 'show_ignored_files': 1,
-    \ 'buffer_name': 'explorer',
-    \ 'toggle': 1,
-    \ 'resume': 1,
-    \ 'columns': 'git:indent:icons:filename:time',
-    \ })
-
-  " git アイコン
-  " Nerd Font をインストールする必要がある
-  call defx#custom#column('git', 'indicators', {
-    \ 'Modified'  : '✹',
-    \ 'Staged'    : '✚',
-    \ 'Untracked' : '✭',
-    \ 'Renamed'   : '➜',
-    \ 'Unmerged'  : '✖',
-    \ 'Ignored'   : '☒',
-    \ 'Deleted'   : '✖',
-    \ 'Unknown'   : '?'
-    \ })
-
-  " 起動時にDefxを呼び出し
-  " autocmd VimEnter * execute 'Defx'
-  " Ctrl+e  でDefxを呼び出し
-  nnoremap <silent> <C-e> :<C-u> Defx <CR>
-  " ファイルシステムとの自動同期
-  autocmd BufWritePost * call defx#redraw()
-  autocmd BufEnter * call defx#redraw()
+nnoremap <silent> <C-e> :<C-u> VFiler<CR>
 '''
 
-# Defxでアイコンを表示するために必要
 [[plugins]]
-repo = 'ryanoasis/vim-devicons'
-
-# Defxでアイコンを表示するために必要
-[[plugins]]
-repo = 'kristijanhusak/defx-icons'
-
-# DefxでGitのステータスを表示するために必要
-[[plugins]]
-repo = 'kristijanhusak/defx-git'
+repo = 'obaland/vfiler-column-devicons'
 
 ###################################################
 # Git

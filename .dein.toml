@@ -353,6 +353,9 @@ EOF
 '''
 
 [[plugins]]
+repo = 'nvim-telescope/telescope-file-browser.nvim'
+
+[[plugins]]
 repo = 'jeetsukumaran/vim-buffergator'
 hook_add = '''
 

@@ -11,7 +11,7 @@ repo = 'Shougo/dein.vim'
 repo = 'lewis6991/impatient.nvim'
 hook_add = '''
 lua << EOF
-require('impatient')
+  require('impatient')
 EOF
 '''
 
@@ -262,9 +262,9 @@ repo = 'nvim-lua/plenary.nvim'
 repo = 'kyazdani42/nvim-web-devicons'
 hook_source = '''
 lua << EOF
-require'nvim-web-devicons'.setup {
-  default = true;
-}
+  require'nvim-web-devicons'.setup {
+    default = true;
+  }
 EOF
 '''
 
@@ -381,53 +381,53 @@ hook_add = '''
 repo = 'williamboman/nvim-lsp-installer'
 hook_add = '''
 lua<<EOF
-------------------------------------------------
--- LSP Server Start
-------------------------------------------------
-function lsp_server_setup(server_name)
-  local lsp_installer_servers = require'nvim-lsp-installer.servers'
+  ------------------------------------------------
+  -- LSP Server Start
+  ------------------------------------------------
+  function lsp_server_setup(server_name)
+    local lsp_installer_servers = require'nvim-lsp-installer.servers'
 
-  -- available_server: nvim-lsp-installerが対応しているサーバーかを示す
-  -- default_config: 対応している場合は、そのサーバーのdefault configが含まれている
-  local available_server, default_config = lsp_installer_servers.get_server(server_name)
+    -- available_server: nvim-lsp-installerが対応しているサーバーかを示す
+    -- default_config: 対応している場合は、そのサーバーのdefault configが含まれている
+    local available_server, default_config = lsp_installer_servers.get_server(server_name)
 
-  -- nvim-lsp-installerに対応していないサーバーの場合はエラーを表示して終了
-  if not available_server then
-    error(string.format("nvim-lsp-installer doesn't support %s server.", server_name))
-    return
-  end
-
-  default_config:on_ready(function ()
-    local opts = {}
-    default_config:setup(opts)
-  end)
-
-  -- サーバーがインストールされていない場合はインストールする
-  if not default_config:is_installed() then
-    default_config:install()
-  end
-end
-
-------------------------------------------------
--- LSP mapping
-------------------------------------------------
-function lsp_mapping()
-
-  local function map(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-      options = vim.tbl_extend("force", options, opts)
+    -- nvim-lsp-installerに対応していないサーバーの場合はエラーを表示して終了
+    if not available_server then
+      error(string.format("nvim-lsp-installer doesn't support %s server.", server_name))
+      return
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+
+    default_config:on_ready(function ()
+      local opts = {}
+      default_config:setup(opts)
+    end)
+
+    -- サーバーがインストールされていない場合はインストールする
+    if not default_config:is_installed() then
+      default_config:install()
+    end
   end
 
-  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-  map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-  map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-  map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-end
+  ------------------------------------------------
+  -- LSP mapping
+  ------------------------------------------------
+  function lsp_mapping()
+
+    local function map(mode, lhs, rhs, opts)
+      local options = { noremap = true }
+      if opts then
+        options = vim.tbl_extend("force", options, opts)
+      end
+      vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    end
+
+    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+    map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+    map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+    map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+  end
 EOF
 '''
 

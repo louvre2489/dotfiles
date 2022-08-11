@@ -16,41 +16,6 @@ EOF
 '''
 
 ###################################################
-# ファイラ
-###################################################
-[[plugins]]
-repo = 'obaland/vfiler.vim'
-hook_add = '''
-lua << EOF
-  require('vfiler/config').setup{
-    options = {
-      columns = 'indent,git,devicons,name,type,time',
-      show_hidden_files = false,
-      layout = 'floating',
-      width = 90,
-      height = 30,
-      quit = true,
-      git = {
-        enabled = true,
-        ignored = true,
-        untracked = true,
-      },
-      preview = {
-        layout = 'floating',
-        width = 0,
-        height = 0,
-      },
-    },
-  }
-EOF
-
-nnoremap <silent> <C-e> :<C-u> VFiler<CR>
-'''
-
-[[plugins]]
-repo = 'obaland/vfiler-column-devicons'
-
-###################################################
 # Git
 ###################################################
 [[plugins]]
@@ -356,17 +321,34 @@ hook_add = '''
     \ require('telescope.builtin').lsp_code_actions{
     \ }<cr>
 lua << EOF
-require('telescope').setup{
+
+local telescope = require('telescope')
+
+-- telescope-file-browser.nvim を使うためのおまじない
+telescope.load_extension "file_browser"
+
+telescope.setup{
   -- 設定が必要になったらここへ
   defaults = {
+    sorting_strategy = 'ascending',
+    layout_config = {
+      prompt_position = 'top',
+    },
     file_ignore_patterns = {
       '.git/',
       'target/',
       '.metals/',
       '.bloop/'
     },
+  },
+  extensions = {
+    file_browser = {
+    }
   }
 }
+
+-- ファイラの起動方法
+vim.api.nvim_set_keymap("n", "<C-e>","<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",{noremap = true})
 EOF
 '''
 

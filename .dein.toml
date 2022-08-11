@@ -18,39 +18,6 @@ EOF
 ###################################################
 # Git
 ###################################################
-#[[plugins]]
-#repo = 'airblade/vim-gitgutter'
-#hook_add = '''
-#  " diffを縦分割
-#  set diffopt+=vertical
-#
-#  set updatetime=500
-#
-#  " ghでdiffをハイライトする
-#  nnoremap gh :GitGutterLineHighlightsToggle<CR>
-#  " gpでカーソル行のdiffを表示する
-#  nnoremap gp :GitGutterPreviewHunk<CR>
-#
-#  " 表示列の背景色変更
-#  let gitgutter_override_sign_column_highlight = 0
-#
-#  " 表示するマークのカスタマイズ
-#  let g:gitgutter_sign_added = '✚'
-#  let g:gitgutter_sign_modified = '➤'
-#  let g:gitgutter_sign_removed = '✘'
-#  let g:gitgutter_sign_modified_removed = "➜"
-#
-#  " 変更箇所に着色
-#  let g:gitgutter_highlight_lines = 1
-#
-#  highlight SignColumn ctermbg = lightgrey
-#
-#  autocmd Vimenter,Colorscheme * :hi GitGutterAddLine ctermfg=none ctermbg=17
-#  autocmd Vimenter,Colorscheme * :hi GitGutterChangeLine ctermfg=none ctermbg=53
-#  autocmd Vimenter,Colorscheme * :hi GitGutterDeleteLine ctermfg=none ctermbg=52
-#  autocmd Vimenter,Colorscheme * :hi GitGutterChangeDeleteLine ctermfg=none ctermbg=53
-#'''
-
 [[plugins]]
 repo = 'lewis6991/gitsigns.nvim'
 hook_add = '''

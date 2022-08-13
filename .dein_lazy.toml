@@ -5,6 +5,11 @@
 repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 hook_source = '''
+  " プレビューウインドウを閉じる
+"  autocmd CompleteDone * silent! pclose!
+  " プレビューウインドウを非表示にする
+  set completeopt-=preview
+
   " <TAB>: completion.
   inoremap <silent><expr> <TAB>
   \ pumvisible() ? '<C-n>' :
@@ -19,7 +24,6 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
-  " call ddc#custom#patch_global('sources', ['file', vsnip', 'nvim-lsp', 'deoppet', 'around'])
   call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'vsnip', 'deoppet', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
@@ -174,16 +178,13 @@ lua << EOF
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-  )
   ------------------------------------------------
   -- Rust
   ------------------------------------------------
   require'lspconfig'.rust_analyzer.setup{
     on_attach = on_attach,
     settings = {
+      -- ref: https://rust-analyzer.github.io/manual.html#configuration
       ["rust-analyzer"] = {
         imports = {
           granularity = {
@@ -200,6 +201,12 @@ lua << EOF
           enable = true
         },
       }
+    },
+    handlers = {
+      ["textDocument/definition"] = function(_, result, params)
+        -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
+        return nil
+      end
     }
   }
 
@@ -329,7 +336,7 @@ hook_add = '''
 repo = 'rust-lang/rust.vim'
 on_ft = 'rust'
 hook_add = '''
-  let g:rustfmt_autosave = 1
+"  let g:rustfmt_autosave = 1
 '''
 
 # JavaScript

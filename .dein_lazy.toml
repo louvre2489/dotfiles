@@ -5,9 +5,9 @@
 repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 hook_source = '''
-  " プレビューウインドウを閉じる
+  " 補完選択時にプレビューウインドウを閉じる
 "  autocmd CompleteDone * silent! pclose!
-  " プレビューウインドウを非表示にする
+  " 補完選択時にプレビューウインドウが表示されないようにする
   set completeopt-=preview
 
   " <TAB>: completion.
@@ -319,9 +319,9 @@ EOF
 # シンタクスハイライト関連
 ###################################################
 # toml
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
+#[[plugins]]
+#repo = 'cespare/vim-toml'
+#on_ft = 'toml'
 
 # Scala
 [[plugins]]
@@ -331,13 +331,13 @@ hook_add = '''
   au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
 '''
 
-# Rust
-[[plugins]]
-repo = 'rust-lang/rust.vim'
-on_ft = 'rust'
-hook_add = '''
-"  let g:rustfmt_autosave = 1
-'''
+## Rust
+#[[plugins]]
+#repo = 'rust-lang/rust.vim'
+#on_ft = 'rust'
+#hook_add = '''
+#"  let g:rustfmt_autosave = 1
+#'''
 
 # JavaScript
 [[plugins]]

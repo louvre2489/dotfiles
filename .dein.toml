@@ -30,7 +30,6 @@ lua << EOF
     popup_border_style = "NC",
     window = {
       position = "float",
-      width = 80,
     },
     filesystem = {
       window = {

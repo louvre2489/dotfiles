@@ -15,49 +15,47 @@ lua << EOF
 EOF
 '''
 
+###################################################
+# ファイラー
+###################################################
 [[plugins]]
-repo = 'nvim-treesitter/nvim-treesitter'
-hook_done_update = ":TSUpdate"
+repo = 'MunifTanjim/nui.nvim'
+
+[[plugins]]
+repo = 'nvim-neo-tree/neo-tree.nvim'
+depends = ['plenary.nvim', 'nvim-web-devicons','nui.nvim']
 hook_add = '''
 lua << EOF
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-      "bash",
-      "css",
-      "dockerfile",
-      "hocon",
-      "html",
-      "json",
-      "lua",
-      "php",
-      "rust",
-      "scala",
-      "sql",
-      "toml",
-      "vim"
+  require("neo-tree").setup({
+    popup_border_style = "NC",
+    window = {
+      position = "float",
+      width = 80,
     },
-
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
-
-    -- Automatically install missing parsers when entering buffer
-    auto_install = true,
-
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = false,
-      disable = function(lang, bufnr)
-        local filename = vim.api.nvim_buf_get_name(0)
-        local is_dein = string.find(filename, ".dein.toml")
-        local is_dein_lazy = string.find(filename, ".dein_lazy.toml")
-
-        -- .dein.toml または .dein_lazy.toml では vim-precious を使いたいので、treesitter を有効にしない
-        return is_dein ~= nil or is_dein_lazy ~= nil
-      end,
+    filesystem = {
+      window = {
+        mappings = {
+          ["h"] = "toggle_hidden",
+        }
+      }
     },
-  }
+    default_component_configs = {
+      git_status = {
+         symbols = {
+           -- 以下のシンボルはデフォルトを上書き
+           added     = "✚",
+           modified  = "➤",
+        }
+      },
+    }
+  })
+
+  -- ファイラの起動方法
+  vim.api.nvim_set_keymap("n", "<C-e>","<cmd>NeoTreeFloatToggle<CR>",{noremap = true, silent = true})
 EOF
 '''
+
+
 
 ###################################################
 # Git
@@ -345,9 +343,6 @@ lua << EOF
 
 local telescope = require('telescope')
 
--- telescope-file-browser.nvim を使うためのおまじない
-telescope.load_extension "file_browser"
-
 telescope.setup{
   -- 設定が必要になったらここへ
   defaults = {
@@ -362,19 +357,9 @@ telescope.setup{
       '.bloop/'
     },
   },
-  extensions = {
-    file_browser = {
-    }
-  }
 }
-
--- ファイラの起動方法
-vim.api.nvim_set_keymap("n", "<C-e>","<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",{noremap = true})
 EOF
 '''
-
-[[plugins]]
-repo = 'nvim-telescope/telescope-file-browser.nvim'
 
 [[plugins]]
 repo = 'jeetsukumaran/vim-buffergator'

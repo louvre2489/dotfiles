@@ -101,9 +101,10 @@ hook_add = '''
 # 装飾
 ###################################################
 [[plugins]]
-repo = 'itchyny/landscape.vim'
+repo = 'sainnhe/edge'
+depends = ['nvim-treesitter']
 hook_post_source = '''
-  " landscapeのデフォルト設定を上書き
+  " デフォルト設定を上書き
   " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
   " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
 

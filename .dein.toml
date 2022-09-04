@@ -23,7 +23,7 @@ repo = 'MunifTanjim/nui.nvim'
 
 [[plugins]]
 repo = 'nvim-neo-tree/neo-tree.nvim'
-depends = ['plenary.nvim', 'nvim-web-devicons','nui.nvim']
+depends = ['plenary.nvim', 'nvim-web-devicons', 'nui.nvim']
 hook_add = '''
 lua << EOF
   require("neo-tree").setup({
@@ -49,7 +49,7 @@ lua << EOF
     }
   })
 
-  -- ファイラの起動方法
+  -- ファイラーの起動方法
   vim.api.nvim_set_keymap("n", "<C-e>","<cmd>NeoTreeFloatToggle<CR>",{noremap = true, silent = true})
 EOF
 '''

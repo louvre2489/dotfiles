@@ -60,9 +60,30 @@ EOF
 [[plugins]]
 repo = 'lewis6991/gitsigns.nvim'
 hook_add = '''
+  " ハイライトの設定
+  highlight GitSignsAdd guifg=#00ff00
+  highlight GitSignsAddNr guifg=#00ff00
+  highlight GitSignsAddLn guifg=#00ff00
+  highlight GitSignsChange guifg=#6495ed
+  highlight GitSignsChangeNr guifg=#6495ed
+  highlight GitSignsChangeLn guifg=#6495ed
+
 lua << EOF
   require('gitsigns').setup{
-    current_line_blame = false,  -- APZelos/blamer.nvim の方が便利
+    signs = {
+      change = {
+        hl = 'GitSignsChange',
+        text = '*',
+        numhl='GitSignsChangeNr',
+        linehl='GitSignsChangeLn'
+      },
+    },
+    -- ハイライト設定
+    signcolumn = true,
+    numhl      = true,
+    word_diff  = true,
+    -- APZelos/blamer.nvim の方が便利
+    current_line_blame = false,
   }
 EOF
 '''

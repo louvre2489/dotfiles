@@ -320,12 +320,12 @@ EOF
 ###################################################
 [[plugins]]
 repo = 'p00f/nvim-ts-rainbow'
-on_event = 'BufEnter'
+on_event = 'VimEnter'
 depends = ['nvim-treesitter']
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
-on_event = 'BufEnter'
+on_event = 'VimEnter'
 hook_done_update = ":TSUpdate"
 hook_source = '''
 lua << EOF
@@ -368,7 +368,7 @@ lua << EOF
     rainbow = {
       enable = true,
       extended_mode = true,
-      max_file_lines = nil,
+      max_file_lines = 300,
     },
   }
 EOF
@@ -376,23 +376,24 @@ EOF
 
 [[plugins]]
 repo = 'EdenEast/nightfox.nvim'
-on_event = 'BufEnter'
+on_event = 'VimEnter'
 depends = ['nvim-treesitter']
 hook_source = '''
 lua << EOF
   require('nightfox').setup({
     options = {
+      transparent = true,    -- Disable setting background
       styles = {              -- Style to be applied to different syntax groups
-        comments = "NONE",    -- Value is any valid attr-list value `:help attr-list`
         conditionals = "NONE",
-        constants = "NONE",
-        functions = "NONE",
-        keywords = "NONE",
-        numbers = "NONE",
         operators = "NONE",
-        strings = "NONE",
-        types = "NONE",
         variables = "NONE",
+        constants = "NONE",
+        comments = "bold",    -- Value is any valid attr-list value `:help attr-list`
+        types = "bold",
+        functions = "bold",
+        keywords = "bold",
+        numbers = "bold",
+        strings = "bold",
       },
     },
   })

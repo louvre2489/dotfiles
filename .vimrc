@@ -57,17 +57,6 @@ set confirm
 set hidden
 
 " ---------------------------------------
-" color scheme
-" ---------------------------------------
-if has('termguicolors')
-  set termguicolors
-endif
-
-let g:edge_style = 'default'
-let g:edge_better_performance = 1
-colorscheme edge
-
-" ---------------------------------------
 " Display
 " ---------------------------------------
 " [基本的な見た目]

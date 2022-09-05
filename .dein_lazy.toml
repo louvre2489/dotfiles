@@ -319,6 +319,11 @@ EOF
 # シンタクスハイライト関連
 ###################################################
 [[plugins]]
+repo = 'p00f/nvim-ts-rainbow'
+on_event = 'BufEnter'
+depends = ['nvim-treesitter']
+
+[[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 on_event = 'BufEnter'
 hook_done_update = ":TSUpdate"
@@ -359,10 +364,58 @@ lua << EOF
         return is_dein ~= nil or is_dein_lazy ~= nil
       end,
     },
+    -- p00f/nvim-ts-rainbow
+    rainbow = {
+      enable = true,
+      extended_mode = true,
+      max_file_lines = nil,
+    },
   }
 EOF
 '''
 
+[[plugins]]
+repo = 'EdenEast/nightfox.nvim'
+on_event = 'BufEnter'
+depends = ['nvim-treesitter']
+hook_source = '''
+lua << EOF
+  require('nightfox').setup({
+    options = {
+      styles = {              -- Style to be applied to different syntax groups
+        comments = "NONE",    -- Value is any valid attr-list value `:help attr-list`
+        conditionals = "NONE",
+        constants = "NONE",
+        functions = "NONE",
+        keywords = "NONE",
+        numbers = "NONE",
+        operators = "NONE",
+        strings = "NONE",
+        types = "NONE",
+        variables = "NONE",
+      },
+    },
+  })
+
+  vim.cmd("colorscheme carbonfox")
+EOF
+  " デフォルト設定を上書き
+  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
+  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
+
+  " 行番号
+  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
+
+  " FloatWindow用にNormalFloatグループを設定
+  highlight NormalFloat ctermfg=231 ctermbg=240
+
+  " yank 対象の色を変更するためのグループを設定
+  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffd700
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=500 }
+  augroup END
+'''
 
 # toml
 #[[plugins]]

@@ -54,8 +54,6 @@ lua << EOF
 EOF
 '''
 
-
-
 ###################################################
 # Git
 ###################################################
@@ -100,21 +98,6 @@ hook_add = '''
 ###################################################
 # 装飾
 ###################################################
-[[plugins]]
-repo = 'sainnhe/edge'
-depends = ['nvim-treesitter']
-hook_post_source = '''
-  " デフォルト設定を上書き
-  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
-  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
-
-  " 行番号
-  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
-
-  " FloatWindow用にNormalFloatグループを設定
-  highlight NormalFloat ctermfg=231 ctermbg=240
-'''
-
 [[plugins]]
 repo = 'Yggdroot/indentLine'
 hook_add = '''
@@ -215,44 +198,6 @@ hook_add = '''
     autocmd!
     autocmd ColorScheme * hi MatchParen ctermbg=darkcyan guibg=darkcyan
   augroup END
-'''
-
-[[plugins]]
-repo = 'luochen1990/rainbow'
-hook_add = '''
-  let g:rainbow_active = 1
-
-  let g:rainbow_conf = {
-  \	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-  \	'cterms': [''],
-  \	'operators': '_,_',
-  \	'contains_prefix': 'TOP',
-  \	'parentheses_options': '',
-  \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-  \	'separately': {
-  \		'*': {},
-  \		'markdown': {
-  \			'parentheses_options': 'containedin=markdownCode contained',
-  \		},
-  \		'clojure': {
-  \			'ctermfgs': ['red', 'blue', 'yellow', 'magenta', 'green', 'white', 'cyan'],
-  \		},
-  \		'vim': {
-  \			'parentheses_options': 'containedin=vimFuncBody,vimExecute',
-  \			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold'],
-  \		},
-  \		'xml': {
-  \			'syn_name_prefix': 'xmlRainbow',
-  \			'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-  \		},
-  \		'html': {
-  \			'parentheses': ['start=/\v\<((script|style|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-  \		},
-  \		'lua': {
-  \			'parentheses': ["start=/(/ end=/)/", "start=/{/ end=/}/", "start=/\\v\\[\\ze($|[^[])/ end=/\\]/"],
-  \		},
-  \	}
-  \}
 '''
 
 ###################################################
@@ -395,12 +340,6 @@ hook_add = '''
 
   nnoremap <Space>? <Cmd>Cheat<CR>
   nnoremap <Space>E <Cmd>EditCheat<CR>
-'''
-
-[[plugins]]
-repo = 'machakann/vim-highlightedyank'
-hook_add = '''
-  let g:highlightedyank_highlight_duration = 500
 '''
 
 ###################################################

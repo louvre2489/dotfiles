@@ -212,15 +212,6 @@ hook_add = '''
   augroup END
 '''
 
-[[plugins]]
-repo = 'andymass/vim-matchup'
-hook_add = '''
-  augroup matchup_matchparen_highlight
-    autocmd!
-    autocmd ColorScheme * hi MatchParen ctermbg=darkcyan guibg=darkcyan
-  augroup END
-'''
-
 ###################################################
 # エディター系
 ###################################################

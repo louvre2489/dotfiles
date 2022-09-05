@@ -324,6 +324,11 @@ on_event = 'VimEnter'
 depends = ['nvim-treesitter']
 
 [[plugins]]
+repo = 'andymass/vim-matchup'
+on_event = 'VimEnter'
+depends = ['nvim-treesitter']
+
+[[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 on_event = 'VimEnter'
 hook_done_update = ":TSUpdate"
@@ -370,6 +375,10 @@ lua << EOF
       extended_mode = true,
       max_file_lines = 300,
     },
+    -- andymass/vim-matchup
+    matchup = {
+      enable = true,
+    },
   }
 EOF
 '''
@@ -411,10 +420,10 @@ EOF
   highlight NormalFloat ctermfg=231 ctermbg=240
 
   " yank 対象の色を変更するためのグループを設定
-  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffd700
+  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
   augroup highlight_yank
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=500 }
+    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
   augroup END
 '''
 

@@ -5,7 +5,7 @@
 repo = 'Shougo/dein.vim'
 
 ###################################################
-# Luaモジュールの性能改善
+# 他プラグインから利用される汎用プラグイン
 ###################################################
 [[plugins]]
 repo = 'lewis6991/impatient.nvim'
@@ -15,12 +15,12 @@ lua << EOF
 EOF
 '''
 
-###################################################
-# ファイラー
-###################################################
 [[plugins]]
 repo = 'MunifTanjim/nui.nvim'
 
+###################################################
+# ファイラー
+###################################################
 [[plugins]]
 repo = 'nvim-neo-tree/neo-tree.nvim'
 depends = ['plenary.nvim', 'nvim-web-devicons', 'nui.nvim']
@@ -97,12 +97,6 @@ hook_add = '''
     " Map <C-n> and <C-p>
     imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
     imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
-
-    " 起動時に必要に応じてdiffを確認したいので、インサートモードでの起動はOFFにしておく
-"     " 起動と同時にインサートモードにする
-"     if a:info.vcs ==# 'git' && getline(1) ==# ''
-"       startinsert
-"     end
   endfunction
 '''
 

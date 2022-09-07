@@ -241,6 +241,13 @@ inoremap <silent> っｊ <ESC>:call ImInActivate()<CR>
 cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
 
 " ---------------------------------------
+" Scala Setting
+" ---------------------------------------
+augroup MyScala
+  au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
+augroup END
+
+" ---------------------------------------
 " Json Setting
 " ---------------------------------------
 augroup MyJson

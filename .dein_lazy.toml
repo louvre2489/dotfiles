@@ -1,3 +1,113 @@
+###################################################
+# Git
+###################################################
+[[plugins]]
+repo = 'lewis6991/gitsigns.nvim'
+on_event = 'VimEnter'
+hook_source = '''
+  " ハイライトの設定
+  highlight GitSignsAdd guifg=#00ff00
+  highlight GitSignsAddNr guifg=#00ff00
+  highlight GitSignsAddLn guifg=#00ff00
+  highlight GitSignsChange guifg=#6495ed
+  highlight GitSignsChangeNr guifg=#6495ed
+  highlight GitSignsChangeLn guifg=#6495ed
+
+lua << EOF
+  require('gitsigns').setup{
+    signs = {
+      change = {
+        hl = 'GitSignsChange',
+        text = '*',
+        numhl='GitSignsChangeNr',
+        linehl='GitSignsChangeLn'
+      },
+    },
+    -- ハイライト設定
+    signcolumn = true,
+    numhl      = true,
+    word_diff  = true,
+    -- APZelos/blamer.nvim の方が便利
+    current_line_blame = false,
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'rhysd/committia.vim'
+on_event = 'VimEnter'
+hook_source = '''
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info)
+    " Scroll the diff window from insert mode
+    " Map <C-n> and <C-p>
+    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
+  endfunction
+'''
+
+[[plugins]]
+repo = 'APZelos/blamer.nvim'
+on_event = 'BufEnter'
+hook_source = '''
+  let g:blamer_enabled = 1
+  let g:blamer_delay = 500
+  let g:blamer_date_format = '%Y/%m/%d'
+  let g:blamer_prefix = '     [blame]  '
+  let g:blamer_template = '<commit-short>, <committer>, <committer-time>, <summary>'
+'''
+
+###################################################
+# 装飾
+###################################################
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+on_event = 'BufEnter'
+hook_source = '''
+  set list listchars=tab:\¦\
+
+  let g:indentLine_color_term = 111
+  let g:indentLine_color_gui = '#708090'
+'''
+
+###################################################
+# テキスト編集
+###################################################
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+on_event = 'BufEnter'
+hook_source = '''
+  " 保存時に末尾の空白を自動的に削除する
+  let g:better_whitespace_enabled=1
+  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_confirm=0
+'''
+
+[[plugins]]
+repo = 'tyru/caw.vim'
+on_event = 'BufEnter'
+hook_source = '''
+  " <Leader> is \
+
+  " 行の最初の文字の前にコメント文字をトグル
+  nmap <Leader>c <Plug>(caw:hatpos:toggle)
+  vmap <Leader>c <Plug>(caw:hatpos:toggle)
+
+  " 行頭にコメントをトグル
+  nmap <Leader>, <Plug>(caw:zeropos:toggle)
+  vmap <Leader>, <Plug>(caw:zeropos:toggle)
+'''
+
+###################################################
+# ファイルタイプ判断
+###################################################
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
 ###################################################dein
 # LSP
 ###################################################
@@ -211,21 +321,67 @@ lua << EOF
   }
 
   ------------------------------------------------
-  -- JavaScript/TypeScript
-  ------------------------------------------------
---  -- 使うにはtypescript-language-serverが必要
---  require'lspconfig'.tsserver.setup{
---    filetypes = { "typescript" },
---    root_dir =  function() return vim.loop.cwd() end
---  }
-
-  ------------------------------------------------
   -- Deno
   ------------------------------------------------
   require'lspconfig'.denols.setup{
     on_attach = on_attach
   }
 
+EOF
+'''
+
+[[plugins]]
+repo = 'williamboman/nvim-lsp-installer'
+on_event = 'VimEnter'
+hook_source = '''
+lua<<EOF
+  ------------------------------------------------
+  -- LSP Server Start
+  ------------------------------------------------
+  function lsp_server_setup(server_name)
+    local lsp_installer_servers = require'nvim-lsp-installer.servers'
+
+    -- available_server: nvim-lsp-installerが対応しているサーバーかを示す
+    -- default_config: 対応している場合は、そのサーバーのdefault configが含まれている
+    local available_server, default_config = lsp_installer_servers.get_server(server_name)
+
+    -- nvim-lsp-installerに対応していないサーバーの場合はエラーを表示して終了
+    if not available_server then
+      error(string.format("nvim-lsp-installer doesn't support %s server.", server_name))
+      return
+    end
+
+    default_config:on_ready(function ()
+      local opts = {}
+      default_config:setup(opts)
+    end)
+
+    -- サーバーがインストールされていない場合はインストールする
+    if not default_config:is_installed() then
+      default_config:install()
+    end
+  end
+
+  ------------------------------------------------
+  -- LSP mapping
+  ------------------------------------------------
+  function lsp_mapping()
+
+    local function map(mode, lhs, rhs, opts)
+      local options = { noremap = true }
+      if opts then
+        options = vim.tbl_extend("force", options, opts)
+      end
+      vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    end
+
+    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+    map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+    map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+    map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+  end
 EOF
 '''
 
@@ -305,15 +461,6 @@ lua << EOF
   require("trouble").setup {}
 EOF
 '''
-
-#[[plugins]]
-#repo = 'Maan2003/lsp_lines.nvim'
-#on_event = 'BufEnter'
-#hook_source = '''
-#lua << EOF
-#  require("lsp_lines").register_lsp_virtual_lines()
-#EOF
-#'''
 
 ###################################################
 # シンタクスハイライト関連
@@ -433,12 +580,12 @@ EOF
 #on_ft = 'toml'
 
 # Scala
-[[plugins]]
-repo = 'derekwyatt/vim-scala'
-on_ft = 'scala'
-hook_add = '''
-  au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
-'''
+#[[plugins]]
+#repo = 'derekwyatt/vim-scala'
+#on_ft = 'scala'
+#hook_add = '''
+#  au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
+#'''
 
 ## Rust
 #[[plugins]]

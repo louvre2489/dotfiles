@@ -26,11 +26,12 @@ lua << EOF
     -- ハイライト設定
     signcolumn = true,
     numhl      = true,
-    word_diff  = true,
+    word_diff  = false,
     -- APZelos/blamer.nvim の方が便利
     current_line_blame = false,
   }
 EOF
+  :command GWD :Gitsigns toggle_word_diff
 '''
 
 [[plugins]]

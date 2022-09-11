@@ -248,6 +248,34 @@ augroup MyScala
 augroup END
 
 " ---------------------------------------
+" VimScript Setting
+" ---------------------------------------
+function! VimScriptLSP()
+lua << EOF
+  lsp_server_setup('vimls')
+  lsp_mapping()
+EOF
+endfunction
+
+augroup MyVimScript
+  au BufRead,BufNewFile .vimrc call VimScriptLSP()
+augroup END
+
+" ---------------------------------------
+" Yaml Setting
+" ---------------------------------------
+function! YamlLSP()
+lua << EOF
+  lsp_server_setup('yamlls')
+  lsp_mapping()
+EOF
+endfunction
+
+augroup MyYaml
+  au BufRead,BufNewFile *.yaml,*.yml call YamlLSP()
+augroup END
+
+" ---------------------------------------
 " Json Setting
 " ---------------------------------------
 augroup MyJson

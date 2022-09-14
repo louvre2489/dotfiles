@@ -13,7 +13,10 @@ hook_source = '''
   highlight GitSignsChangeNr guifg=#6495ed
   highlight GitSignsChangeLn guifg=#6495ed
 
-lua << EOF
+  :command GWD :Gitsigns toggle_word_diff
+'''
+
+lua_source = '''
   require('gitsigns').setup{
     signs = {
       change = {
@@ -30,8 +33,6 @@ lua << EOF
     -- APZelos/blamer.nvim の方が便利
     current_line_blame = false,
   }
-EOF
-  :command GWD :Gitsigns toggle_word_diff
 '''
 
 [[plugins]]
@@ -109,7 +110,7 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 
-###################################################dein
+###################################################
 # LSP
 ###################################################
 [[plugins]]
@@ -260,8 +261,7 @@ repo = 'neovim/nvim-lspconfig'
 depends = ['impatient.nvim', 'ddc.vim']
 on_event = 'BufEnter'
 #on_ft = ['rust', 'scala', 'typescript']
-hook_source = '''
-lua << EOF
+lua_source = '''
   local opts = { noremap=true, silent=true }
   vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -327,15 +327,12 @@ lua << EOF
   require'lspconfig'.denols.setup{
     on_attach = on_attach
   }
-
-EOF
 '''
 
 [[plugins]]
 repo = 'williamboman/nvim-lsp-installer'
 on_event = 'VimEnter'
-hook_source = '''
-lua<<EOF
+lua_source = '''
   ------------------------------------------------
   -- LSP Server Start
   ------------------------------------------------
@@ -383,14 +380,17 @@ lua<<EOF
     map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
     map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
   end
-EOF
 '''
 
 [[plugins]]
 repo = 'scalameta/nvim-metals'
 on_ft = 'scala'
 hook_source = '''
-lua << EOF
+  " TVP
+  :command TVP  lua require("metals.tvp").toggle_tree_view()
+  :command TVPR lua require("metals.tvp").reveal_in_tree()
+'''
+lua_source = '''
   local cmd = vim.cmd
 
   local function map(mode, lhs, rhs, opts)
@@ -438,11 +438,6 @@ lua << EOF
     showImplicitArguments = true,
     showInferredType = true,
   }
-EOF
-
-  " TVP
-  :command TVP  lua require("metals.tvp").toggle_tree_view()
-  :command TVPR lua require("metals.tvp").reveal_in_tree()
 '''
 
 ###################################################
@@ -457,10 +452,8 @@ hook_add = '''
   nnoremap <S-t><S-d> :<C-u> TroubleToggle document_diagnostics<CR>
   :command TC                TroubleClose
 '''
-hook_source = '''
-lua << EOF
+lua_source = '''
   require("trouble").setup {}
-EOF
 '''
 
 ###################################################
@@ -480,8 +473,7 @@ depends = ['nvim-treesitter']
 repo = 'nvim-treesitter/nvim-treesitter'
 on_event = 'VimEnter'
 hook_done_update = ":TSUpdate"
-hook_source = '''
-lua << EOF
+lua_source = '''
   require'nvim-treesitter.configs'.setup {
     ensure_installed = {
       "bash",
@@ -528,7 +520,6 @@ lua << EOF
       enable = true,
     },
   }
-EOF
 '''
 
 [[plugins]]
@@ -536,7 +527,24 @@ repo = 'EdenEast/nightfox.nvim'
 on_event = 'VimEnter'
 depends = ['nvim-treesitter']
 hook_source = '''
-lua << EOF
+  " デフォルト設定を上書き
+  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
+  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
+
+  " 行番号
+  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
+
+  " FloatWindow用にNormalFloatグループを設定
+  highlight NormalFloat ctermfg=231 ctermbg=240
+
+  " yank 対象の色を変更するためのグループを設定
+  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
+  augroup END
+'''
+lua_source = '''
   require('nightfox').setup({
     options = {
       transparent = true,    -- Disable setting background
@@ -556,23 +564,6 @@ lua << EOF
   })
 
   vim.cmd("colorscheme carbonfox")
-EOF
-  " デフォルト設定を上書き
-  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
-  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
-
-  " 行番号
-  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
-
-  " FloatWindow用にNormalFloatグループを設定
-  highlight NormalFloat ctermfg=231 ctermbg=240
-
-  " yank 対象の色を変更するためのグループを設定
-  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
-  augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
-  augroup END
 '''
 
 # toml
@@ -617,14 +608,12 @@ hook_add = '''
 [[plugins]]
 repo = 'TysonAndre/php-vim-syntax'
 on_ft = 'php'
-hook_post_source = '''
-lua << EOF
+lua_post_source = '''
   -- LSP Server Start
   lsp_server_setup('intelephense')
 
   -- LSP mapping
   lsp_mapping()
-EOF
 '''
 
 # TypeScript
@@ -641,12 +630,10 @@ on_ft = 'Dockerfile'
 [[plugins]]
 repo = 'clojure-vim/clojure.vim'
 on_ft = 'clojure'
-hook_post_source = '''
-lua << EOF
+lua_post_source = '''
   -- LSP Server Start
   lsp_server_setup('clojure_lsp')
 
   -- LSP mapping
   lsp_mapping()
-EOF
 '''

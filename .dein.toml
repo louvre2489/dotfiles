@@ -9,10 +9,8 @@ repo = 'Shougo/dein.vim'
 ###################################################
 [[plugins]]
 repo = 'lewis6991/impatient.nvim'
-hook_add = '''
-lua << EOF
+lua_add = '''
   require('impatient')
-EOF
 '''
 
 [[plugins]]
@@ -23,12 +21,10 @@ repo = 'nvim-lua/plenary.nvim'
 
 [[plugins]]
 repo = 'kyazdani42/nvim-web-devicons'
-hook_source = '''
-lua << EOF
+lua_add = '''
   require'nvim-web-devicons'.setup {
     default = true;
   }
-EOF
 '''
 
 ###################################################
@@ -37,8 +33,7 @@ EOF
 [[plugins]]
 repo = 'nvim-neo-tree/neo-tree.nvim'
 depends = ['plenary.nvim', 'nvim-web-devicons', 'nui.nvim']
-hook_add = '''
-lua << EOF
+lua_add = '''
   require("neo-tree").setup({
     popup_border_style = "NC",
     window = {
@@ -64,7 +59,6 @@ lua << EOF
 
   -- ファイラーの起動方法
   vim.api.nvim_set_keymap("n", "<C-e>","<cmd>NeoTreeFloatToggle<CR>",{noremap = true, silent = true})
-EOF
 '''
 
 ###################################################
@@ -72,8 +66,7 @@ EOF
 ###################################################
 [[plugins]]
 repo = 'nvim-lualine/lualine.nvim'
-hook_add = '''
-lua << EOF
+lua_add = '''
   require('lualine').setup {
     options = {
       icons_enabled = true,
@@ -138,7 +131,6 @@ lua << EOF
     },
     extensions = {}
   }
-EOF
 '''
 
 [[plugins]]
@@ -189,26 +181,26 @@ hook_add = '''
   nnoremap <silent> [telescope]in  <cmd>lua
     \ require('telescope.builtin').lsp_code_actions{
     \ }<cr>
-lua << EOF
+'''
 
-local telescope = require('telescope')
+lua_add = '''
+  local telescope = require('telescope')
 
-telescope.setup{
-  -- 設定が必要になったらここへ
-  defaults = {
-    sorting_strategy = 'ascending',
-    layout_config = {
-      prompt_position = 'top',
+  telescope.setup{
+    -- 設定が必要になったらここへ
+    defaults = {
+      sorting_strategy = 'ascending',
+      layout_config = {
+        prompt_position = 'top',
+      },
+      file_ignore_patterns = {
+        '.git/',
+        'target/',
+        '.metals/',
+        '.bloop/'
+      },
     },
-    file_ignore_patterns = {
-      '.git/',
-      'target/',
-      '.metals/',
-      '.bloop/'
-    },
-  },
-}
-EOF
+  }
 '''
 
 [[plugins]]

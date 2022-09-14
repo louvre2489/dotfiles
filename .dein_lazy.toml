@@ -105,9 +105,11 @@ hook_source = '''
 ###################################################
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
+on_event = 'BufEnter'
 
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
+on_event = 'BufEnter'
 depends = ['context_filetype.vim']
 
 ###################################################

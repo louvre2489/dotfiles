@@ -1,4 +1,51 @@
 ###################################################
+# Color Scheme
+###################################################
+[[plugins]]
+repo = 'EdenEast/nightfox.nvim'
+on_event = 'VimEnter'
+depends = ['nvim-treesitter']
+hook_source = '''
+  " デフォルト設定を上書き
+  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
+  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
+
+  " 行番号
+  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
+
+  " FloatWindow用にNormalFloatグループを設定
+  highlight NormalFloat ctermfg=231 ctermbg=240
+
+  " yank 対象の色を変更するためのグループを設定
+  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
+  augroup END
+'''
+lua_source = '''
+  require('nightfox').setup({
+    options = {
+      transparent = true,    -- Disable setting background
+      styles = {              -- Style to be applied to different syntax groups
+        conditionals = "NONE",
+        operators = "NONE",
+        variables = "NONE",
+        constants = "NONE",
+        comments = "bold",    -- Value is any valid attr-list value `:help attr-list`
+        types = "bold",
+        functions = "bold",
+        keywords = "bold",
+        numbers = "bold",
+        strings = "bold",
+      },
+    },
+  })
+
+  vim.cmd("colorscheme carbonfox")
+'''
+
+###################################################
 # Git
 ###################################################
 [[plugins]]
@@ -522,50 +569,6 @@ lua_source = '''
       enable = true,
     },
   }
-'''
-
-[[plugins]]
-repo = 'EdenEast/nightfox.nvim'
-on_event = 'VimEnter'
-depends = ['nvim-treesitter']
-hook_source = '''
-  " デフォルト設定を上書き
-  " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
-  " ここでは、プラグインに依存しないcolorschemeの設定のみ行う
-
-  " 行番号
-  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
-
-  " FloatWindow用にNormalFloatグループを設定
-  highlight NormalFloat ctermfg=231 ctermbg=240
-
-  " yank 対象の色を変更するためのグループを設定
-  highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
-  augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
-  augroup END
-'''
-lua_source = '''
-  require('nightfox').setup({
-    options = {
-      transparent = true,    -- Disable setting background
-      styles = {              -- Style to be applied to different syntax groups
-        conditionals = "NONE",
-        operators = "NONE",
-        variables = "NONE",
-        constants = "NONE",
-        comments = "bold",    -- Value is any valid attr-list value `:help attr-list`
-        types = "bold",
-        functions = "bold",
-        keywords = "bold",
-        numbers = "bold",
-        strings = "bold",
-      },
-    },
-  })
-
-  vim.cmd("colorscheme carbonfox")
 '''
 
 # toml

@@ -16,6 +16,9 @@ hook_source = '''
   " FloatWindow用にNormalFloatグループを設定
   highlight NormalFloat ctermfg=231 ctermbg=240
 
+  " Visual Mode
+  highlight Visual ctermbg=7  guibg=#686868
+
   " yank 対象の色を変更するためのグループを設定
   highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
   augroup highlight_yank

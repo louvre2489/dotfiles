@@ -14,7 +14,7 @@ hook_source = '''
   highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
 
   " FloatWindow用にNormalFloatグループを設定
-  highlight NormalFloat ctermfg=231 ctermbg=240
+  highlight NormalFloat ctermbg=240 guibg=#333333
 
   " Visual Mode
   highlight Visual ctermbg=7  guibg=#686868

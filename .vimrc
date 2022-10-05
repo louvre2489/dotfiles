@@ -283,6 +283,14 @@ augroup MyJson
 augroup END
 
 " ---------------------------------------
+" Rust Setting
+" ---------------------------------------
+augroup MyRust
+  autocmd!
+  autocmd BufWritePost *.rs silent !cargo fmt
+augroup END
+
+" ---------------------------------------
 " Python Setting
 " ---------------------------------------
 " 設定方法

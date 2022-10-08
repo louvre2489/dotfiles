@@ -2,9 +2,43 @@
 # Color Scheme
 ###################################################
 [[plugins]]
-repo = 'EdenEast/nightfox.nvim'
+repo = 'catppuccin/nvim'
 on_event = 'VimEnter'
 depends = ['nvim-treesitter']
+hook_done_update = ":CatppuccinCompile"
+lua_source = '''
+  require("catppuccin").setup({
+    transparent_background = true,
+    term_colors = false,
+    styles = {
+      comments = { "italic", "bold" },
+      functions = { "bold" },
+      types = { "bold" },
+      keywords = {" bold" },
+      strings = { "bold" },
+      numbers = { "bold" },
+      booleans = { "bold" },
+      conditionals = {},
+      loops = {},
+      properties = {},
+      variables = {},
+      operators = {},
+    },
+    integrations = {
+      cmp = true,
+      gitsigns = true,
+      nvimtree = true,
+      telescope = true,
+      treesitter = true,
+      ts_rainbow = true,
+      neotree = true,
+      lsp_trouble = true,
+    },
+  })
+
+  vim.g.catppuccin_flavour = "frappe"
+  vim.api.nvim_command "colorscheme catppuccin"
+'''
 hook_source = '''
   " デフォルト設定を上書き
   " ただし、プラグイン用のcolorscheme設定は、各プラグインのhookで行う
@@ -16,8 +50,8 @@ hook_source = '''
   " FloatWindow用にNormalFloatグループを設定
   highlight NormalFloat ctermbg=240 guibg=#333333
 
-  " Visual Mode
-  highlight Visual ctermbg=7  guibg=#686868
+"  " Visual Mode
+"  highlight Visual ctermbg=7  guibg=#686868
 
   " yank 対象の色を変更するためのグループを設定
   highlight HighlightedyankRegion guifg=#2a2a2a guibg=#ffec80
@@ -25,27 +59,6 @@ hook_source = '''
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
   augroup END
-'''
-lua_source = '''
-  require('nightfox').setup({
-    options = {
-      transparent = true,    -- Disable setting background
-      styles = {              -- Style to be applied to different syntax groups
-        conditionals = "NONE",
-        operators = "NONE",
-        variables = "NONE",
-        constants = "NONE",
-        comments = "bold",    -- Value is any valid attr-list value `:help attr-list`
-        types = "bold",
-        functions = "bold",
-        keywords = "bold",
-        numbers = "bold",
-        strings = "bold",
-      },
-    },
-  })
-
-  vim.cmd("colorscheme carbonfox")
 '''
 
 ###################################################
@@ -432,6 +445,12 @@ lua_source = '''
     map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
     map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
   end
+'''
+
+repo = 'j-hui/fidget.nvim'
+on_event = 'VimEnter'
+lua_source = '''
+  require"fidget".setup{}
 '''
 
 [[plugins]]

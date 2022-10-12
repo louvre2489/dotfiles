@@ -134,6 +134,10 @@ lua_source = '''
     popupmenu = {
       enabled = false,
     },
+   hacks = {
+      -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
+      skip_duplicate_messages = true,
+    },
   }
 '''
 

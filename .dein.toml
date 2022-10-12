@@ -181,6 +181,9 @@ hook_add = '''
   nnoremap <silent> [telescope]in  <cmd>lua
     \ require('telescope.builtin').lsp_code_actions{
     \ }<cr>
+
+  " with noice.nvim
+  nnoremap <silent> [telescope]no  <cmd>Noice telescope<cr>
 '''
 
 lua_add = '''

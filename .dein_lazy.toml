@@ -126,6 +126,27 @@ hook_source = '''
 # 装飾
 ###################################################
 [[plugins]]
+repo = 'folke/noice.nvim'
+depends = ['nvim-notify, nui.nvim']
+on_event = 'VimEnter'
+lua_source = '''
+  require("noice").setup {
+    popupmenu = {
+      enabled = false,
+    },
+  }
+'''
+
+[[plugins]]
+repo = 'rcarriga/nvim-notify'
+on_event = 'VimEnter'
+lua_source = '''
+  require("notify").setup {
+    stages = 'static',
+  }
+'''
+
+[[plugins]]
 repo = 'Yggdroot/indentLine'
 on_event = 'BufEnter'
 hook_source = '''
@@ -138,15 +159,15 @@ hook_source = '''
 ###################################################
 # テキスト編集
 ###################################################
-[[plugins]]
-repo = 'ntpeters/vim-better-whitespace'
-on_event = 'BufEnter'
-hook_source = '''
-  " 保存時に末尾の空白を自動的に削除する
-  let g:better_whitespace_enabled=1
-  let g:strip_whitespace_on_save=1
-  let g:strip_whitespace_confirm=0
-'''
+#[[plugins]]
+#repo = 'ntpeters/vim-better-whitespace'
+#on_event = 'BufEnter'
+#hook_source = '''
+#  " 保存時に末尾の空白を自動的に削除する
+#  let g:better_whitespace_enabled=1
+#  let g:strip_whitespace_on_save=1
+#  let g:strip_whitespace_confirm=0
+#'''
 
 [[plugins]]
 repo = 'tyru/caw.vim'

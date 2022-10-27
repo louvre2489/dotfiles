@@ -127,7 +127,7 @@ hook_source = '''
 ###################################################
 [[plugins]]
 repo = 'folke/noice.nvim'
-depends = ['nvim-notify, nui.nvim']
+#depends = ['nvim-notify, nui.nvim']
 on_event = 'VimEnter'
 lua_source = '''
   require("noice").setup {
@@ -226,6 +226,9 @@ hook_source = '''
   " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
   call ddc#custom#patch_global('backspaceCompletion', 'v:true')
 
+  " UI
+  call ddc#custom#patch_global('ui', 'native')
+
   call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'vsnip', 'deoppet', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
@@ -307,6 +310,10 @@ hook_add = '''
   smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
   let g:vsnip_filetypes = {}
 '''
+
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+on_source = 'ddc.vim'
 
 [[plugins]]
 repo = 'LumaKernel/ddc-file'

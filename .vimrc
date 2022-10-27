@@ -65,6 +65,7 @@ set title
 
 " 行番号
 set number
+set relativenumber
 
 " ルーラーを表示する
 set ruler

@@ -500,27 +500,6 @@ lua_source = '''
   }
 '''
 
-# toml
-#[[plugins]]
-#repo = 'cespare/vim-toml'
-#on_ft = 'toml'
-
-# Scala
-#[[plugins]]
-#repo = 'derekwyatt/vim-scala'
-#on_ft = 'scala'
-#hook_add = '''
-#  au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
-#'''
-
-## Rust
-#[[plugins]]
-#repo = 'rust-lang/rust.vim'
-#on_ft = 'rust'
-#hook_add = '''
-#"  let g:rustfmt_autosave = 1
-#'''
-
 # JavaScript
 [[plugins]]
 repo = 'neovim/node-host'
@@ -538,36 +517,7 @@ hook_add = '''
   let g:tigris#delay = 300
 '''
 
-# PHP
-[[plugins]]
-repo = 'TysonAndre/php-vim-syntax'
-on_ft = 'php'
-lua_post_source = '''
-  -- LSP Server Start
-  lsp_server_setup('intelephense')
-
-  -- LSP mapping
-  lsp_mapping()
-'''
-
 # TypeScript
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
-
-# Dockerfile
-[[plugins]]
-repo = 'honza/dockerfile.vim'
-on_ft = 'Dockerfile'
-
-# Clojure
-[[plugins]]
-repo = 'clojure-vim/clojure.vim'
-on_ft = 'clojure'
-lua_post_source = '''
-  -- LSP Server Start
-  lsp_server_setup('clojure_lsp')
-
-  -- LSP mapping
-  lsp_mapping()
-'''

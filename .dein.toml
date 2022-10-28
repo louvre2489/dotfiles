@@ -314,31 +314,50 @@ lua_add = '''
 '''
 
 [[plugins]]
-repo = 'williamboman/nvim-lsp-installer'
+repo = 'williamboman/mason.nvim'
 lua_add = '''
-  require("nvim-lsp-installer").setup {
-  }
+  local mason = require('mason')
 
-  ------------------------------------------------
-  -- LSP mapping
-  ------------------------------------------------
-  function lsp_mapping()
+  mason.setup({
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "➜",
+        package_uninstalled = "✗"
+      }
+    }
+  })
+'''
 
-    local function map(mode, lhs, rhs, opts)
-      local options = { noremap = true }
-      if opts then
-        options = vim.tbl_extend("force", options, opts)
+[[plugins]]
+repo = 'williamboman/mason-lspconfig.nvim'
+lua_add = '''
+  local nvim_lsp = require('lspconfig')
+  local mason_lspconfig = require('mason-lspconfig')
+
+  require("mason-lspconfig").setup({
+      ensure_installed = {
+        "dockerls",
+        "html",
+        "jsonls",
+        "intelephense",
+        "vimls",
+      }
+  })
+
+  mason_lspconfig.setup_handlers({
+    function(server_name)
+      local opts = {}
+      opts.on_attach = function(_, bufnr)
+        local bufopts = { silent = true, buffer = bufnr }
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+        vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
       end
-      vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+      nvim_lsp[server_name].setup(opts)
     end
-
-    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-    map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-    map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-    map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-  end
+  })
 '''
 
 ###################################################

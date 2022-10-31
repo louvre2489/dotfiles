@@ -163,15 +163,21 @@ hook_source = '''
 ###################################################
 # テキスト編集
 ###################################################
-#[[plugins]]
-#repo = 'ntpeters/vim-better-whitespace'
-#on_event = 'BufEnter'
-#hook_source = '''
-#  " 保存時に末尾の空白を自動的に削除する
-#  let g:better_whitespace_enabled=1
-#  let g:strip_whitespace_on_save=1
-#  let g:strip_whitespace_confirm=0
-#'''
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+on_event = 'BufEnter'
+hook_source = '''
+  " 保存時に末尾の空白を自動的に削除する
+  let g:better_whitespace_enabled=1
+  let g:strip_whitespace_confirm=0
+
+  " 何かをきっかけに設定が利かなくなったので、保存時に `StripWhitespace` を実行する
+  " let g:strip_whitespace_on_save=1
+  augroup MyWhiteSpace
+    autocmd!
+    autocmd BufWritePost * silent StripWhitespace
+  augroup END
+'''
 
 [[plugins]]
 repo = 'tyru/caw.vim'
@@ -229,7 +235,7 @@ hook_source = '''
   " UI
   call ddc#custom#patch_global('ui', 'native')
 
-  call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'vsnip', 'deoppet', 'around'])
+  call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'around'])
   call ddc#custom#patch_global('sourceOptions', {
        \ '_': {
        \   'matchers': ['matcher_head'],
@@ -240,10 +246,6 @@ hook_source = '''
        \ 'around': {
        \   'mark': 'A',
        \ },
-       \ 'deoppet': {
-       \   'dup': v:true,
-       \   'mark': 'dp',
-       \  },
        \ 'file': {
        \   'mark': 'F',
        \   'isVolatile': v:true,
@@ -267,48 +269,6 @@ hook_source = '''
        \ })
 
   call ddc#enable()
-'''
-
-[[plugins]]
-repo = 'Shougo/deoppet.nvim'
-depends = ['neosnippet-snippets', 'context_filetype.vim']
-on_source = 'ddc.vim'
-on_event = 'InsertEnter'
-hook_source = '''
-  call deoppet#initialize()
-
-  call deoppet#custom#option('snippets',
-  \ map(globpath(&runtimepath, 'neosnippets', 1, 1),
-  \     { _, val -> { 'path': val } }))
-
-  imap <C-k>  <Plug>(deoppet_expand)
-  imap <C-f>  <Plug>(deoppet_jump_forward)
-  imap <C-b>  <Plug>(deoppet_jump_backward)
-  smap <C-f>  <Plug>(deoppet_jump_forward)
-  smap <C-b>  <Plug>(deoppet_jump_backward)
-'''
-
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-
-[[plugins]]
-repo = 'hrsh7th/vim-vsnip-integ'
-
-[[plugins]]
-repo = 'rafamadriz/friendly-snippets'
-
-[[plugins]]
-repo = 'hrsh7th/vim-vsnip'
-on_event = 'InsertEnter'
-depends = ['vim-vsnip-integ', 'friendly-snippets']
-hook_add = '''
-  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
-  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
-  let g:vsnip_filetypes = {}
 '''
 
 [[plugins]]

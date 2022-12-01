@@ -228,6 +228,10 @@ alias docui='docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skan
 
 alias chatwork_oauth='docker run --rm --env-file ~/workspace/rust/chatwork_oauth/.env chatwork_oauth'
 
+# Kindle を見る
+#   ref: https://yukihane.github.io/docs/ubuntu/kindle-for-pc-ubuntu20.04/
+alias kindle_on_wine="wine64 $HOME/.wine/drive_c/Program\ Files\ \(x86\)/Amazon/Kindle/Kindle.exe"
+
 # custom function
 alias gl='fshow'
 

@@ -319,6 +319,7 @@ lua_add = '''
   local mason = require('mason')
 
   mason.setup({
+    install_root_dir = os.getenv("HOME").."/.lsp/data"  ,
     ui = {
       icons = {
         package_installed = "✓",

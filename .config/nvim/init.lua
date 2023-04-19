@@ -75,7 +75,7 @@ local options = {
   splitright = true,
   -- バックスペースの影響範囲を設定する
   backspace = 'indent,eol,start',
---  -- OSとクリップボードを共有する
+  -- OSとクリップボードを共有する
   clipboard = 'unnamedplus',
   -- マウスを有効にする
   mouse = 'a',

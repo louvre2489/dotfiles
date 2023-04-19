@@ -166,25 +166,55 @@ vim.api.nvim_set_keymap('n', ']Q', ':<C-u>clast<CR> ', { noremap = true, silent 
 -- augroup --------
 -------------------
 -- Scala Setting
---local myScala = vim.api.nvim_create_augroup('MyScala', { clear = true })
---vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
---  pattern = '*.sbt', '*.sc',
---  group = myScala,
---  command = 'set filetype=scala',
---})
---
----- Json Setting
---local myJson = vim.api.nvim_create_augroup('MyJson', { clear = true })
---vim.api.nvim_create_autocmd({ 'FileType' }, {
---  pattern = 'json',
---  group = myJson,
---  command = 'syntax match Comment +\\/\\/.\\+$+',
---})
---
----- Rust Setting
---local myRust = vim.api.nvim_create_augroup('MyRust', { clear = true })
---vim.api.nvim_create_autocmd({ 'BufWritePost ' }, {
---  pattern = '*.rs',
---  group = myRust,
---  command = 'silent !cargo fmt',
---})
+local myScala = vim.api.nvim_create_augroup('MyScala', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = '*.sbt,*.sc',
+  group = myScala,
+  command = 'set filetype=scala',
+})
+
+-- Json Setting
+local myJson = vim.api.nvim_create_augroup('MyJson', { clear = true })
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = 'json',
+  group = myJson,
+  command = 'syntax match Comment +\\/\\/.\\+$+',
+})
+
+-- Rust Setting
+local myRust = vim.api.nvim_create_augroup('MyRust', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufWritePost ' }, {
+  pattern = '*.rs',
+  group = myRust,
+  command = 'silent !cargo fmt',
+})
+
+-------------------
+-- lazy.nvim ------
+-------------------
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+local plugins = require('plugins')
+require('lazy').setup(plugins)
+
+--------------------
+-- プラグイン設定 --
+--------------------
+-- NeoTree
+---- ファイラーの起動方法
+vim.api.nvim_set_keymap("n", "<C-e>","<cmd>NeoTreeFloatToggle<CR>",{noremap = true, silent = true})
+
+-- catppuccin/nvim
+vim.g.catppuccin_flavour = "frappe"
+vim.api.nvim_command "colorscheme catppuccin"

@@ -141,31 +141,18 @@ vim.api.nvim_set_keymap('n', '[q', ':cprevious<CR>', { noremap = true, silent = 
 vim.api.nvim_set_keymap('n', ']q', ':cnext<CR>', { noremap = true, silent = false })        -- 次へ
 vim.api.nvim_set_keymap('n', '[Q', ':<C-u>cfirst<CR>', { noremap = true, silent = false })  -- 最初へ
 vim.api.nvim_set_keymap('n', ']Q', ':<C-u>clast<CR> ', { noremap = true, silent = false })  -- 最後へ
---
+
 -------------------
 -- autocmd --------
 -------------------
-local function on_ft(ft, cb)
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = ft,
-    callback = cb,
-  })
-end
-
--- デフォルトvimrc_exampleのtextwidth設定上書き
-on_ft('text', function()
-  vim.opt_local.textwidth = 0
-end)
-
 -- vimgrepの結果をQuickFixで開く
-on_ft('QuickFixCmdPost ', function()
-  vim.cmd('*grep* cwindow')
-end)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'QuickFixCmdPost ',
+  callback = function()
+    vim.cmd('*grep* cwindow')
+  end,
+})
 
-
--------------------
--- augroup --------
--------------------
 -- Scala Setting
 local myScala = vim.api.nvim_create_augroup('MyScala', { clear = true })
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
@@ -195,11 +182,9 @@ vim.api.nvim_create_autocmd({ 'BufWritePost ' }, {
 --------------------
 -- 行番号
 vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7, ctermbg=none })
---  highlight LineNr term=none ctermfg=7 ctermbg=none guifg=#ffffff guibg=bg
 
 -- FloatWindow用にNormalFloatグループを設定
 vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
---  highlight NormalFloat ctermbg=240 guibg=#333333
 
 -- yank 対象の色を変更するためのグループを設定
 vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg='#2a2a2a', bg='#ffec80' })

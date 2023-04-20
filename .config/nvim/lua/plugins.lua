@@ -47,6 +47,78 @@ return {
     end
   },
   ---------------------------------------------------
+  -- 装飾 -------------------------------------------
+  ---------------------------------------------------
+  {
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      require('lualine').setup {
+        options = {
+          icons_enabled = true,
+          theme = 'material',
+          disabled_filetypes = {},
+          always_divide_middle = true,
+          colored = false,
+        },
+        sections = {
+          lualine_a = {'mode'},
+          lualine_b = {'branch', 'diff'},
+          lualine_c = {
+            {
+              'filename',
+              path = 1,
+              file_status = true,
+              shorting_target = 40,
+              symbols = {
+                modified = ' [+]',
+                readonly = ' [RO]',
+                unnamed = 'Untitled',
+              }
+            },
+            'progress'
+          },
+          lualine_x = {'filetype', 'encoding'},
+          lualine_y = {
+            {
+              'diagnostics',
+              source = {'nvim-lsp'},
+              sections = { 'error', 'warn', 'info', 'hint' },
+    
+              diagnostics_color = {
+                error = 'DiagnosticError',
+                warn  = 'DiagnosticWarn',
+                info  = 'DiagnosticInfo',
+                hint  = 'DiagnosticHint',
+              },
+              symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
+              colored = true,
+              update_in_insert = false,
+              always_visible = false,
+            }
+          },
+          lualine_z = {'location'}
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        tabline = {
+          lualine_a = {'buffers'},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        extensions = {}
+      }
+    end
+  },
+  ---------------------------------------------------
   -- Color Settings ---------------------------------
   ---------------------------------------------------
   {
@@ -137,5 +209,7 @@ return {
       })
     end
   },
-
+  ---------------------------------------------------
+  -- 便利ツール ---------------------------------
+  ---------------------------------------------------
 }

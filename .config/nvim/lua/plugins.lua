@@ -25,7 +25,7 @@ return {
     },
     init = function()
       -- ファイラーの起動方法
-      vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>',{noremap = true, silent = true})
+      vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>', { noremap = true, silent = true })
     end,
     config = function()
       require('neo-tree').setup({
@@ -64,7 +64,7 @@ return {
       local builtin = require('telescope.builtin')
 
       vim.keymap.set('n', '<Space><Space>', builtin.find_files, {})
-      vim.keymap.set( 'n', '<Space>h',
+      vim.keymap.set('n', '<Space>h',
         function()
           builtin.find_files({
             hidden = true
@@ -99,7 +99,7 @@ return {
         {}
       )
     end,
-    config = function() 
+    config = function()
       local telescope = require('telescope')
 
       telescope.setup{
@@ -195,6 +195,58 @@ return {
   },
 
   ---------------------------------------------------
+  -- いいかんじの見た目にする -----------------------
+  ---------------------------------------------------
+  {
+    'folke/noice.nvim',
+    event = 'VimEnter',
+    config = function()
+      require("noice").setup {
+        popupmenu = {
+          enabled = false,
+        },
+       hacks = {
+          -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
+          skip_duplicate_messages = true,
+        },
+      }
+    end
+  },
+  {
+    'rcarriga/nvim-notify',
+    event = 'VimEnter',
+    config = function()
+      require("notify").setup {
+        stages = 'static',
+      }
+    end
+  },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    event = 'BufEnter',
+    init = function()
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg='#E5C07B', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { fg='#98C379', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent3', { fg='#56B6C2', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent4', { fg='#E06C75', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent5', { fg='#61AFEF', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg='#C678DD', nocombine=true })
+    end,
+    config = function()
+      require("indent_blankline").setup {
+        char_highlight_list = {
+            "IndentBlanklineIndent1",
+            "IndentBlanklineIndent2",
+            "IndentBlanklineIndent3",
+            "IndentBlanklineIndent4",
+            "IndentBlanklineIndent5",
+            "IndentBlanklineIndent6",
+        },
+      }
+    end
+  },
+
+  ---------------------------------------------------
   -- Color Settings ---------------------------------
   ---------------------------------------------------
   {
@@ -236,18 +288,30 @@ return {
             return is_dein ~= nil or is_dein_lazy ~= nil
           end,
         },
---        -- p00f/nvim-ts-rainbow
---        rainbow = {
---          enable = true,
---          extended_mode = true,
---          max_file_lines = 300,
---        },
---        -- andymass/vim-matchup
---        matchup = {
---          enable = true,
---        },
+        -- HiPhish/nvim-ts-rainbow2
+        rainbow = {
+          enable = true,
+        },
+        -- andymass/vim-matchup
+        matchup = {
+          enable = true,
+        },
       }
     end,
+  },
+  {
+    'HiPhish/nvim-ts-rainbow2',
+    event = 'VimEnter',
+    dependencies = {
+      'nvim-treesitter'
+    }
+  },
+  {
+    'andymass/vim-matchup',
+    event = 'VimEnter',
+    dependencies = {
+      'nvim-treesitter'
+    }
   },
   {
     'catppuccin/nvim',
@@ -259,7 +323,7 @@ return {
       vim.api.nvim_command 'colorscheme catppuccin'
 
       -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
-      
+
       -- 行番号
       vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7, ctermbg=none })
 
@@ -308,9 +372,37 @@ return {
       })
     end
   },
+  {
+    'norcalli/nvim-colorizer.lua',
+    event = 'BufEnter',
+    init = function()
+      vim.cmd('command! CA lua require("colorizer").attach_to_buffer(0)')
+    end,
+    config = function()
+      require 'colorizer'.setup{
+      }
+    end
+  },
 
   ---------------------------------------------------
-  -- 便利ツール ---------------------------------
+  -- テキスト編集 -----------------------------------
+  ---------------------------------------------------
+  {
+    'ntpeters/vim-better-whitespace',
+    event = 'BufEnter',
+    init = function()
+      -- 保存時に末尾の空白を自動的に削除する
+      vim.g.better_whitespace_enabled = 1
+      vim.g.strip_whitespace_confirm = 0
+      vim.g.strip_only_modified_lines = 1
+
+      vim.cmd('autocmd BufWritePre * :StripWhitespace')
+
+    end
+  },
+
+  ---------------------------------------------------
+  -- 便利ツール -------------------------------------
   ---------------------------------------------------
   {
     'Shougo/deol.nvim',
@@ -336,6 +428,21 @@ return {
       vim.keymap.set('n', '<Space>E', '<cmd>EditCheat<CR>', { noremap = true })
     end
   },
+  {
+    'Shougo/context_filetype.vim',
+    event = 'BufEnter'
+  },
+  {
+    'osyo-manga/vim-precious',
+    event = 'BufEnter',
+    dependencies = {
+      'context_filetype.vim'
+    }
+  },
+
+  ---------------------------------------------------
+  -- Git --------------------------------------------
+  ---------------------------------------------------
   {
     'lewis6991/gitsigns.nvim',
     event = 'VimEnter',
@@ -371,6 +478,17 @@ return {
     end
   },
   { 'rhysd/committia.vim' },
+  {
+    'APZelos/blamer.nvim',
+    event = 'BufEnter',
+    init = function()
+      vim.g.blamer_enabled = 1
+      vim.g.blamer_delay = 500
+      vim.g.blamer_date_format = '%Y/%m/%d'
+      vim.g.blamer_prefix = '     [blame]  '
+      vim.g.blamer_template = '<commit-short>, <committer>, <committer-time>, <summary>'
+    end
+  },
 
   ---------------------------------------------------
   -- LSP --------------------------------------------
@@ -440,6 +558,20 @@ return {
       }
 
       ------------------------------------------------
+      -- Lua
+      ------------------------------------------------
+      require'lspconfig'.lua_ls.setup {
+        settings = {
+          Lua = {
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {'vim'},
+            },
+          },
+        },
+      }
+
+      ------------------------------------------------
       -- Deno
       ------------------------------------------------
       require'lspconfig'.denols.setup{
@@ -497,4 +629,20 @@ return {
       })
     end
   },
+  {
+    'folke/trouble.nvim',
+    dependencies = {
+     'nvim-web-devicons'
+    },
+    event = 'BufEnter',
+    init = function()
+      vim.keymap.set('n', '<S-t><S-t>','<cmd> TroubleToggle workspace_diagnostics<CR>', { noremap = true })
+      vim.keymap.set('n', '<S-t><S-d>','<cmd> TroubleToggle document_diagnostics<CR>', { noremap = true })
+
+      vim.cmd('command! TC TroubleClose')
+    end,
+    config = function()
+      require("trouble").setup {}
+    end
+  }
 }

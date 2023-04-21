@@ -55,6 +55,7 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
+    event = 'VeryLazy',
     config = function() 
       local telescope = require('telescope')
 
@@ -120,6 +121,7 @@ return {
   ---------------------------------------------------
   {
     'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
     config = function()
       require('lualine').setup {
         options = {
@@ -152,7 +154,7 @@ return {
               'diagnostics',
               source = {'nvim-lsp'},
               sections = { 'error', 'warn', 'info', 'hint' },
-    
+
               diagnostics_color = {
                 error = 'DiagnosticError',
                 warn  = 'DiagnosticWarn',
@@ -326,12 +328,47 @@ return {
       vim.keymap.set('n', '<Space>E', '<cmd>EditCheat<CR>', { noremap = true })
     end
   },
+  {
+    'lewis6991/gitsigns.nvim',
+    event = 'VimEnter',
+    config = function()
+      require('gitsigns').setup{
+        signs = {
+          change = {
+            hl = 'GitSignsChange',
+            text = '*',
+            numhl='GitSignsChangeNr',
+            linehl='GitSignsChangeLn'
+          },
+        },
+        -- ハイライト設定
+        signcolumn = true,
+        numhl      = true,
+        word_diff  = false,
+        -- APZelos/blamer.nvim の方が便利
+        current_line_blame = false,
+      }
+    end,
+    init = function()
+      -- ハイライトの設定
+      vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddNr', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddLn', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsChange', { fg='#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { fg='#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { fg='#6495ed' })
+
+      -- 変更箇所をハイライトするかどうかを切り替える
+      vim.cmd('command! GWD :Gitsigns toggle_word_diff')
+    end
+  },
 
   ---------------------------------------------------
   -- LSP --------------------------------------------
   ---------------------------------------------------
   {
     'neovim/nvim-lspconfig',
+    event = 'LspAttach',
     init = function()
       local opts = { noremap=true, silent=true }
 

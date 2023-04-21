@@ -114,40 +114,36 @@ end
 -- Key Mapping ----
 -------------------
 -- インサートモードから抜ける
-vim.api.nvim_set_keymap('i', 'jj', '<ESC>', { noremap = true, silent = true })
-
--- ターミナルモードでインサートモードから抜ける
-vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', { noremap = true, silent = true })
+vim.keymap.set('i', 'jj', '<ESC>', { noremap = true, silent = true })
 
 -- カッコ
-vim.api.nvim_set_keymap('i', '{<Enter>', '{}<Left><CR><ESC><S-o>', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('i', '[<Enter>', '[]<Left><CR><ESC><S-o>', { noremap = true, silent = false })
+vim.keymap.set('i', '{<Enter>', '{}<Left><CR><ESC><S-o>', { noremap = true, silent = false })
+vim.keymap.set('i', '[<Enter>', '[]<Left><CR><ESC><S-o>', { noremap = true, silent = false })
 
 -- ウィンドウ
-vim.api.nvim_set_keymap('n', 's', '<Nop>', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', 'sj', '<C-w>j', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', 'sk', '<C-w>k', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', 'sl', '<C-w>l', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', 'sh', '<C-w>h', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', 'ss', ':<C-u>sp<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'sv', ':<C-u>vs<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'sv', ':<C-u>vs<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'sn', ':<C-u>bnext<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'sp', ':<C-u>bprevious<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'sq', ':<C-u>bd<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 's', '<Nop>', { noremap = true, silent = false })
+vim.keymap.set('n', 'sj', '<C-w>j', { noremap = true, silent = false })
+vim.keymap.set('n', 'sk', '<C-w>k', { noremap = true, silent = false })
+vim.keymap.set('n', 'sl', '<C-w>l', { noremap = true, silent = false })
+vim.keymap.set('n', 'sh', '<C-w>h', { noremap = true, silent = false })
+vim.keymap.set('n', 'ss', ':<C-u>sp<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sv', ':<C-u>vs<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sn', ':<C-u>bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sp', ':<C-u>bprevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sq', ':<C-u>bd<CR>', { noremap = true, silent = true })
 
 -- vimgrep
-vim.api.nvim_set_keymap('n', '[q', ':cprevious<CR>', { noremap = true, silent = false })    -- 前へ
-vim.api.nvim_set_keymap('n', ']q', ':cnext<CR>', { noremap = true, silent = false })        -- 次へ
-vim.api.nvim_set_keymap('n', '[Q', ':<C-u>cfirst<CR>', { noremap = true, silent = false })  -- 最初へ
-vim.api.nvim_set_keymap('n', ']Q', ':<C-u>clast<CR> ', { noremap = true, silent = false })  -- 最後へ
+vim.keymap.set('n', '[q', ':cprevious<CR>', { noremap = true, silent = false })    -- 前へ
+vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = false })        -- 次へ
+vim.keymap.set('n', '[Q', ':<C-u>cfirst<CR>', { noremap = true, silent = false })  -- 最初へ
+vim.keymap.set('n', ']Q', ':<C-u>clast<CR>', { noremap = true, silent = false })  -- 最後へ
 
 -------------------
 -- autocmd --------
 -------------------
 -- vimgrepの結果をQuickFixで開く
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'QuickFixCmdPost ',
+  pattern = 'QuickFixCmdPost',
   callback = function()
     vim.cmd('*grep* cwindow')
   end,
@@ -171,30 +167,10 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 
 -- Rust Setting
 local myRust = vim.api.nvim_create_augroup('MyRust', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufWritePost ' }, {
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   pattern = '*.rs',
   group = myRust,
   command = 'silent !cargo fmt',
-})
-
---------------------
--- Color Settings --
---------------------
--- 行番号
-vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7, ctermbg=none })
-
--- FloatWindow用にNormalFloatグループを設定
-vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
-
--- yank 対象の色を変更するためのグループを設定
-vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg='#2a2a2a', bg='#ffec80' })
-local myYankHighlight = vim.api.nvim_create_augroup('MyYankHighlight', { clear = true })
-vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
-  pattern = '*',
-  group = myYankHighlight,
-  callback = function()
-    vim.highlight.on_yank{ higroup="HighlightedyankRegion", timeout=700 }
-  end,
 })
 
 -------------------
@@ -221,8 +197,8 @@ require('lazy').setup(plugins)
 --------------------
 -- NeoTree
 ---- ファイラーの起動方法
-vim.api.nvim_set_keymap("n", "<C-e>","<cmd>NeoTreeFloatToggle<CR>",{noremap = true, silent = true})
+vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>',{noremap = true, silent = true})
 
 -- catppuccin/nvim
-vim.g.catppuccin_flavour = "frappe"
-vim.api.nvim_command "colorscheme catppuccin"
+vim.g.catppuccin_flavour = 'frappe'
+vim.api.nvim_command 'colorscheme catppuccin'

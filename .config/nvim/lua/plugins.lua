@@ -23,7 +23,7 @@ return {
       'nvim-web-devicons',
       'nui.nvim'
     },
-    config = function() 
+    config = function()
       require('neo-tree').setup({
         popup_border_style = 'NC',
         window = {
@@ -46,6 +46,10 @@ return {
           },
         }
       })
+    end,
+    init = function()
+      -- ファイラーの起動方法
+      vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>',{noremap = true, silent = true})
     end
   },
 
@@ -280,8 +284,12 @@ return {
         },
       })
     end,
-    -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
     init = function()
+      vim.g.catppuccin_flavour = 'frappe'
+      vim.api.nvim_command 'colorscheme catppuccin'
+
+      -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
+      
       -- 行番号
       vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7, ctermbg=none })
 
@@ -362,6 +370,7 @@ return {
       vim.cmd('command! GWD :Gitsigns toggle_word_diff')
     end
   },
+  { 'rhysd/committia.vim' },
 
   ---------------------------------------------------
   -- LSP --------------------------------------------

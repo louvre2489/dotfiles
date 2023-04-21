@@ -191,14 +191,3 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = require('plugins')
 require('lazy').setup(plugins)
-
---------------------
--- プラグイン設定 --
---------------------
--- NeoTree
----- ファイラーの起動方法
-vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>',{noremap = true, silent = true})
-
--- catppuccin/nvim
-vim.g.catppuccin_flavour = 'frappe'
-vim.api.nvim_command 'colorscheme catppuccin'

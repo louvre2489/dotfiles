@@ -54,74 +54,57 @@ return {
   },
 
   ---------------------------------------------------
-  -- ファジーファインダー ---------------------------
+  -- Git --------------------------------------------
   ---------------------------------------------------
   {
-    'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    event = 'VeryLazy',
+    'lewis6991/gitsigns.nvim',
+    event = 'VimEnter',
     init = function()
-      local builtin = require('telescope.builtin')
+      -- ハイライトの設定
+      vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddNr', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddLn', { fg='#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsChange', { fg='#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { fg='#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { fg='#6495ed' })
 
-      vim.keymap.set('n', '<Space><Space>', builtin.find_files, {})
-      vim.keymap.set('n', '<Space>h',
-        function()
-          builtin.find_files({
-            hidden = true
-          })
-        end,
-        {}
-      )
-      vim.keymap.set('n', '<Space>b',
-        function()
-          builtin.buffers({
-            ignore_current_buffer = true,
-            sort_lastused = true,
-          })
-        end,
-        {}
-      )
-      vim.keymap.set('n', '<Space>gr', builtin.live_grep, {})
-      vim.keymap.set('n', '<Space>gs', builtin.git_status, {})
-      vim.keymap.set('n', '<Space>gw', builtin.lsp_document_symbols, {})
-      vim.keymap.set('n', '<Space>in',
-        function()
-          builtin.lsp_code_actions({})
-        end,
-        {}
-      )
-
-      -- with noice.nvim
-      vim.keymap.set('n', '<Space>no',
-        function()
-          vim.cmd('Noice telescope')
-        end,
-        {}
-      )
+      -- 変更箇所をハイライトするかどうかを切り替える
+      vim.cmd('command! GWD :Gitsigns toggle_word_diff')
     end,
     config = function()
-      local telescope = require('telescope')
-
-      telescope.setup{
-        -- 設定が必要になったらここへ
-        defaults = {
-          sorting_strategy = 'ascending',
-          layout_config = {
-            prompt_position = 'top',
+      require('gitsigns').setup{
+        signs = {
+          change = {
+            hl = 'GitSignsChange',
+            text = '*',
+            numhl='GitSignsChangeNr',
+            linehl='GitSignsChangeLn'
           },
-          file_ignore_patterns = {
-            '.git/',
-            'target/',
-            '.metals/',
-            '.bloop/'
-          },
-        }
+        },
+        -- ハイライト設定
+        signcolumn = true,
+        numhl      = true,
+        word_diff  = false,
+        -- APZelos/blamer.nvim の方が便利
+        current_line_blame = false,
       }
+    end
+  },
+  { 'rhysd/committia.vim' },
+  {
+    'APZelos/blamer.nvim',
+    event = 'BufEnter',
+    init = function()
+      vim.g.blamer_enabled = 1
+      vim.g.blamer_delay = 500
+      vim.g.blamer_date_format = '%Y/%m/%d'
+      vim.g.blamer_prefix = '     [blame]  '
+      vim.g.blamer_template = '<commit-short>, <committer>, <committer-time>, <summary>'
     end
   },
 
   ---------------------------------------------------
-  -- 装飾 -------------------------------------------
+  -- いいかんじの見た目にする -----------------------
   ---------------------------------------------------
   {
     'nvim-lualine/lualine.nvim',
@@ -193,10 +176,6 @@ return {
       }
     end
   },
-
-  ---------------------------------------------------
-  -- いいかんじの見た目にする -----------------------
-  ---------------------------------------------------
   {
     'folke/noice.nvim',
     event = 'VimEnter',
@@ -279,7 +258,7 @@ return {
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
-          disable = function(lang, bufnr)
+          disable = function(_, _)
             local filename = vim.api.nvim_buf_get_name(0)
             local is_dein = string.find(filename, '.dein.toml')
             local is_dein_lazy = string.find(filename, '.dein_lazy.toml')
@@ -325,7 +304,7 @@ return {
       -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
 
       -- 行番号
-      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7, ctermbg=none })
+      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7 })
 
       -- FloatWindow用にNormalFloatグループを設定
       vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
@@ -385,25 +364,71 @@ return {
   },
 
   ---------------------------------------------------
-  -- テキスト編集 -----------------------------------
-  ---------------------------------------------------
-  {
-    'ntpeters/vim-better-whitespace',
-    event = 'BufEnter',
-    init = function()
-      -- 保存時に末尾の空白を自動的に削除する
-      vim.g.better_whitespace_enabled = 1
-      vim.g.strip_whitespace_confirm = 0
-      vim.g.strip_only_modified_lines = 1
-
-      vim.cmd('autocmd BufWritePre * :StripWhitespace')
-
-    end
-  },
-
-  ---------------------------------------------------
   -- 便利ツール -------------------------------------
   ---------------------------------------------------
+ {
+    'nvim-telescope/telescope.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = 'VeryLazy',
+    init = function()
+      local builtin = require('telescope.builtin')
+
+      vim.keymap.set('n', '<Space><Space>', builtin.find_files, {})
+      vim.keymap.set('n', '<Space>h',
+        function()
+          builtin.find_files({
+            hidden = true
+          })
+        end,
+        {}
+      )
+      vim.keymap.set('n', '<Space>b',
+        function()
+          builtin.buffers({
+            ignore_current_buffer = true,
+            sort_lastused = true,
+          })
+        end,
+        {}
+      )
+      vim.keymap.set('n', '<Space>gr', builtin.live_grep, {})
+      vim.keymap.set('n', '<Space>gs', builtin.git_status, {})
+      vim.keymap.set('n', '<Space>gw', builtin.lsp_document_symbols, {})
+      vim.keymap.set('n', '<Space>in',
+        function()
+          builtin.lsp_code_actions({})
+        end,
+        {}
+      )
+
+      -- with noice.nvim
+      vim.keymap.set('n', '<Space>no',
+        function()
+          vim.cmd('Noice telescope')
+        end,
+        {}
+      )
+    end,
+    config = function()
+      local telescope = require('telescope')
+
+      telescope.setup{
+        -- 設定が必要になったらここへ
+        defaults = {
+          sorting_strategy = 'ascending',
+          layout_config = {
+            prompt_position = 'top',
+          },
+          file_ignore_patterns = {
+            '.git/',
+            'target/',
+            '.metals/',
+            '.bloop/'
+          },
+        }
+      }
+    end
+  },
   {
     'Shougo/deol.nvim',
     init = function()
@@ -439,54 +464,17 @@ return {
       'context_filetype.vim'
     }
   },
-
-  ---------------------------------------------------
-  -- Git --------------------------------------------
-  ---------------------------------------------------
   {
-    'lewis6991/gitsigns.nvim',
-    event = 'VimEnter',
-    init = function()
-      -- ハイライトの設定
-      vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsAddNr', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsAddLn', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsChange', { fg='#6495ed' })
-      vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { fg='#6495ed' })
-      vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { fg='#6495ed' })
-
-      -- 変更箇所をハイライトするかどうかを切り替える
-      vim.cmd('command! GWD :Gitsigns toggle_word_diff')
-    end,
-    config = function()
-      require('gitsigns').setup{
-        signs = {
-          change = {
-            hl = 'GitSignsChange',
-            text = '*',
-            numhl='GitSignsChangeNr',
-            linehl='GitSignsChangeLn'
-          },
-        },
-        -- ハイライト設定
-        signcolumn = true,
-        numhl      = true,
-        word_diff  = false,
-        -- APZelos/blamer.nvim の方が便利
-        current_line_blame = false,
-      }
-    end
-  },
-  { 'rhysd/committia.vim' },
-  {
-    'APZelos/blamer.nvim',
+    'ntpeters/vim-better-whitespace',
     event = 'BufEnter',
     init = function()
-      vim.g.blamer_enabled = 1
-      vim.g.blamer_delay = 500
-      vim.g.blamer_date_format = '%Y/%m/%d'
-      vim.g.blamer_prefix = '     [blame]  '
-      vim.g.blamer_template = '<commit-short>, <committer>, <committer-time>, <summary>'
+      -- 保存時に末尾の空白を自動的に削除する
+      vim.g.better_whitespace_enabled = 1
+      vim.g.strip_whitespace_confirm = 0
+      vim.g.strip_only_modified_lines = 1
+
+      vim.cmd('autocmd BufWritePre * :StripWhitespace')
+
     end
   },
 
@@ -505,7 +493,7 @@ return {
 
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
-      local on_attach = function(client, bufnr)
+      local on_attach = function(_, bufnr)
         -- Enable completion triggered by <c-x><c-o>
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -550,7 +538,7 @@ return {
           }
         },
         handlers = {
-          ["textDocument/definition"] = function(_, result, params)
+          ["textDocument/definition"] = function(_, _, _)
             -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
             return nil
           end

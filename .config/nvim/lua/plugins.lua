@@ -180,7 +180,7 @@ return {
     'folke/noice.nvim',
     event = 'VimEnter',
     config = function()
-      require("noice").setup {
+      require('noice').setup {
         popupmenu = {
           enabled = false,
         },
@@ -195,7 +195,7 @@ return {
     'rcarriga/nvim-notify',
     event = 'VimEnter',
     config = function()
-      require("notify").setup {
+      require('notify').setup {
         stages = 'static',
       }
     end
@@ -212,14 +212,14 @@ return {
       vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg='#C678DD', nocombine=true })
     end,
     config = function()
-      require("indent_blankline").setup {
+      require('indent_blankline').setup {
         char_highlight_list = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
-            "IndentBlanklineIndent3",
-            "IndentBlanklineIndent4",
-            "IndentBlanklineIndent5",
-            "IndentBlanklineIndent6",
+            'IndentBlanklineIndent1',
+            'IndentBlanklineIndent2',
+            'IndentBlanklineIndent3',
+            'IndentBlanklineIndent4',
+            'IndentBlanklineIndent5',
+            'IndentBlanklineIndent6',
         },
       }
     end
@@ -520,12 +520,12 @@ return {
         on_attach = on_attach,
         settings = {
           -- ref: https://rust-analyzer.github.io/manual.html#configuration
-          ["rust-analyzer"] = {
+          ['rust-analyzer'] = {
             imports = {
               granularity = {
-                group = "module",
+                group = 'module',
               },
-              prefix = "self",
+              prefix = 'self',
             },
             cargo = {
               buildScripts = {
@@ -538,7 +538,7 @@ return {
           }
         },
         handlers = {
-          ["textDocument/definition"] = function(_, _, _)
+          ['textDocument/definition'] = function(_, _, _)
             -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
             return nil
           end
@@ -549,12 +549,13 @@ return {
       -- Lua
       ------------------------------------------------
       require'lspconfig'.lua_ls.setup {
+        on_attach = on_attach,
         settings = {
-          Lua = {
+          lua_ls = {
             diagnostics = {
               -- Get the language server to recognize the `vim` global
               globals = {'vim'},
-            },
+            }
           },
         },
       }
@@ -569,16 +570,17 @@ return {
   },
   {
     'williamboman/mason.nvim',
+    event = 'LspAttach',
     config = function()
       local mason = require('mason')
 
       mason.setup({
-        install_root_dir = os.getenv("HOME").."/.lsp/data"  ,
+        install_root_dir = os.getenv('HOME')..'/.lsp/data'  ,
         ui = {
           icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
+            package_installed = '✓',
+            package_pending = '➜',
+            package_uninstalled = '✗'
           }
         }
       })
@@ -586,6 +588,7 @@ return {
   },
   {
     'williamboman/mason-lspconfig.nvim',
+    event = 'LspAttach',
     init = function()
       local mason_lspconfig = require('mason-lspconfig')
 
@@ -606,22 +609,23 @@ return {
       })
     end,
     config = function()
-      require("mason-lspconfig").setup({
-          ensure_installed = {
-            "dockerls",
-            "html",
-            "jsonls",
-            "intelephense",
-            "vimls",
-          }
+      require('mason-lspconfig').setup({
+        ensure_installed = {
+          'lua_ls',
+          'dockerls',
+          'html',
+          'jsonls',
+          'intelephense',
+          'vimls',
+        },
       })
     end
   },
   {
     'j-hui/fidget.nvim',
-    event = 'VimEnter',
+    event = 'LspAttach',
     config = function()
-      require"fidget".setup{}
+      require'fidget'.setup{}
     end
   },
   {
@@ -637,196 +641,131 @@ return {
       vim.cmd('command! TC TroubleClose')
     end,
     config = function()
-      require("trouble").setup {}
+      require('trouble').setup {}
     end
   },
   {
     'Shougo/ddc.vim',
     event = 'InsertEnter',
+    dependencies = {
+      'vim-denops/denops.vim',
+      'Shougo/ddc-ui-native',
+      'LumaKernel/ddc-file',
+      'Shougo/ddc-source-around',
+      'Shougo/ddc-matcher_head',
+      'Shougo/ddc-sorter_rank',
+      'Shougo/ddc-converter_remove_overlap',
+      'Shougo/ddc-source-nvim-lsp',
+    },
+    keys = {
+      {
+        -- 補完
+        '<TAB>',
+        function()
+          if vim.fn.pumvisible() > 0 then
+            return '<C-n>'
+          else
+            local line = vim.api.nvim_get_current_line()
+            local col = vim.fn.col('.')
+            if col <= 1 or line:sub(col - 2):match('%s') then
+              return '<TAB>'
+            else
+              return vim.api.nvim_call_function('ddc#map#manual_complete', {})
+            end
+          end
+        end,
+        mode = 'i',
+        expr = true,
+        silent = true,
+      },
+      {
+        -- 補完候補を戻る
+        '<S-TAB>',
+        function()
+          return vim.fn.pumvisible() > 0 and '<C-p>' or '<C-n>'
+        end,
+        mode = 'i',
+        expr = true,
+        silent = true,
+      },
+      {
+        --  C-n/C-pで補完候補を選択した時は<C-y>で選択確定しないとauto-importが実行されない
+        '<CR>',
+        function()
+          return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
+        end,
+        mode = 'i',
+        expr = true,
+        silent = true,
+      }
+    },
     config = function()
-
-      -- 補完選択時にプレビューウインドウを閉じる
-      -- autocmd CompleteDone * silent! pclose!
       -- 補完選択時にプレビューウインドウが表示されないようにする
-      vim.o.completeopt = "menu"
+      vim.opt.completeopt:remove('preview')
 
-      --  " <TAB>: completion.
-      --  inoremap <silent><expr> <TAB>
-      --  \ pumvisible() ? '<C-n>' :
-      --  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      --  \ '<TAB>' : ddc#map#manual_complete()
-      --
-      --  " <S-TAB>: completion back.
-      --  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
-      --  " C-n/C-pで補完候補を選択した時は<C-y>で選択確定しないとauto-importが実行されない
-      --  inoremap <silent><expr> <CR> pumvisible() ? '<C-y>' : '<CR>'
-      --
-      --  " バックスペース時に補完を行うための設定。マニュアルにはちらつくからOFFがデフォルトとある。気になるようならこの設定は消す。
-      --  call ddc#custom#patch_global('backspaceCompletion', 'v:true')
-      --
-      --  UI
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'ui', 'native'})
-
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sources', {'file', 'nvim-lsp', 'around'}})
-      --  call ddc#custom#patch_global('sources', ['file', 'nvim-lsp', 'around'])
-
-      --  " Use matcher_head and sorter_rank.
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sourceOptions',
-        {
+      vim.fn["ddc#custom#patch_global"]({
+        ui = "native",
+        sources = {'file', 'nvim-lsp', 'around'},
+        sourceOptions = {
           _ = {
             matchers = {'matcher_head'},
             sorters = {'sorter_rank'},
             converters =  {'converter_remove_overlap'},
             minAutoCompleteLength = 1,
-          }
-        }
-      })
-      --  call ddc#custom#patch_global('sourceOptions', #{
-      --       \ _: #{
-      --       \   matchers: ['matcher_head'],
-      --       \   sorters: ['sorter_rank'],
-      --       \   converters: ['converter_remove_overlap'],
-      --       \   minAutoCompleteLength: 1},
-      --       \ })
-
-      --  " Change source options
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sourceOptions',
-        {
-          around = { mark = 'A' }
-        }
-      })
-      --  call ddc#custom#patch_global('sourceOptions', #{
-      --       \ around: #{ mark: 'A' },
-      --       \ })
-
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sourceOptions',
-        {
+          },
+          around = {
+            mark = 'A',
+          },
           file = {
             mark = 'F',
             isVolatile = true,
             forceCompletionPattern = '\\S/\\S*',
+          },
+          ['nvim-lsp'] = {
+            mark = 'LSP',
+            dup = true,
+            forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
+          },
+        },
+        sourceParams = {
+          around = {
+            maxSize = 30
+          },
+          ['nvim-lsp'] = {
+            maxSize = 500
+          },
+        },
+        filterParams = {
+          matcher_fuzzy = {
+            splitMode = 'character'
+          },
+          converter_fuzzy = {
+            hlGroup = 'SpellBad'
           }
         }
       })
-      --  call ddc#custom#patch_global('sourceOptions', #{
-      --       \ file: #{
-      --       \   mark: 'F',
-      --       \   isVolatile: v:true,
-      --       \   forceCompletionPattern: '\S/\S*'},
-      --       \ })
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sourceOptions',
-        {
-          ['nvim-lsp'] = {
-               mark = 'LSP',
-               dup = true,
-               forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
-             }
-        }
-      })
-
-      --  call ddc#custom#patch_global('sourceOptions', #{
-      --       \ nvim-lsp: #{
-      --       \   mark: 'LSP',
-      --       \   dup: v:true,
-      --       \   forceCompletionPattern: '\.\w*|:\w*|->\w*'},
-      --       \ })
-
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'sourceParams',
-        {
-          around = {maxSize = 30},
-      	  ['nvim-lsp'] = {maxSize = 500},
-        }
-      })
-      --  call ddc#custom#patch_global('sourceParams', #{
-      --       \ around: #{maxSize: 30},
-      --	     \ nvim-lsp: #{maxSize: 500},
-      --       \ })
-
-      vim.api.nvim_call_function('ddc#custom#patch_global', {'filterParams',
-        {
-          matcher_fuzzy = {splitMode = 'character'},
-          converter_fuzzy = {hlGroup = 'SpellBad'}
-        }
-      })
-      --  call ddc#custom#patch_global('filterParams', #{
-      --       \ matcher_fuzzy: #{splitMode: 'character'},
-      --       \ converter_fuzzy: #{hlGroup: 'SpellBad'}
-      --       \ })
 
       vim.api.nvim_call_function('ddc#enable', {})
-      --  call ddc#enable()
     end
   },
   {
-    'Shougo/ddc-ui-native',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'LumaKernel/ddc-file',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'Shougo/ddc-source-around',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'Shougo/ddc-matcher_head',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'Shougo/ddc-sorter_rank',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'Shougo/ddc-converter_remove_overlap',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
-    'Shougo/ddc-source-nvim-lsp',
-    event = 'InsertEnter',
-    dependencies = {
-      'ddc.vim'
-    }
-  },
-  {
     'matsui54/denops-popup-preview.vim',
-    event = 'InsertEnter',
+    event = 'User DenopsReady',
     dependencies = {
-      'ddc.vim'
+      'vim-denops/denops.vim',
     },
     config = function()
- --     vim.api.nvim_call_function('popup_preview#enable', {})
---      call popup_preview#enable()
+      vim.api.nvim_call_function('popup_preview#enable', {})
     end
   },
   {
     'matsui54/denops-signature_help',
-    event = 'InsertEnter',
+    event = 'User DenopsReady',
     dependencies = {
-      'ddc.vim'
+      'vim-denops/denops.vim',
     },
     config = function()
- --     vim.api.nvim_call_function('signature_help#enable', {})
---      call signature_help#enable()
-
+     vim.api.nvim_call_function('signature_help#enable', {})
     end
   }
 }

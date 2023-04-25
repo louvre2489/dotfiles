@@ -545,20 +545,20 @@ return {
         }
       }
 
-      ------------------------------------------------
-      -- Lua
-      ------------------------------------------------
-      require'lspconfig'.lua_ls.setup {
-        on_attach = on_attach,
-        settings = {
-          lua_ls = {
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
-            }
-          },
-        },
-      }
+--      ------------------------------------------------
+--      -- Lua
+--      ------------------------------------------------
+--      require'lspconfig'.lua_ls.setup {
+--        on_attach = on_attach,
+--        settings = {
+--          lua_ls = {
+--            diagnostics = {
+--              -- Get the language server to recognize the `vim` global
+--              globals = {'vim'},
+--            }
+--          },
+--        },
+--      }
 
       ------------------------------------------------
       -- Deno
@@ -619,6 +619,34 @@ return {
           'vimls',
         },
       })
+      require('mason-lspconfig').setup_handlers({
+        function(server_name)
+          local opts = {}
+
+          opts.on_attach = function(_, bufnr)
+            local bufopts = { silent = true, buffer = bufnr }
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+            vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
+          end
+
+          local nvim_lsp = require('lspconfig')
+          nvim_lsp[server_name].setup(opts)
+        end,
+        ["lua_ls"] = function()
+            require'lspconfig'.lua_ls.setup {
+              settings = {
+                Lua = {
+                  diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = {'vim'},
+                  }
+                }
+              },
+            }
+        end,
+      })
     end
   },
   {
@@ -656,6 +684,8 @@ return {
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
       'Shougo/ddc-source-nvim-lsp',
+      'matsui54/denops-popup-preview.vim',
+      'matsui54/denops-signature_help',
     },
     keys = {
       {
@@ -764,8 +794,13 @@ return {
     dependencies = {
       'vim-denops/denops.vim',
     },
+
     config = function()
-     vim.api.nvim_call_function('signature_help#enable', {})
+      vim.g.signature_help_config = {
+        contentsStyle = 'currentLabel',
+        viewStyle = 'virtual',
+      }
+      vim.api.nvim_call_function('signature_help#enable', {})
     end
   }
 }

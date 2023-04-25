@@ -214,12 +214,12 @@ return {
     config = function()
       require('indent_blankline').setup {
         char_highlight_list = {
-            'IndentBlanklineIndent1',
-            'IndentBlanklineIndent2',
-            'IndentBlanklineIndent3',
-            'IndentBlanklineIndent4',
-            'IndentBlanklineIndent5',
-            'IndentBlanklineIndent6',
+          'IndentBlanklineIndent1',
+          'IndentBlanklineIndent2',
+          'IndentBlanklineIndent3',
+          'IndentBlanklineIndent4',
+          'IndentBlanklineIndent5',
+          'IndentBlanklineIndent6',
         },
       }
     end
@@ -483,41 +483,66 @@ return {
   ---------------------------------------------------
   {
     'neovim/nvim-lspconfig',
-    event = 'LspAttach',
-    init = function()
-      local opts = { noremap=true, silent=true }
+    event = { 'BufReadPre', 'BufNewFile' },
+    lazy = true,
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+      { 'williamboman/mason-lspconfig.nvim' },
+    },
+    config = function()
+      local mason = require('mason')
+      local mason_lspconfig = require('mason-lspconfig')
 
-      vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-      vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-      vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+      mason.setup({
+        install_root_dir = os.getenv('HOME')..'/.lsp/data'  ,
+        ui = {
+          icons = {
+            package_installed = '✓',
+            package_pending = '➜',
+            package_uninstalled = '✗'
+          }
+        }
+      })
 
-      -- Use an on_attach function to only map the following keys
-      -- after the language server attaches to the current buffer
-      local on_attach = function(_, bufnr)
-        -- Enable completion triggered by <c-x><c-o>
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+      mason_lspconfig.setup({
+        ensure_installed = {
+          'lua_ls',
+          'denols',
+          'dockerls',
+          'html',
+          'jsonls',
+          'intelephense',
+          'vimls',
+          'rust_analyzer'
+        },
+      })
 
-        -- Mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-      end
+      mason_lspconfig.setup_handlers({
+        function(server_name)
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
+          local opts = {}
+          opts.on_attach = function(_, bufnr)
+            local bufopts = { silent = true, buffer = bufnr }
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+            vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+            vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
+          end
+
+          local nvim_lsp = require('lspconfig')
+          nvim_lsp[server_name].setup(opts)
+        end
+      })
 
       ------------------------------------------------
       -- Rust
       ------------------------------------------------
       require'lspconfig'.rust_analyzer.setup{
-        on_attach = on_attach,
         settings = {
           -- ref: https://rust-analyzer.github.io/manual.html#configuration
           ['rust-analyzer'] = {
@@ -545,108 +570,37 @@ return {
         }
       }
 
---      ------------------------------------------------
---      -- Lua
---      ------------------------------------------------
---      require'lspconfig'.lua_ls.setup {
---        on_attach = on_attach,
---        settings = {
---          lua_ls = {
---            diagnostics = {
---              -- Get the language server to recognize the `vim` global
---              globals = {'vim'},
---            }
---          },
---        },
---      }
+      ------------------------------------------------
+      -- Lua
+      ------------------------------------------------
+      require'lspconfig'.lua_ls.setup {
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {'vim'},
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file('', true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+              enable = false,
+            },
+          },
+        }
+      }
 
       ------------------------------------------------
       -- Deno
       ------------------------------------------------
       require'lspconfig'.denols.setup{
-        on_attach = on_attach
       }
-    end
-  },
-  {
-    'williamboman/mason.nvim',
-    event = 'LspAttach',
-    config = function()
-      local mason = require('mason')
-
-      mason.setup({
-        install_root_dir = os.getenv('HOME')..'/.lsp/data'  ,
-        ui = {
-          icons = {
-            package_installed = '✓',
-            package_pending = '➜',
-            package_uninstalled = '✗'
-          }
-        }
-      })
-    end
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    event = 'LspAttach',
-    init = function()
-      local mason_lspconfig = require('mason-lspconfig')
-
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local opts = {}
-          opts.on_attach = function(_, bufnr)
-            local bufopts = { silent = true, buffer = bufnr }
-            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-            vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
-          end
-
-          local nvim_lsp = require('lspconfig')
-          nvim_lsp[server_name].setup(opts)
-        end
-      })
-    end,
-    config = function()
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          'lua_ls',
-          'dockerls',
-          'html',
-          'jsonls',
-          'intelephense',
-          'vimls',
-        },
-      })
-      require('mason-lspconfig').setup_handlers({
-        function(server_name)
-          local opts = {}
-
-          opts.on_attach = function(_, bufnr)
-            local bufopts = { silent = true, buffer = bufnr }
-            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-            vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
-          end
-
-          local nvim_lsp = require('lspconfig')
-          nvim_lsp[server_name].setup(opts)
-        end,
-        ["lua_ls"] = function()
-            require'lspconfig'.lua_ls.setup {
-              settings = {
-                Lua = {
-                  diagnostics = {
-                    -- Get the language server to recognize the `vim` global
-                    globals = {'vim'},
-                  }
-                }
-              },
-            }
-        end,
-      })
     end
   },
   {
@@ -672,6 +626,10 @@ return {
       require('trouble').setup {}
     end
   },
+
+  ---------------------------------------------------
+  -- 補完 -------------------------------------------
+  ---------------------------------------------------
   {
     'Shougo/ddc.vim',
     event = 'InsertEnter',
@@ -733,8 +691,8 @@ return {
       -- 補完選択時にプレビューウインドウが表示されないようにする
       vim.opt.completeopt:remove('preview')
 
-      vim.fn["ddc#custom#patch_global"]({
-        ui = "native",
+      vim.fn['ddc#custom#patch_global']({
+        ui = 'native',
         sources = {'file', 'nvim-lsp', 'around'},
         sourceOptions = {
           _ = {
@@ -781,8 +739,9 @@ return {
   {
     'matsui54/denops-popup-preview.vim',
     event = 'User DenopsReady',
+    lazy = true,
     dependencies = {
-      'vim-denops/denops.vim',
+      'denops.vim',
     },
     config = function()
       vim.api.nvim_call_function('popup_preview#enable', {})
@@ -791,10 +750,10 @@ return {
   {
     'matsui54/denops-signature_help',
     event = 'User DenopsReady',
+    lazy = true,
     dependencies = {
-      'vim-denops/denops.vim',
+      'denops.vim',
     },
-
     config = function()
       vim.g.signature_help_config = {
         contentsStyle = 'currentLabel',

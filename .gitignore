@@ -1,3 +1,6 @@
 .DS_Store
+
 .zshrc.cw
 .zshrc.lc
+
+.luarc.json

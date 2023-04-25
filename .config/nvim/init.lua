@@ -30,8 +30,6 @@ local options = {
   showtabline = 2,
   -- ステータスバーを常に表示する
   laststatus = 2,
-  -- 256色対応
---  t_Co = 256,
   -- カーソル行の上下へのオフセットを設定する
   scrolloff = 4,
 

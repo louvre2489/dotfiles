@@ -300,25 +300,6 @@ return {
     init = function()
       vim.g.catppuccin_flavour = 'frappe'
       vim.api.nvim_command 'colorscheme catppuccin'
-
-      -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
-
-      -- 行番号
-      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7 })
-
-      -- FloatWindow用にNormalFloatグループを設定
-      vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
-
-      -- yank 対象の色を変更するためのグループを設定
-      vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg='#2a2a2a', bg='#ffec80' })
-      local myYankHighlight = vim.api.nvim_create_augroup('MyYankHighlight', { clear = true })
-      vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
-        pattern = '*',
-        group = myYankHighlight,
-        callback = function()
-          vim.highlight.on_yank{ higroup='HighlightedyankRegion', timeout=700 }
-        end,
-      })
     end,
     config = function()
       require('catppuccin').setup({
@@ -348,6 +329,25 @@ return {
           neotree = true,
           lsp_trouble = true,
         },
+      })
+
+      -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
+
+      -- 行番号
+      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7 })
+
+      -- FloatWindow用にNormalFloatグループを設定
+      vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
+
+      -- yank 対象の色を変更するためのグループを設定
+      vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg='#2a2a2a', bg='#ffec80' })
+      local myYankHighlight = vim.api.nvim_create_augroup('MyYankHighlight', { clear = true })
+      vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
+        pattern = '*',
+        group = myYankHighlight,
+        callback = function()
+          vim.highlight.on_yank{ higroup='HighlightedyankRegion', timeout=700 }
+        end,
       })
     end
   },

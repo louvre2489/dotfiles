@@ -38,6 +38,13 @@ return {
             mappings = {
               ['h'] = 'toggle_hidden',
             }
+          },
+          filtered_items = {
+            visible = true,
+            hide_by_name = {
+              '.DS_Store',
+              'node_modules'
+            }
           }
         },
         default_component_configs = {

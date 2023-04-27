@@ -520,6 +520,7 @@ return {
     dependencies = {
       { 'williamboman/mason.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
+      { 'folke/neodev.nvim' },
     },
     config = function()
       local mason = require('mason')
@@ -605,6 +606,7 @@ return {
       ------------------------------------------------
       -- Lua
       ------------------------------------------------
+      require('neodev').setup{}
       require'lspconfig'.lua_ls.setup {
         settings = {
           Lua = {
@@ -624,6 +626,9 @@ return {
             telemetry = {
               enable = false,
             },
+            completion = {
+              callSnippet = "Replace"
+            }
           },
         }
       }

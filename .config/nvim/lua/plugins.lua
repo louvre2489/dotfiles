@@ -18,6 +18,8 @@ return {
   ---------------------------------------------------
   {
     'nvim-neo-tree/neo-tree.nvim',
+    event = 'VeryLazy',
+    lazy = true,
     dependencies = {
       'plenary.nvim',
       'nvim-web-devicons',
@@ -65,7 +67,8 @@ return {
   ---------------------------------------------------
   {
     'lewis6991/gitsigns.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
+    lazy = true,
     init = function()
       -- ハイライトの設定
       vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg='#00ff00' })
@@ -97,10 +100,13 @@ return {
       }
     end
   },
-  { 'rhysd/committia.vim' },
+  {
+    'rhysd/committia.vim',
+  },
   {
     'APZelos/blamer.nvim',
-    event = 'BufEnter',
+    event = 'VimEnter',
+    lazy = true,
     init = function()
       vim.g.blamer_enabled = 1
       vim.g.blamer_delay = 500
@@ -116,6 +122,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
+    lazy = true,
     config = function()
       require('lualine').setup {
         options = {
@@ -186,6 +193,7 @@ return {
   {
     'folke/noice.nvim',
     event = 'VimEnter',
+    lazy = true,
     config = function()
       require('noice').setup {
         popupmenu = {
@@ -201,6 +209,7 @@ return {
   {
     'rcarriga/nvim-notify',
     event = 'VimEnter',
+    lazy = true,
     config = function()
       require('notify').setup {
         stages = 'static',
@@ -210,6 +219,7 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufEnter',
+    lazy = true,
     init = function()
       vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg='#E5C07B', nocombine=true })
       vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { fg='#98C379', nocombine=true })
@@ -238,6 +248,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     event = 'VimEnter',
+    lazy = true,
     build = ':TSUpdate',
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -288,6 +299,7 @@ return {
   {
     'HiPhish/nvim-ts-rainbow2',
     event = 'VimEnter',
+    lazy = true,
     dependencies = {
       'nvim-treesitter'
     }
@@ -295,6 +307,7 @@ return {
   {
     'andymass/vim-matchup',
     event = 'VimEnter',
+    lazy = true,
     dependencies = {
       'nvim-treesitter'
     }
@@ -302,6 +315,7 @@ return {
   {
     'catppuccin/nvim',
     event = 'VimEnter',
+    lazy = true,
     dependencies = { 'nvim-treesitter' },
     build = ':CatppuccinCompile',
     init = function()
@@ -361,6 +375,7 @@ return {
   {
     'norcalli/nvim-colorizer.lua',
     event = 'BufEnter',
+    lazy = true,
     init = function()
       vim.cmd('command! CA lua require("colorizer").attach_to_buffer(0)')
     end,
@@ -377,6 +392,7 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     event = 'VeryLazy',
+    lazy = true,
     init = function()
       local builtin = require('telescope.builtin')
 
@@ -438,13 +454,20 @@ return {
   },
   {
     'Shougo/deol.nvim',
+    event = 'VeryLazy',
+    lazy = true,
     init = function()
       -- 【Ctrl + o】 float windowでターミナルを表示
       vim.keymap.set('n', '<C-o>', '<cmd>Deol -split=floating -winheight=30 -winwidth=100<CR>', { noremap = true, silent = true })
+
+      -- 【ESC】 ターミナルモードから抜ける
+      vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { noremap = true, silent = true })
     end
   },
   {
     'reireias/vim-cheatsheet',
+    event = 'VeryLazy',
+    lazy = true,
     init = function()
       vim.g['cheatsheet#cheat_file'] = '~/dotfiles/cheatsheet.md'
 
@@ -462,18 +485,21 @@ return {
   },
   {
     'Shougo/context_filetype.vim',
-    event = 'BufEnter'
+    event = 'BufEnter',
+    lazy = true
   },
   {
     'osyo-manga/vim-precious',
     event = 'BufEnter',
+    lazy = true,
     dependencies = {
       'context_filetype.vim'
     }
   },
   {
     'ntpeters/vim-better-whitespace',
-    event = 'BufEnter',
+    event = 'VeryLazy',
+    lazy = true,
     init = function()
       -- 保存時に末尾の空白を自動的に削除する
       vim.g.better_whitespace_enabled = 1
@@ -481,7 +507,6 @@ return {
       vim.g.strip_only_modified_lines = 1
 
       vim.cmd('autocmd BufWritePre * :StripWhitespace')
-
     end
   },
 
@@ -612,7 +637,8 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    event = 'LspAttach',
+    event = 'BufEnter',
+    lazy = true,
     config = function()
       require'fidget'.setup{}
     end
@@ -623,6 +649,7 @@ return {
      'nvim-web-devicons'
     },
     event = 'BufEnter',
+    lazy = true,
     init = function()
       vim.keymap.set('n', '<S-t><S-t>','<cmd> TroubleToggle workspace_diagnostics<CR>', { noremap = true })
       vim.keymap.set('n', '<S-t><S-d>','<cmd> TroubleToggle document_diagnostics<CR>', { noremap = true })
@@ -640,6 +667,7 @@ return {
   {
     'Shougo/ddc.vim',
     event = 'InsertEnter',
+    lazy = true,
     dependencies = {
       'vim-denops/denops.vim',
       'Shougo/ddc-ui-native',

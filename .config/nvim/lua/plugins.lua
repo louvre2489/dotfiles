@@ -4,7 +4,7 @@ return {
   ---------------------------------------------------
   {
     'lewis6991/impatient.nvim',
-    config = function ()
+    config = function()
       require('impatient')
     end
   },
@@ -27,7 +27,7 @@ return {
     },
     init = function()
       -- ファイラーの起動方法
-      vim.keymap.set('n', '<C-e>','<cmd>NeoTreeFloatToggle<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<C-e>', '<cmd>NeoTreeFloatToggle<CR>', { noremap = true, silent = true })
     end,
     config = function()
       require('neo-tree').setup({
@@ -51,10 +51,10 @@ return {
         },
         default_component_configs = {
           git_status = {
-             symbols = {
-               -- 以下のシンボルはデフォルトを上書き
-               added     = '✚',
-               modified  = '➤',
+            symbols = {
+              -- 以下のシンボルはデフォルトを上書き
+              added    = '✚',
+              modified = '➤',
             }
           },
         }
@@ -71,30 +71,30 @@ return {
     lazy = true,
     init = function()
       -- ハイライトの設定
-      vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsAddNr', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsAddLn', { fg='#00ff00' })
-      vim.api.nvim_set_hl(0, 'GitSignsChange', { fg='#6495ed' })
-      vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { fg='#6495ed' })
-      vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { fg='#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg = '#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddNr', { fg = '#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsAddLn', { fg = '#00ff00' })
+      vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { fg = '#6495ed' })
+      vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { fg = '#6495ed' })
 
       -- 変更箇所をハイライトするかどうかを切り替える
       vim.cmd('command! GWD :Gitsigns toggle_word_diff')
     end,
     config = function()
-      require('gitsigns').setup{
-        signs = {
+      require('gitsigns').setup {
+        signs              = {
           change = {
             hl = 'GitSignsChange',
             text = '*',
-            numhl='GitSignsChangeNr',
-            linehl='GitSignsChangeLn'
+            numhl = 'GitSignsChangeNr',
+            linehl = 'GitSignsChangeLn'
           },
         },
         -- ハイライト設定
-        signcolumn = true,
-        numhl      = true,
-        word_diff  = false,
+        signcolumn         = true,
+        numhl              = true,
+        word_diff          = false,
         -- APZelos/blamer.nvim の方が便利
         current_line_blame = false,
       }
@@ -133,8 +133,8 @@ return {
           colored = false,
         },
         sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch', 'diff'},
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff' },
           lualine_c = {
             {
               'filename',
@@ -149,26 +149,25 @@ return {
             },
             'progress'
           },
-          lualine_x = {'filetype', 'encoding'},
+          lualine_x = { 'filetype', 'encoding' },
           lualine_y = {
             {
               'diagnostics',
-              source = {'nvim-lsp'},
+              source = { 'nvim-lsp' },
               sections = { 'error', 'warn', 'info', 'hint' },
-
               diagnostics_color = {
                 error = 'DiagnosticError',
                 warn  = 'DiagnosticWarn',
                 info  = 'DiagnosticInfo',
                 hint  = 'DiagnosticHint',
               },
-              symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
+              symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
               colored = true,
               update_in_insert = false,
               always_visible = false,
             }
           },
-          lualine_z = {'location'}
+          lualine_z = { 'location' }
         },
         inactive_sections = {
           lualine_a = {},
@@ -179,7 +178,7 @@ return {
           lualine_z = {}
         },
         tabline = {
-          lualine_a = {'buffers'},
+          lualine_a = { 'buffers' },
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
@@ -199,7 +198,7 @@ return {
         popupmenu = {
           enabled = false,
         },
-       hacks = {
+        hacks = {
           -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
           skip_duplicate_messages = true,
         },
@@ -221,12 +220,12 @@ return {
     event = 'BufEnter',
     lazy = true,
     init = function()
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg='#E5C07B', nocombine=true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { fg='#98C379', nocombine=true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent3', { fg='#56B6C2', nocombine=true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent4', { fg='#E06C75', nocombine=true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent5', { fg='#61AFEF', nocombine=true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg='#C678DD', nocombine=true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#E5C07B', nocombine = true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { fg = '#98C379', nocombine = true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent3', { fg = '#56B6C2', nocombine = true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent4', { fg = '#E06C75', nocombine = true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent5', { fg = '#61AFEF', nocombine = true })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg = '#C678DD', nocombine = true })
     end,
     config = function()
       require('indent_blankline').setup {
@@ -251,7 +250,7 @@ return {
     lazy = true,
     build = ':TSUpdate',
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require 'nvim-treesitter.configs'.setup {
         ensure_installed = {
           'bash',
           'css',
@@ -330,7 +329,7 @@ return {
           comments = { 'italic', 'bold' },
           functions = { 'bold' },
           types = { 'bold' },
-          keywords = {' bold' },
+          keywords = { ' bold' },
           strings = { 'bold' },
           numbers = { 'bold' },
           booleans = { 'bold' },
@@ -355,19 +354,19 @@ return {
       -- 以下はプラグイン設定とは関係ないが、色関連の設定なので一箇所にまとめておく
 
       -- 行番号
-      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg=7 })
+      vim.api.nvim_set_hl(0, 'LineNr', { ctermfg = 7 })
 
       -- FloatWindow用にNormalFloatグループを設定
-      vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg=240 })
+      vim.api.nvim_set_hl(0, 'NormalFloat', { ctermbg = 240 })
 
       -- yank 対象の色を変更するためのグループを設定
-      vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg='#2a2a2a', bg='#ffec80' })
+      vim.api.nvim_set_hl(0, 'HighlightedyankRegion', { fg = '#2a2a2a', bg = '#ffec80' })
       local myYankHighlight = vim.api.nvim_create_augroup('MyYankHighlight', { clear = true })
       vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
         pattern = '*',
         group = myYankHighlight,
         callback = function()
-          vim.highlight.on_yank{ higroup='HighlightedyankRegion', timeout=700 }
+          vim.highlight.on_yank { higroup = 'HighlightedyankRegion', timeout = 700 }
         end,
       })
     end
@@ -380,7 +379,7 @@ return {
       vim.cmd('command! CA lua require("colorizer").attach_to_buffer(0)')
     end,
     config = function()
-      require 'colorizer'.setup{
+      require 'colorizer'.setup {
       }
     end
   },
@@ -388,7 +387,7 @@ return {
   ---------------------------------------------------
   -- 便利ツール -------------------------------------
   ---------------------------------------------------
- {
+  {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     event = 'VeryLazy',
@@ -435,7 +434,7 @@ return {
     config = function()
       local telescope = require('telescope')
 
-      telescope.setup{
+      telescope.setup {
         -- 設定が必要になったらここへ
         defaults = {
           sorting_strategy = 'ascending',
@@ -458,7 +457,8 @@ return {
     lazy = true,
     init = function()
       -- 【Ctrl + o】 float windowでターミナルを表示
-      vim.keymap.set('n', '<C-o>', '<cmd>Deol -split=floating -winheight=30 -winwidth=100<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<C-o>', '<cmd>Deol -split=floating -winheight=30 -winwidth=100<CR>',
+        { noremap = true, silent = true })
 
       -- 【ESC】 ターミナルモードから抜ける
       vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { noremap = true, silent = true })
@@ -527,7 +527,7 @@ return {
       local mason_lspconfig = require('mason-lspconfig')
 
       mason.setup({
-        install_root_dir = os.getenv('HOME')..'/.lsp/data'  ,
+        install_root_dir = os.getenv('HOME') .. '/.lsp/data',
         ui = {
           icons = {
             package_installed = '✓',
@@ -552,7 +552,6 @@ return {
 
       mason_lspconfig.setup_handlers({
         function(server_name)
-
           local opts = {}
           opts.on_attach = function(_, bufnr)
             local bufopts = { silent = true, buffer = bufnr }
@@ -563,8 +562,8 @@ return {
             vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
             vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-            vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-            vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
+            vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+            vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, bufopts)
           end
 
           local nvim_lsp = require('lspconfig')
@@ -572,10 +571,13 @@ return {
         end
       })
 
+      -- Formatting
+      vim.cmd('command! FormatCode lua vim.lsp.buf.format{ async = true }')
+
       ------------------------------------------------
       -- Rust
       ------------------------------------------------
-      require'lspconfig'.rust_analyzer.setup{
+      require 'lspconfig'.rust_analyzer.setup {
         settings = {
           -- ref: https://rust-analyzer.github.io/manual.html#configuration
           ['rust-analyzer'] = {
@@ -606,8 +608,8 @@ return {
       ------------------------------------------------
       -- Lua
       ------------------------------------------------
-      require('neodev').setup{}
-      require'lspconfig'.lua_ls.setup {
+      require('neodev').setup {}
+      require 'lspconfig'.lua_ls.setup {
         settings = {
           Lua = {
             runtime = {
@@ -616,7 +618,7 @@ return {
             },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
+              globals = { 'vim' },
             },
             workspace = {
               -- Make the server aware of Neovim runtime files
@@ -636,7 +638,7 @@ return {
       ------------------------------------------------
       -- Deno
       ------------------------------------------------
-      require'lspconfig'.denols.setup{
+      require 'lspconfig'.denols.setup {
       }
     end
   },
@@ -654,8 +656,8 @@ return {
       vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
       -- LSP mappings
-      map('n', 'gD',  vim.lsp.buf.definition)
-      map('n', 'K',  vim.lsp.buf.hover)
+      map('n', 'gD', vim.lsp.buf.definition)
+      map('n', 'K', vim.lsp.buf.hover)
       map('n', 'gi', vim.lsp.buf.implementation)
       map('n', 'gr', vim.lsp.buf.references)
       map('n', 'gds', vim.lsp.buf.document_symbol)
@@ -723,19 +725,19 @@ return {
     event = 'BufEnter',
     lazy = true,
     config = function()
-      require'fidget'.setup{}
+      require 'fidget'.setup {}
     end
   },
   {
     'folke/trouble.nvim',
     dependencies = {
-     'nvim-web-devicons'
+      'nvim-web-devicons'
     },
     event = 'BufEnter',
     lazy = true,
     init = function()
-      vim.keymap.set('n', '<S-t><S-t>','<cmd> TroubleToggle workspace_diagnostics<CR>', { noremap = true })
-      vim.keymap.set('n', '<S-t><S-d>','<cmd> TroubleToggle document_diagnostics<CR>', { noremap = true })
+      vim.keymap.set('n', '<S-t><S-t>', '<cmd> TroubleToggle workspace_diagnostics<CR>', { noremap = true })
+      vim.keymap.set('n', '<S-t><S-d>', '<cmd> TroubleToggle document_diagnostics<CR>', { noremap = true })
 
       vim.cmd('command! TC TroubleClose')
     end,
@@ -811,12 +813,12 @@ return {
 
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',
-        sources = {'file', 'nvim-lsp', 'around'},
+        sources = { 'file', 'nvim-lsp', 'around' },
         sourceOptions = {
           _ = {
-            matchers = {'matcher_head'},
-            sorters = {'sorter_rank'},
-            converters =  {'converter_remove_overlap'},
+            matchers = { 'matcher_head' },
+            sorters = { 'sorter_rank' },
+            converters = { 'converter_remove_overlap' },
             minAutoCompleteLength = 1,
           },
           around = {

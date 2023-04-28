@@ -2,92 +2,88 @@
 -- options --------
 -------------------
 local options = {
-  syntax = 'on',
-
+  syntax         = 'on',
   -----------------
   -- File ---------
   -----------------
-  swapfile = false,
-  backup = false,
-  undofile = false,
+  swapfile       = false,
+  backup         = false,
+  undofile       = false,
   -- ファイルが外部で変更された際に自動で読み込む
-  autoread = true,
+  autoread       = true,
   -- 未保存ファイルの終了時に保存確認を行なう
-  confirm = true,
+  confirm        = true,
   -- ファイル変更中に他のファイルを表示可能にする
-  hidden = true,
-
+  hidden         = true,
   -----------------
   -- Display ------
   -----------------
   -- 編集中のファイル名を表示する
-  title = true,
+  title          = true,
   -- 行番号
-  number = true,
+  number         = true,
   relativenumber = true,
-  ruler = true,
+  ruler          = true,
   --タブバーを常に表示する
-  showtabline = 2,
+  showtabline    = 2,
   -- ステータスバーを常に表示する
-  laststatus = 2,
+  laststatus     = 2,
   -- カーソル行の上下へのオフセットを設定する
-  scrolloff = 4,
-
+  scrolloff      = 4,
   -----------------
   -- 文字表示 -----
   -----------------
-  encoding     = 'utf-8',
-  fileencoding = 'utf-8',
+  encoding       = 'utf-8',
+  fileencoding   = 'utf-8',
   -- 不可視文字の表示方法を設定する
-  listchars = 'eol:?',
+  listchars      = 'eol:?',
   -- 曖昧文字幅
-  ambiwidth = 'single',
+  ambiwidth      = 'single',
   -- 検索結果をハイライト表示する
-  hlsearch = true,
+  hlsearch       = true,
   -- カーソル行を強調表示する
-  cursorline = true,
+  cursorline     = true,
   -- 対応するカッコを強調表示する
-  showmatch = true,
-
+  showmatch      = true,
   -----------------
   -- Action -------
   -----------------
   -- インデントでずれる幅を設定する
-  shiftwidth = 2,
+  shiftwidth     = 2,
   -- タブやバックスペースで処理するスペースの数を設定する
-  softtabstop = 2,
+  softtabstop    = 2,
   -- タブ幅を設定する
-  tabstop = 2,
+  tabstop        = 2,
   -- 自動インデント
-  smartindent = true,
+  smartindent    = true,
   -- タブの代わりにスペースを挿入する
-  expandtab = true,
+  expandtab      = true,
   -- コンテキストに応じたタブの処理を行なう
-  smarttab = true,
+  smarttab       = true,
   -- 大文字と小文字を区別せず検索する
-  ignorecase = true,
+  ignorecase     = true,
   -- インクリメンタルサーチを有効にする
-  incsearch = true,
+  incsearch      = true,
   -- 新しいウィンドウを下/右に開く
-  splitbelow = true,
-  splitright = true,
+  splitbelow     = true,
+  splitright     = true,
   -- バックスペースの影響範囲を設定する
-  backspace = 'indent,eol,start',
+  backspace      = 'indent,eol,start',
   -- OSとクリップボードを共有する
-  clipboard = 'unnamedplus',
+  clipboard      = 'unnamedplus',
   -- マウスを有効にする
-  mouse = 'a',
+  mouse          = 'a',
   -- ビープを無効にする
-  visualbell = false,
-  whichwrap = 'b,s,h,l,<,>,[,]',
+  visualbell     = false,
+  whichwrap      = 'b,s,h,l,<,>,[,]',
   -- コマンドラインモードで保存する履歴数を設定する
-  history = 1000,
+  history        = 1000,
   -- コマンドラインモードでの補完を有効にする
-  wildmenu = true,
+  wildmenu       = true,
   -- コマンドラインモードでの補完方法を設定する
-  wildmode = 'list:longest,full',
+  wildmode       = 'list:longest,full',
   -- 入力中のコマンドを表示する
-  showcmd = true,
+  showcmd        = true,
 }
 
 for k, v in pairs(options) do
@@ -131,9 +127,9 @@ vim.keymap.set('n', 'sp', ':<C-u>bprevious<CR>', { noremap = true, silent = true
 vim.keymap.set('n', 'sq', ':<C-u>bd<CR>', { noremap = true, silent = true })
 
 -- vimgrep
-vim.keymap.set('n', '[q', ':cprevious<CR>', { noremap = true, silent = false })    -- 前へ
-vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = false })        -- 次へ
-vim.keymap.set('n', '[Q', ':<C-u>cfirst<CR>', { noremap = true, silent = false })  -- 最初へ
+vim.keymap.set('n', '[q', ':cprevious<CR>', { noremap = true, silent = false })   -- 前へ
+vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = false })       -- 次へ
+vim.keymap.set('n', '[Q', ':<C-u>cfirst<CR>', { noremap = true, silent = false }) -- 最初へ
 vim.keymap.set('n', ']Q', ':<C-u>clast<CR>', { noremap = true, silent = false })  -- 最後へ
 
 -------------------

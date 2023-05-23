@@ -259,6 +259,8 @@ return {
           'html',
           'json',
           'lua',
+          'markdown',
+          'markdown_inline',
           'php',
           'rust',
           'scala',
@@ -520,6 +522,7 @@ return {
     dependencies = {
       { 'williamboman/mason.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
+      { 'nvimdev/lspsaga.nvim' },
       { 'folke/neodev.nvim' },
     },
     config = function()
@@ -553,18 +556,18 @@ return {
       mason_lspconfig.setup_handlers({
         function(server_name)
           local opts = {}
-          opts.on_attach = function(_, bufnr)
-            local bufopts = { silent = true, buffer = bufnr }
-            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-            vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-            vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, bufopts)
-          end
+--          opts.on_attach = function(_, bufnr)
+--            local bufopts = { silent = true, buffer = bufnr }
+--            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+--            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+--            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+--            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
+--            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+--            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+--            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+--            vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+--            vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, bufopts)
+--          end
 
           local nvim_lsp = require('lspconfig')
           nvim_lsp[server_name].setup(opts)
@@ -636,11 +639,78 @@ return {
       }
 
       ------------------------------------------------
+      -- HTML
+      --   required: `npm i -g vscode-langservers-extracted`
+      ------------------------------------------------
+      --Enable (broadcasting) snippet capability for completion
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      require'lspconfig'.html.setup {
+        capabilities = capabilities,
+      }
+
+      ------------------------------------------------
       -- Deno
       ------------------------------------------------
       require 'lspconfig'.denols.setup {
       }
     end
+  },
+  {
+    'nvimdev/lspsaga.nvim',
+    event = "LspAttach",
+    dependencies = {
+      {"nvim-tree/nvim-web-devicons"},
+      {"nvim-treesitter/nvim-treesitter"}
+    },
+    config = function()
+        require("lspsaga").setup({})
+
+        local keymap = vim.keymap.set
+
+        -- LSP finder - Find the symbol's definition
+        -- If there is no definition, it will instead be hidden
+        -- When you use an action in finder like "open vsplit",
+        -- you can use <C-t> to jump back
+        keymap("n", "sah", "<cmd>Lspsaga lsp_finder<CR>")
+
+        -- Code action
+        keymap({"n","v"}, "saca", "<cmd>Lspsaga code_action<CR>")
+
+        -- Rename all occurrences of the hovered word for the entire file
+        keymap("n", "sar", "<cmd>Lspsaga rename<CR>")
+
+        -- Rename all occurrences of the hovered word for the selected files
+        keymap("n", "sagr", "<cmd>Lspsaga rename ++project<CR>")
+
+        -- Peek definition
+        -- You can edit the file containing the definition in the floating window
+        -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
+        -- It also supports tagstack
+        -- Use <C-t> to jump back
+        keymap("n", "sap", "<cmd>Lspsaga peek_definition<CR>")
+
+        -- Go to definition
+        keymap("n","sagd", "<cmd>Lspsaga goto_definition<CR>")
+
+        -- Peek type definition
+        -- You can edit the file containing the type definition in the floating window
+        -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
+        -- It also supports tagstack
+        -- Use <C-t> to jump back
+        keymap("n", "sagt", "<cmd>Lspsaga peek_type_definition<CR>")
+
+        -- Toggle outline
+        keymap("n","sao", "<cmd>Lspsaga outline<CR>")
+
+        -- If you want to keep the hover window in the top right hand corner,
+        -- you can pass the ++keep argument
+        -- Note that if you use hover with ++keep, pressing this key again will
+        -- close the hover window. If you want to jump to the hover window
+        -- you should use the wincmd command "<C-w>w"
+        keymap("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>")
+    end,
   },
   {
     'scalameta/nvim-metals',
@@ -656,17 +726,17 @@ return {
       vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
       -- LSP mappings
-      map('n', 'gD', vim.lsp.buf.definition)
-      map('n', 'K', vim.lsp.buf.hover)
-      map('n', 'gi', vim.lsp.buf.implementation)
-      map('n', 'gr', vim.lsp.buf.references)
-      map('n', 'gds', vim.lsp.buf.document_symbol)
-      map('n', 'gws', vim.lsp.buf.workspace_symbol)
-      map('n', '<leader>cl', vim.lsp.codelens.run)
-      map('n', '<leader>sh', vim.lsp.buf.signature_help)
-      map('n', '<leader>rn', vim.lsp.buf.rename)
-      map('n', '<leader>f', vim.lsp.buf.formatting)
-      map('n', '<leader>ca', vim.lsp.buf.code_action)
+--      map('n', 'gD', vim.lsp.buf.definition)
+--      map('n', 'K', vim.lsp.buf.hover)
+--      map('n', 'gi', vim.lsp.buf.implementation)
+--      map('n', 'gr', vim.lsp.buf.references)
+--      map('n', 'gds', vim.lsp.buf.document_symbol)
+--      map('n', 'gws', vim.lsp.buf.workspace_symbol)
+--      map('n', '<leader>cl', vim.lsp.codelens.run)
+--      map('n', '<leader>sh', vim.lsp.buf.signature_help)
+--      map('n', '<leader>rn', vim.lsp.buf.rename)
+--      map('n', '<leader>f', vim.lsp.buf.formatting)
+--      map('n', '<leader>ca', vim.lsp.buf.code_action)
 
       map('n', '<leader>ws', function()
         require('metals').hover_worksheet()
@@ -731,7 +801,7 @@ return {
   {
     'folke/trouble.nvim',
     dependencies = {
-      'nvim-web-devicons'
+      'nvim-tree/nvim-web-devicons'
     },
     event = 'BufEnter',
     lazy = true,

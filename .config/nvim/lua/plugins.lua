@@ -27,7 +27,7 @@ return {
     },
     init = function()
       -- ファイラーの起動方法
-      vim.keymap.set('n', '<C-e>', '<cmd>NeoTreeFloatToggle<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<C-e>', '<cmd>Neotree float<CR>', { noremap = true, silent = true })
     end,
     config = function()
       require('neo-tree').setup({
@@ -792,8 +792,8 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    event = 'BufEnter',
-    lazy = true,
+    tag = "legacy",
+    event = 'LspAttach',
     config = function()
       require 'fidget'.setup {}
     end

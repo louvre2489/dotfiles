@@ -545,6 +545,7 @@ return {
           'lua_ls',
           'denols',
           'dockerls',
+          'gopls',
           'html',
           'jsonls',
           'intelephense',
@@ -651,10 +652,14 @@ return {
       }
 
       ------------------------------------------------
+      -- Go
+      ------------------------------------------------
+      require'lspconfig'.gopls.setup{}
+
+      ------------------------------------------------
       -- Deno
       ------------------------------------------------
-      require 'lspconfig'.denols.setup {
-      }
+      require 'lspconfig'.denols.setup {}
     end
   },
   {
@@ -832,6 +837,7 @@ return {
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
       'Shougo/ddc-source-nvim-lsp',
+      'uga-rosa/ddc-nvim-lsp-setup',
       'matsui54/denops-popup-preview.vim',
       'matsui54/denops-signature_help',
     },
@@ -881,6 +887,9 @@ return {
       -- 補完選択時にプレビューウインドウが表示されないようにする
       vim.opt.completeopt:remove('preview')
 
+      -- see: https://github.com/uga-rosa/ddc-nvim-lsp-setup
+      require("ddc_nvim_lsp_setup").setup()
+
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',
         sources = { 'file', 'nvim-lsp', 'around' },
@@ -902,6 +911,7 @@ return {
           ['nvim-lsp'] = {
             mark = 'LSP',
             dup = true,
+            keywordPattern = '\\k+',
             forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
           },
         },
@@ -910,7 +920,9 @@ return {
             maxSize = 30
           },
           ['nvim-lsp'] = {
-            maxSize = 500
+            maxSize = 500,
+            enableResolveItem = true,
+            enableAdditionalTextEdit = true,
           },
         },
         filterParams = {

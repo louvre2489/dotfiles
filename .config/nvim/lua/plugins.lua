@@ -218,6 +218,8 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufEnter',
+    main = "ibl",
+    opts = {},
     lazy = true,
     init = function()
       vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#E5C07B', nocombine = true })
@@ -228,15 +230,17 @@ return {
       vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg = '#C678DD', nocombine = true })
     end,
     config = function()
-      require('indent_blankline').setup {
-        char_highlight_list = {
-          'IndentBlanklineIndent1',
-          'IndentBlanklineIndent2',
-          'IndentBlanklineIndent3',
-          'IndentBlanklineIndent4',
-          'IndentBlanklineIndent5',
-          'IndentBlanklineIndent6',
-        },
+      require('ibl').setup {
+        indent = {
+          highlight = {
+            'IndentBlanklineIndent1',
+            'IndentBlanklineIndent2',
+            'IndentBlanklineIndent3',
+            'IndentBlanklineIndent4',
+            'IndentBlanklineIndent5',
+            'IndentBlanklineIndent6',
+          },
+        }
       }
     end
   },
@@ -544,12 +548,12 @@ return {
         ensure_installed = {
           'lua_ls',
           'denols',
-          'dockerls',
+--          'dockerls',
           'gopls',
-          'html',
-          'jsonls',
-          'intelephense',
-          'vimls',
+--          'html',
+--          'jsonls',
+--          'intelephense',
+--          'vimls',
           'rust_analyzer'
         },
       })

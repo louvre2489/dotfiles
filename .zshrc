@@ -11,25 +11,22 @@
 #fi
 
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    "zinit-zsh/z-a-patch-dl" \
-    "zinit-zsh/z-a-as-monitor"\
-    "zinit-zsh/z-a-bin-gem-node"
-### End of Zinit's installer chunk
+  zdharma-continuum/zinit-annex-as-monitor \
+  zdharma-continuum/zinit-annex-bin-gem-node \
+  zdharma-continuum/zinit-annex-patch-dl \
+  zdharma-continuum/zinit-annex-rust
+## End of Zinit's installer chunk
 
 # oh-my-zshのセットアップ
 zinit snippet "OMZL::git.zsh"
@@ -45,11 +42,11 @@ zplugin light "chrissicool/zsh-256color"
 # シンタックスハイライト
 zinit light "zdharma/fast-syntax-highlighting"
 zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     "zdharma/fast-syntax-highlighting" \
- blockf \
+  blockf \
     "zsh-users/zsh-completions"\
- atload"!_zsh_autosuggest_start" \
+  atload"!_zsh_autosuggest_start" \
     "zsh-users/zsh-autosuggestions"
 
 FAST_HIGHLIGHT_STYLES[path]="fg=cyan,underline"
@@ -76,11 +73,6 @@ alias cdu="cd-gitroot"
 # ----------------------------------
 # シェル設定
 # ----------------------------------
-# 起動時にtmuxを起動する
-#if [ $SHLVL = 1 ]; then
-#  tmux
-#fi
-
 # emacsのキーバインド
 bindkey -e
 
@@ -156,6 +148,8 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # ----------------------------------
 # パス関連
 # ----------------------------------
+export PATH="$PATH:/usr/local/bin"
+
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -166,9 +160,9 @@ export PATH="$PATH:/Users/cw-tsushi/Library/Application Support/Coursier/bin"
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
-# Rust
-#export PATH="$PATH:$HOME/.cargo/bin"
-source $HOME/.cargo/env
+## Rust
+##export PATH="$PATH:$HOME/.cargo/bin"
+#source $HOME/.cargo/env
 
 # Deno
 export DENO_INSTALL="$HOME/.deno"
@@ -180,16 +174,16 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 # pict
 export PATH="$PATH:$HOME/software/pict"
 
-# ----------------------------------
-# sbt
-# ----------------------------------
-if [ -e /usr/libexec/java_home ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home)
-fi
-
-export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
-
-#export SBT_NATIVE_CLIENT=true
+## ----------------------------------
+## sbt
+## ----------------------------------
+#if [ -e /usr/libexec/java_home ]; then
+#  export JAVA_HOME=$(/usr/libexec/java_home)
+#fi
+#
+#export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
+#
+##export SBT_NATIVE_CLIENT=true
 
 #----------------------------------
 # ls の色付け
@@ -243,10 +237,12 @@ case ${OSTYPE} in
     # Mac向けの設定
     #
     # rmはゴミ箱に送る
-    alias rm='rmtrash'
+#    alias rm='rmtrash'
 
     # 開発用のシェル
-    source ~/dotfiles/.zshrc.cw
+    if [[ -f ~/dotfiles/.zshrc.cw ]]; then
+      source ~/dotfiles/.zshrc.cw
+    fi
     ;;
   linux*)
     # Linux向けの設定
@@ -347,18 +343,23 @@ fshow() {
 }
 
 # ----------------------------------
+# brew
+# ----------------------------------
+eval $(/opt/homebrew/bin/brew shellenv)
+
+# ----------------------------------
 # z
 # ----------------------------------
 # 設定読み込み
 source ~/z/z.sh
 
-# ----------------------------------
-# Python
-# ----------------------------------
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+## ----------------------------------
+## Python
+## ----------------------------------
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 # ----------------------------------
 # asdf
@@ -430,18 +431,8 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/nori/software/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/nori/software/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/nori/software/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/nori/software/anaconda3/bin:$PATH"
-    fi
+# 起動時にtmuxを起動する
+# Alacritty.toml の  [shell] で設定できるようになったらいいんだけど...
+if [ $SHLVL = 1 ]; then
+  tmux
 fi
-unset __conda_setup
-# <<< conda initialize <<<
-

@@ -153,7 +153,7 @@ return {
           lualine_y = {
             {
               'diagnostics',
-              source = { 'nvim-lsp' },
+              source = { 'nvim-diagnostic' },
               sections = { 'error', 'warn', 'info', 'hint' },
               diagnostics_color = {
                 error = 'DiagnosticError',
@@ -841,7 +841,7 @@ return {
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
       'Shougo/ddc-source-nvim-lsp',
-      'uga-rosa/ddc-nvim-lsp-setup',
+      'uga-rosa/ddc-source-lsp-setup',
       'matsui54/denops-popup-preview.vim',
       'matsui54/denops-signature_help',
     },
@@ -891,8 +891,8 @@ return {
       -- 補完選択時にプレビューウインドウが表示されないようにする
       vim.opt.completeopt:remove('preview')
 
-      -- see: https://github.com/uga-rosa/ddc-nvim-lsp-setup
-      require("ddc_nvim_lsp_setup").setup()
+      -- see: https://github.com/uga-rosa/ddc-source-lsp-setup
+      require("ddc_source_lsp_setup").setup()
 
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',

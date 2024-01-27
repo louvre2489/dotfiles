@@ -170,6 +170,8 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Go
 export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/workspaces/go
+export PATH=$GOPATH/bin:$PATH
 
 # pict
 export PATH="$PATH:$HOME/software/pict"

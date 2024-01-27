@@ -840,7 +840,7 @@ return {
       'Shougo/ddc-matcher_head',
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
-      'Shougo/ddc-source-nvim-lsp',
+      'Shougo/ddc-source-lsp',
       'uga-rosa/ddc-source-lsp-setup',
       'matsui54/denops-popup-preview.vim',
       'matsui54/denops-signature_help',
@@ -896,7 +896,7 @@ return {
 
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',
-        sources = { 'file', 'nvim-lsp', 'around' },
+        sources = { 'file', 'lsp', 'around' },
         sourceOptions = {
           _ = {
             matchers = { 'matcher_head' },
@@ -912,7 +912,7 @@ return {
             isVolatile = true,
             forceCompletionPattern = '\\S/\\S*',
           },
-          ['nvim-lsp'] = {
+          ['lsp'] = {
             mark = 'LSP',
             dup = true,
             keywordPattern = '\\k+',
@@ -923,7 +923,7 @@ return {
           around = {
             maxSize = 30
           },
-          ['nvim-lsp'] = {
+          ['lsp'] = {
             maxSize = 500,
             enableResolveItem = true,
             enableAdditionalTextEdit = true,

@@ -58,10 +58,7 @@ zinit light "zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
 
 # Ctrl+r でコマンド履歴を検索
-zinit light "zdharma/history-search-multi-word"
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=''
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
-HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=''
+zinit load "zdharma-continuum/history-search-multi-word"
 
 # ssh connection manager
 zinit light "gko/ssh-connect"

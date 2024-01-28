@@ -16,7 +16,7 @@
 
     // editor
     "editor.tabSize": 2,
-    "editor.fontSize": 16,
+    "editor.fontSize": 13,
     "editor.lineNumbers": "relative",
 
     // vim
@@ -70,5 +70,4 @@
       }
     ],
     "extensions.ignoreRecommendations": true,
-    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim"
 }

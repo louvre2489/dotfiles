@@ -463,7 +463,7 @@ return {
     lazy = true,
     init = function()
       -- 【Ctrl + o】 float windowでターミナルを表示
-      vim.keymap.set('n', '<C-o>', '<cmd>Deol -split=floating -winheight=30 -winwidth=100<CR>',
+      vim.keymap.set('n', '<C-o>', '<cmd>call deol#start(#{ split: "floating", winheight: 30,  winwidth: 100 })<CR>',
         { noremap = true, silent = true })
 
       -- 【ESC】 ターミナルモードから抜ける
@@ -658,7 +658,17 @@ return {
       ------------------------------------------------
       -- Go
       ------------------------------------------------
-      require'lspconfig'.gopls.setup{}
+      require'lspconfig'.gopls.setup({
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        },
+      })
 
       ------------------------------------------------
       -- Deno

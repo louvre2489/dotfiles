@@ -466,8 +466,8 @@ return {
       vim.keymap.set('n', '<C-o>', '<cmd>call deol#start(#{ split: "floating", winheight: 30,  winwidth: 100 })<CR>',
         { noremap = true, silent = true })
 
-      -- 【ESC】 ターミナルモードから抜ける
-      vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { noremap = true, silent = true })
+      -- 【ESC】 ターミナルモードから抜けてそのままターミナルを閉じる
+      vim.keymap.set('t', '<ESC>', '<C-\\><C-n><cmd>q<CR>', { noremap = true, silent = true })
     end
   },
   {

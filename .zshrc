@@ -41,13 +41,13 @@ zplugin light "chrissicool/zsh-256color"
 
 # シンタックスハイライト
 zinit light "zdharma/fast-syntax-highlighting"
-zinit wait lucid for \
-  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    "zdharma/fast-syntax-highlighting" \
-  blockf \
-    "zsh-users/zsh-completions"\
-  atload"!_zsh_autosuggest_start" \
-    "zsh-users/zsh-autosuggestions"
+#zinit wait lucid for \
+#  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+#    "zdharma/fast-syntax-highlighting" \
+#  blockf \
+#    "zsh-users/zsh-completions" \
+#  atload"!_zsh_autosuggest_start" \
+#    "zsh-users/zsh-autosuggestions"
 
 FAST_HIGHLIGHT_STYLES[path]="fg=cyan,underline"
 FAST_HIGHLIGHT_STYLES[path-to-dir]="fg=cyan"
@@ -363,10 +363,10 @@ source ~/z/z.sh
 # ----------------------------------
 # asdf
 # ----------------------------------
-if [ -e $HOME/.asdf/asdf.sh ]; then
-  # ファイルがある場合のみ設定
-  . $HOME/.asdf/asdf.sh
-fi
+#if [ -e $HOME/.asdf/asdf.sh ]; then
+#  # ファイルがある場合のみ設定
+#  . $HOME/.asdf/asdf.sh
+#fi
 
 # ----------------------------------
 # 補完を有効にする
@@ -423,8 +423,8 @@ alacritty_comp(){
 
 alacritty_comp
 
-# 補完機能を有効にする
-autoload -Uz compinit && compinit -i
+## 補完機能を有効にする
+#autoload -Uz compinit && compinit -i
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

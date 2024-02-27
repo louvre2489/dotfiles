@@ -10,6 +10,9 @@
 #  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 #fi
 
+# emacsのキーバインド
+bindkey -e
+
 ### Added by Zinit's installer
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
@@ -70,9 +73,6 @@ alias cdu="cd-gitroot"
 # ----------------------------------
 # シェル設定
 # ----------------------------------
-# emacsのキーバインド
-bindkey -e
-
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
 

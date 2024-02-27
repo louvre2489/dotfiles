@@ -70,4 +70,8 @@
       }
     ],
     "extensions.ignoreRecommendations": true,
+    "go.useLanguageServer": true,
+    "gopls": {
+        "formatting.gofumpt": true
+    }
 }

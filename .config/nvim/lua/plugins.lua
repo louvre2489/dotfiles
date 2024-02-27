@@ -302,7 +302,7 @@ return {
     end,
   },
   {
-    'HiPhish/nvim-ts-rainbow2',
+    'hiphish/rainbow-delimiters.nvim',
     event = 'VimEnter',
     lazy = true,
     dependencies = {

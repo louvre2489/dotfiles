@@ -1,0 +1,70 @@
+[colors.bright]
+black = "#555753"
+blue = "#729FCF"
+cyan = "#34E2E2"
+green = "#8AE234"
+magenta = "#AD7FA8"
+red = "#EF2929"
+white = "#EEEEEC"
+yellow = "#FCE94F"
+
+[colors.cursor]
+cursor = "#d8dee9"
+text = "#2e3440"
+
+[colors.footer_bar]
+background = "#434c5e"
+foreground = "#d8dee9"
+
+[colors.normal]
+black = "#2E3436"
+blue = "#3465A4"
+cyan = "#06989A"
+green = "#4E9A06"
+magenta = "#75507B"
+red = "#CC0000"
+white = "#D3D7CF"
+yellow = "#C4A000"
+
+[colors.search.matches]
+background = "#88c0d0"
+foreground = "CellBackground"
+
+[colors.selection]
+background = "#4c566a"
+text = "CellForeground"
+
+[colors.vi_mode_cursor]
+cursor = "#d8dee9"
+text = "#2e3440"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 14.0
+
+[font.bold]
+family = "SauceCodePro Nerd Font"
+style = "Bold"
+
+[font.normal]
+family = "SauceCodePro Nerd Font"
+style = "Regular"
+
+[[mouse.bindings]]
+action = "Copy"
+mods = "Shift"
+mouse = "Left"
+
+[[mouse.bindings]]
+action = "Paste"
+mods = "Shift"
+mouse = "Right"
+
+[shell]
+program = "/bin/zsh"
+#args = ["--login", "-c", "tmux a -t 0 || tmux new"]
+
+[window]
+startup_mode = "Maximized"

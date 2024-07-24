@@ -10,24 +10,41 @@
 #  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 #fi
 
+<<<<<<< HEAD
+=======
+# emacsのキーバインド
+bindkey -e
+
+>>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 ### Added by Zinit's installer
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
+<<<<<<< HEAD
 #source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+=======
+>>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
+<<<<<<< HEAD
     zdharma-continuum/zinit-annex-as-monitor \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 ### End of Zinit's installer chunk
+=======
+  zdharma-continuum/zinit-annex-as-monitor \
+  zdharma-continuum/zinit-annex-bin-gem-node \
+  zdharma-continuum/zinit-annex-patch-dl \
+  zdharma-continuum/zinit-annex-rust
+## End of Zinit's installer chunk
+>>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 
 # oh-my-zshのセットアップ
 zinit snippet "OMZL::git.zsh"
@@ -42,13 +59,13 @@ zplugin light "chrissicool/zsh-256color"
 
 # シンタックスハイライト
 zinit light "zdharma/fast-syntax-highlighting"
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    "zdharma/fast-syntax-highlighting" \
- blockf \
-    "zsh-users/zsh-completions"\
- atload"!_zsh_autosuggest_start" \
-    "zsh-users/zsh-autosuggestions"
+#zinit wait lucid for \
+#  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+#    "zdharma/fast-syntax-highlighting" \
+#  blockf \
+#    "zsh-users/zsh-completions" \
+#  atload"!_zsh_autosuggest_start" \
+#    "zsh-users/zsh-autosuggestions"
 
 FAST_HIGHLIGHT_STYLES[path]="fg=cyan,underline"
 FAST_HIGHLIGHT_STYLES[path-to-dir]="fg=cyan"
@@ -59,10 +76,7 @@ zinit light "zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
 
 # Ctrl+r でコマンド履歴を検索
-zinit light "zdharma/history-search-multi-word"
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=''
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
-HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=''
+zinit load "zdharma-continuum/history-search-multi-word"
 
 # ssh connection manager
 zinit light "gko/ssh-connect"
@@ -74,14 +88,6 @@ alias cdu="cd-gitroot"
 # ----------------------------------
 # シェル設定
 # ----------------------------------
-# 起動時にtmuxを起動する
-#if [ $SHLVL = 1 ]; then
-#  tmux
-#fi
-
-# emacsのキーバインド
-bindkey -e
-
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
 
@@ -154,6 +160,8 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # ----------------------------------
 # パス関連
 # ----------------------------------
+export PATH="$PATH:/usr/local/bin"
+
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -172,12 +180,18 @@ export PATH=$HOME/.asdf/shims:$PATH
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
+<<<<<<< HEAD
 # Rust
 if [ -e $HOME/.cargo/bin ]; then
   # ファイルがある場合のみ設定
   export PATH="$PATH:$HOME/.cargo/bin"
   source $HOME/.cargo/env
 fi
+=======
+## Rust
+##export PATH="$PATH:$HOME/.cargo/bin"
+#source $HOME/.cargo/env
+>>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 
 # Deno
 export DENO_INSTALL="$HOME/.deno"
@@ -185,6 +199,8 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Go
 export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/workspaces/go
+export PATH=$GOPATH/bin:$PATH
 
 # curl は brew で入れたものがあればそちらを使用する
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
@@ -192,12 +208,25 @@ export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 # pict
 export PATH="$PATH:$HOME/software/pict"
 
+<<<<<<< HEAD
 # ----------------------------------
 # sbt
 # ----------------------------------
 export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
 
 #export SBT_NATIVE_CLIENT=true
+=======
+## ----------------------------------
+## sbt
+## ----------------------------------
+#if [ -e /usr/libexec/java_home ]; then
+#  export JAVA_HOME=$(/usr/libexec/java_home)
+#fi
+#
+#export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
+#
+##export SBT_NATIVE_CLIENT=true
+>>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 
 #----------------------------------
 # ls の色付け
@@ -254,7 +283,9 @@ case ${OSTYPE} in
 #    alias rm='rmtrash'
 
     # 開発用のシェル
-    source ~/dotfiles/.zshrc.cw
+    if [[ -f ~/dotfiles/.zshrc.cw ]]; then
+      source ~/dotfiles/.zshrc.cw
+    fi
     ;;
   linux*)
     # Linux向けの設定
@@ -355,6 +386,11 @@ fshow() {
 }
 
 # ----------------------------------
+# brew
+# ----------------------------------
+eval $(/opt/homebrew/bin/brew shellenv)
+
+# ----------------------------------
 # z
 # ----------------------------------
 # 設定読み込み
@@ -371,10 +407,10 @@ source ~/z/z.sh
 # ----------------------------------
 # asdf
 # ----------------------------------
-if [ -e $HOME/.asdf/asdf.sh ]; then
-  # ファイルがある場合のみ設定
-  . $HOME/.asdf/asdf.sh
-fi
+#if [ -e $HOME/.asdf/asdf.sh ]; then
+#  # ファイルがある場合のみ設定
+#  . $HOME/.asdf/asdf.sh
+#fi
 
 # ----------------------------------
 # 補完を有効にする
@@ -431,9 +467,15 @@ alacritty_comp(){
 
 alacritty_comp
 
-# 補完機能を有効にする
-autoload -Uz compinit && compinit -i
+## 補完機能を有効にする
+#autoload -Uz compinit && compinit -i
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# 起動時にtmuxを起動する
+# Alacritty.toml の  [shell] で設定できるようになったらいいんだけど...
+if [ $SHLVL = 1 ]; then
+  tmux
+fi

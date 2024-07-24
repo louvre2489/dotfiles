@@ -145,7 +145,7 @@ return {
           lualine_y = {
             {
               'diagnostics',
-              source = { 'nvim-lsp' },
+              source = { 'nvim-diagnostic' },
               sections = { 'error', 'warn', 'info', 'hint' },
               diagnostics_color = {
                 error = 'DiagnosticError',
@@ -300,7 +300,7 @@ return {
     end,
   },
   {
-    'HiPhish/nvim-ts-rainbow2',
+    'hiphish/rainbow-delimiters.nvim',
     event = 'VimEnter',
     lazy = true,
     dependencies = {
@@ -461,11 +461,11 @@ return {
     lazy = true,
     init = function()
       -- 【Ctrl + o】 float windowでターミナルを表示
-      vim.keymap.set('n', '<C-o>', '<cmd>Deol -split=floating -winheight=30 -winwidth=100<CR>',
+      vim.keymap.set('n', '<C-o>', '<cmd>call deol#start(#{ split: "floating", winheight: 30,  winwidth: 100 })<CR>',
         { noremap = true, silent = true })
 
-      -- 【ESC】 ターミナルモードから抜ける
-      vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { noremap = true, silent = true })
+      -- 【ESC】 ターミナルモードから抜けてそのままターミナルを閉じる
+      vim.keymap.set('t', '<ESC>', '<C-\\><C-n><cmd>q<CR>', { noremap = true, silent = true })
     end
   },
   {
@@ -546,11 +546,12 @@ return {
         ensure_installed = {
           'lua_ls',
           'denols',
-          'dockerls',
-          'html',
-          'jsonls',
-          'intelephense',
-          'vimls',
+--          'dockerls',
+--          'gopls',
+--          'html',
+--          'jsonls',
+--          'intelephense',
+--          'vimls',
           'rust_analyzer'
         },
       })
@@ -653,10 +654,24 @@ return {
       }
 
       ------------------------------------------------
+      -- Go
+      ------------------------------------------------
+      require'lspconfig'.gopls.setup({
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        },
+      })
+
+      ------------------------------------------------
       -- Deno
       ------------------------------------------------
-      require 'lspconfig'.denols.setup {
-      }
+      require 'lspconfig'.denols.setup {}
     end
   },
   {
@@ -834,6 +849,7 @@ return {
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
       'Shougo/ddc-source-lsp',
+      'uga-rosa/ddc-source-lsp-setup',
       'matsui54/denops-popup-preview.vim',
       'matsui54/denops-signature_help',
     },
@@ -883,6 +899,9 @@ return {
       -- 補完選択時にプレビューウインドウが表示されないようにする
       vim.opt.completeopt:remove('preview')
 
+      -- see: https://github.com/uga-rosa/ddc-source-lsp-setup
+      require("ddc_source_lsp_setup").setup()
+
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',
         sources = { 'file', 'lsp', 'around' },
@@ -904,6 +923,7 @@ return {
           ['lsp'] = {
             mark = 'LSP',
             dup = true,
+            keywordPattern = '\\k+',
             forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
           },
         },
@@ -912,7 +932,9 @@ return {
             maxSize = 30
           },
           ['lsp'] = {
-            maxSize = 500
+            maxSize = 500,
+            enableResolveItem = true,
+            enableAdditionalTextEdit = true,
           },
         },
         filterParams = {
@@ -928,30 +950,30 @@ return {
       vim.api.nvim_call_function('ddc#enable', {})
     end
   },
---  {
---    'matsui54/denops-popup-preview.vim',
---    event = 'User DenopsReady',
---    lazy = true,
---    dependencies = {
---      'denops.vim',
---    },
---    config = function()
---      vim.api.nvim_call_function('popup_preview#enable', {})
---    end
---  },
---  {
---    'matsui54/denops-signature_help',
---    event = 'User DenopsReady',
---    lazy = true,
---    dependencies = {
---      'denops.vim',
---    },
---    config = function()
---      vim.g.signature_help_config = {
---        contentsStyle = 'currentLabel',
---        viewStyle = 'virtual',
---      }
---      vim.api.nvim_call_function('signature_help#enable', {})
---    end
---  }
+  {
+    'matsui54/denops-popup-preview.vim',
+    event = 'User DenopsReady',
+    lazy = true,
+    dependencies = {
+      'denops.vim',
+    },
+    config = function()
+      vim.api.nvim_call_function('popup_preview#enable', {})
+    end
+  },
+  {
+    'matsui54/denops-signature_help',
+    event = 'User DenopsReady',
+    lazy = true,
+    dependencies = {
+      'denops.vim',
+    },
+    config = function()
+      vim.g.signature_help_config = {
+        contentsStyle = 'currentLabel',
+        viewStyle = 'virtual',
+      }
+      vim.api.nvim_call_function('signature_help#enable', {})
+    end
+  }
 }

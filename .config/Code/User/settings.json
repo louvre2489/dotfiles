@@ -1,0 +1,77 @@
+{
+    // workbench
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.settings.applyToAllProfiles": [
+      "files.autoSave"
+    ],
+    "workbench.colorTheme": "One Monokai",
+
+    // files
+    "files.watcherExclude": {
+      "**/.bloop": true,
+      "**/.metals": true,
+      "**/.ammonite": true
+    },
+    "files.autoSave": "onFocusChange",
+
+    // editor
+    "editor.tabSize": 2,
+    "editor.fontSize": 13,
+    "editor.lineNumbers": "relative",
+
+    // vim
+    "vim.visualModeKeyBindings": [
+
+    ],
+    // vim plugins
+    "vim.easymotion": true,
+    "vim.surround": true,
+    "vim.sneak": true,
+    "vim.camelCaseMotion.enable": true,
+    "vim.replaceWithRegister": true,
+
+    // common config
+    "vim.visualstar": true, // * で検索できるようにする
+    "vim.useSystemClipboard": true, // クリップボードを利用できるように
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+    "vim.highlightedyank.enable": true,  // vim-highlightedyankと同じ機能
+    "vim.highlightedyank.duration": 500,
+    "vim.leader": "<space>", // leaderキーを設定
+//    // register関連
+//    "vim.normalModeKeyBindingsNonRecursive": [
+//      {
+//        "before": ["<leader>", "p"],
+//        "after": ["\"", "0", "p"]
+//      },
+//      {
+//        "before": ["<leader>", "P"],
+//        "after": ["\"", "0", "P"]
+//      }
+//    ],
+//    // 検索
+//    "vim.normalModeKeyBindingsNonRecursive": [
+//      {
+//        "before": ["<leader>", "t"],
+//        "commands": ["workbench.action.quickOpen"]
+//      },
+//      {
+//        "before": ["<leader>", "a"],
+//        "commands": ["workbench.action.findInFiles"],
+//        "when": ["!searchInputBoxFocus"]
+//      },
+//    ],
+    // File Explore
+    "vim.normalModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<leader>", "d"],
+        "commands": ["workbench.view.explorer"]
+      }
+    ],
+    "extensions.ignoreRecommendations": true,
+    "go.useLanguageServer": true,
+    "gopls": {
+        "formatting.gofumpt": true
+    }
+}

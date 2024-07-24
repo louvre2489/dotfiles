@@ -57,11 +57,3 @@ git 変更箇所のハイライト     :GWD
 # caw.vim - コメント補助
 行の先頭でコメント           <Leader> + c
 コードの先頭でコメント       <Leader> + ,
-
-# denops-addsymbols
-ダブルクォートで囲む         :DSQ
-シングルクォートで囲む       :DDQ
-{} で囲む                    :DB
-[] で囲む                    :DS
-<> で囲む                    :DA
-() で囲む                    :DP

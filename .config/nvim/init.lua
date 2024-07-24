@@ -24,10 +24,12 @@ local options = {
   number         = true,
   relativenumber = true,
   ruler          = true,
-  --タブバーを常に表示する
+  -- タブバーを常に表示する
   showtabline    = 2,
   -- ステータスバーを常に表示する
   laststatus     = 2,
+  -- ステータス列を常に表示する
+  signcolumn     = 'yes',
   -- カーソル行の上下へのオフセットを設定する
   scrolloff      = 4,
   -----------------

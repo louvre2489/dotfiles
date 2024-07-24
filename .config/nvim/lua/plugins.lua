@@ -83,14 +83,6 @@ return {
     end,
     config = function()
       require('gitsigns').setup {
-        signs              = {
-          change = {
-            hl = 'GitSignsChange',
-            text = '*',
-            numhl = 'GitSignsChangeNr',
-            linehl = 'GitSignsChangeLn'
-          },
-        },
         -- ハイライト設定
         signcolumn         = true,
         numhl              = true,
@@ -217,26 +209,36 @@ return {
   },
   {
     'lukas-reineke/indent-blankline.nvim',
+    main = "ibl",
+    opts = {},
     event = 'BufEnter',
     lazy = true,
-    init = function()
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#E5C07B', nocombine = true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent2', { fg = '#98C379', nocombine = true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent3', { fg = '#56B6C2', nocombine = true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent4', { fg = '#E06C75', nocombine = true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent5', { fg = '#61AFEF', nocombine = true })
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent6', { fg = '#C678DD', nocombine = true })
-    end,
     config = function()
-      require('indent_blankline').setup {
-        char_highlight_list = {
-          'IndentBlanklineIndent1',
-          'IndentBlanklineIndent2',
-          'IndentBlanklineIndent3',
-          'IndentBlanklineIndent4',
-          'IndentBlanklineIndent5',
-          'IndentBlanklineIndent6',
-        },
+      local highlight = {
+        "RainbowRed",
+        "RainbowYellow",
+        "RainbowBlue",
+        "RainbowOrange",
+        "RainbowGreen",
+        "RainbowViolet",
+        "RainbowCyan",
+      }
+
+      local hooks = require "ibl.hooks"
+      -- create the highlight groups in the highlight setup hook, so they are reset
+      -- every time the colorscheme changes
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+      end)
+
+      require('ibl').setup {
+         indent = { highlight = highlight }
       }
     end
   },
@@ -831,7 +833,7 @@ return {
       'Shougo/ddc-matcher_head',
       'Shougo/ddc-sorter_rank',
       'Shougo/ddc-converter_remove_overlap',
-      'Shougo/ddc-source-nvim-lsp',
+      'Shougo/ddc-source-lsp',
       'matsui54/denops-popup-preview.vim',
       'matsui54/denops-signature_help',
     },
@@ -883,7 +885,7 @@ return {
 
       vim.fn['ddc#custom#patch_global']({
         ui = 'native',
-        sources = { 'file', 'nvim-lsp', 'around' },
+        sources = { 'file', 'lsp', 'around' },
         sourceOptions = {
           _ = {
             matchers = { 'matcher_head' },
@@ -899,7 +901,7 @@ return {
             isVolatile = true,
             forceCompletionPattern = '\\S/\\S*',
           },
-          ['nvim-lsp'] = {
+          ['lsp'] = {
             mark = 'LSP',
             dup = true,
             forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
@@ -909,7 +911,7 @@ return {
           around = {
             maxSize = 30
           },
-          ['nvim-lsp'] = {
+          ['lsp'] = {
             maxSize = 500
           },
         },
@@ -926,30 +928,30 @@ return {
       vim.api.nvim_call_function('ddc#enable', {})
     end
   },
-  {
-    'matsui54/denops-popup-preview.vim',
-    event = 'User DenopsReady',
-    lazy = true,
-    dependencies = {
-      'denops.vim',
-    },
-    config = function()
-      vim.api.nvim_call_function('popup_preview#enable', {})
-    end
-  },
-  {
-    'matsui54/denops-signature_help',
-    event = 'User DenopsReady',
-    lazy = true,
-    dependencies = {
-      'denops.vim',
-    },
-    config = function()
-      vim.g.signature_help_config = {
-        contentsStyle = 'currentLabel',
-        viewStyle = 'virtual',
-      }
-      vim.api.nvim_call_function('signature_help#enable', {})
-    end
-  }
+--  {
+--    'matsui54/denops-popup-preview.vim',
+--    event = 'User DenopsReady',
+--    lazy = true,
+--    dependencies = {
+--      'denops.vim',
+--    },
+--    config = function()
+--      vim.api.nvim_call_function('popup_preview#enable', {})
+--    end
+--  },
+--  {
+--    'matsui54/denops-signature_help',
+--    event = 'User DenopsReady',
+--    lazy = true,
+--    dependencies = {
+--      'denops.vim',
+--    },
+--    config = function()
+--      vim.g.signature_help_config = {
+--        contentsStyle = 'currentLabel',
+--        viewStyle = 'virtual',
+--      }
+--      vim.api.nvim_call_function('signature_help#enable', {})
+--    end
+--  }
 }

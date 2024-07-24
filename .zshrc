@@ -11,24 +11,22 @@
 #fi
 
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-source "$HOME/.zinit/bin/zinit.zsh"
+#source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    "zinit-zsh/z-a-patch-dl" \
-    "zinit-zsh/z-a-as-monitor"\
-    "zinit-zsh/z-a-bin-gem-node"
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
 ### End of Zinit's installer chunk
 
 # oh-my-zshのセットアップ
@@ -159,16 +157,27 @@ zstyle ':completion:*:default' menu select=1 matcher-list 'm:{a-z}={A-Z}'
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# Java
+# asdfに依存してJAVA_HOMEを設定
+. ~/.asdf/plugins/java/set-java-home.zsh
+
 # Scala
 ## Metals
 export PATH="$PATH:/Users/cw-tsushi/Library/Application Support/Coursier/bin"
+
+# nodejs
+# asdfに依存
+export PATH=$HOME/.asdf/shims:$PATH
 
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
 # Rust
-#export PATH="$PATH:$HOME/.cargo/bin"
-source $HOME/.cargo/env
+if [ -e $HOME/.cargo/bin ]; then
+  # ファイルがある場合のみ設定
+  export PATH="$PATH:$HOME/.cargo/bin"
+  source $HOME/.cargo/env
+fi
 
 # Deno
 export DENO_INSTALL="$HOME/.deno"
@@ -177,16 +186,15 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 # Go
 export PATH=$PATH:/usr/local/go/bin
 
+# curl は brew で入れたものがあればそちらを使用する
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+
 # pict
 export PATH="$PATH:$HOME/software/pict"
 
 # ----------------------------------
 # sbt
 # ----------------------------------
-if [ -e /usr/libexec/java_home ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home)
-fi
-
 export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
 
 #export SBT_NATIVE_CLIENT=true
@@ -243,7 +251,7 @@ case ${OSTYPE} in
     # Mac向けの設定
     #
     # rmはゴミ箱に送る
-    alias rm='rmtrash'
+#    alias rm='rmtrash'
 
     # 開発用のシェル
     source ~/dotfiles/.zshrc.cw
@@ -352,13 +360,13 @@ fshow() {
 # 設定読み込み
 source ~/z/z.sh
 
-# ----------------------------------
-# Python
-# ----------------------------------
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+## ----------------------------------
+## Python
+## ----------------------------------
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 # ----------------------------------
 # asdf

@@ -10,46 +10,32 @@
 #  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 #fi
 
-<<<<<<< HEAD
-=======
-# emacsのキーバインド
-bindkey -e
-
->>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 ### Added by Zinit's installer
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
-<<<<<<< HEAD
 #source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-=======
->>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-<<<<<<< HEAD
     zdharma-continuum/zinit-annex-as-monitor \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 ### End of Zinit's installer chunk
-=======
-  zdharma-continuum/zinit-annex-as-monitor \
-  zdharma-continuum/zinit-annex-bin-gem-node \
-  zdharma-continuum/zinit-annex-patch-dl \
-  zdharma-continuum/zinit-annex-rust
-## End of Zinit's installer chunk
->>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 
 # oh-my-zshのセットアップ
 zinit snippet "OMZL::git.zsh"
 zinit snippet "OMZP::git"
 zinit cdclear -q
+
+# emacsのキーバインド
+bindkey -e
 
 # ----------------------------------
 # プラグイン
@@ -180,19 +166,6 @@ export PATH=$HOME/.asdf/shims:$PATH
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
 
-<<<<<<< HEAD
-# Rust
-if [ -e $HOME/.cargo/bin ]; then
-  # ファイルがある場合のみ設定
-  export PATH="$PATH:$HOME/.cargo/bin"
-  source $HOME/.cargo/env
-fi
-=======
-## Rust
-##export PATH="$PATH:$HOME/.cargo/bin"
-#source $HOME/.cargo/env
->>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
-
 # Deno
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
@@ -208,25 +181,10 @@ export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 # pict
 export PATH="$PATH:$HOME/software/pict"
 
-<<<<<<< HEAD
 # ----------------------------------
 # sbt
 # ----------------------------------
 export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
-
-#export SBT_NATIVE_CLIENT=true
-=======
-## ----------------------------------
-## sbt
-## ----------------------------------
-#if [ -e /usr/libexec/java_home ]; then
-#  export JAVA_HOME=$(/usr/libexec/java_home)
-#fi
-#
-#export SBT_OPTS="-Xms2048m -Xmx4096m -Xss10M -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
-#
-##export SBT_NATIVE_CLIENT=true
->>>>>>> 4e66da3857039c20966f56bdde57c4f4b206143c
 
 #----------------------------------
 # ls の色付け
@@ -474,8 +432,8 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# 起動時にtmuxを起動する
-# Alacritty.toml の  [shell] で設定できるようになったらいいんだけど...
-if [ $SHLVL = 1 ]; then
-  tmux
-fi
+## 起動時にtmuxを起動する
+## Alacritty.toml の  [shell] で設定できるようになったらいいんだけど...
+#if [ $SHLVL = 1 ]; then
+#  tmux
+#fi

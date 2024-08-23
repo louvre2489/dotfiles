@@ -194,6 +194,12 @@ return {
           -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
           skip_duplicate_messages = true,
         },
+        lsp = {
+          -- lsp_signature.nvim とのバッティング回避
+          signature = {
+            enabled = false,
+          },
+        },
       }
     end
   },
@@ -550,7 +556,7 @@ return {
 --          'gopls',
 --          'html',
 --          'jsonls',
---          'intelephense',
+          'intelephense',
 --          'vimls',
           'rust_analyzer'
         },
@@ -838,8 +844,8 @@ return {
   ---------------------------------------------------
   {
     'Shougo/ddc.vim',
-    event = 'InsertEnter',
-    lazy = true,
+--    event = 'InsertEnter',
+--    lazy = true,
     dependencies = {
       'vim-denops/denops.vim',
       'Shougo/ddc-ui-native',
@@ -952,8 +958,9 @@ return {
   },
   {
     'matsui54/denops-popup-preview.vim',
-    event = 'User DenopsReady',
-    lazy = true,
+--    event = "LspAttach",
+--    lazy = true,
+    event = "VeryLazy",
     dependencies = {
       'denops.vim',
     },
@@ -962,18 +969,26 @@ return {
     end
   },
   {
-    'matsui54/denops-signature_help',
-    event = 'User DenopsReady',
-    lazy = true,
-    dependencies = {
-      'denops.vim',
-    },
-    config = function()
-      vim.g.signature_help_config = {
-        contentsStyle = 'currentLabel',
-        viewStyle = 'virtual',
-      }
-      vim.api.nvim_call_function('signature_help#enable', {})
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts)
+      require'lsp_signature'.setup(opts)
     end
   }
+--  {
+--    'matsui54/denops-signature_help',
+--    event = "LspAttach",
+--    lazy = true,
+--    dependencies = {
+--      'denops.vim',
+--    },
+--    config = function()
+--      vim.g.signature_help_config = {
+--        contentsStyle = 'currentLabel',
+--        viewStyle = 'virtual',
+--      }
+--      vim.api.nvim_call_function('signature_help#enable', {})
+--    end
+--  }
 }

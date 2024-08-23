@@ -45,13 +45,13 @@ zplugin light "chrissicool/zsh-256color"
 
 # シンタックスハイライト
 zinit light "zdharma/fast-syntax-highlighting"
-#zinit wait lucid for \
-#  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-#    "zdharma/fast-syntax-highlighting" \
-#  blockf \
-#    "zsh-users/zsh-completions" \
-#  atload"!_zsh_autosuggest_start" \
-#    "zsh-users/zsh-autosuggestions"
+zinit wait lucid for \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    "zdharma/fast-syntax-highlighting" \
+  blockf \
+    "zsh-users/zsh-completions" \
+  atload"!_zsh_autosuggest_start" \
+    "zsh-users/zsh-autosuggestions"
 
 FAST_HIGHLIGHT_STYLES[path]="fg=cyan,underline"
 FAST_HIGHLIGHT_STYLES[path-to-dir]="fg=cyan"
@@ -153,7 +153,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # Java
 # asdfに依存してJAVA_HOMEを設定
-. ~/.asdf/plugins/java/set-java-home.zsh
+#. ~/.asdf/plugins/java/set-java-home.zsh
 
 # Scala
 ## Metals
@@ -426,7 +426,7 @@ alacritty_comp(){
 alacritty_comp
 
 ## 補完機能を有効にする
-#autoload -Uz compinit && compinit -i
+autoload -Uz compinit && compinit -i
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

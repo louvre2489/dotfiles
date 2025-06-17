@@ -151,17 +151,13 @@ export PATH="$PATH:/usr/local/bin"
 # neovim
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Java
-# asdfに依存してJAVA_HOMEを設定
-#. ~/.asdf/plugins/java/set-java-home.zsh
-
 # Scala
 ## Metals
-export PATH="$PATH:/Users/cw-tsushi/Library/Application Support/Coursier/bin"
+export PATH="$PATH:$HOME/Library/Application Support/Coursier/bin"
 
 # nodejs
 # asdfに依存
-export PATH=$HOME/.asdf/shims:$PATH
+export PATH="$PATH:$HOME/.asdf/installs/nodejs/20.17.0/bin"
 
 # Haskell
 export PATH="$PATH:$HOME/.local/bin"
@@ -437,3 +433,7 @@ export NVM_DIR="$HOME/.config/nvm"
 #if [ $SHLVL = 1 ]; then
 #  tmux
 #fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="$HOME/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

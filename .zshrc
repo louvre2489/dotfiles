@@ -430,9 +430,9 @@ export NVM_DIR="$HOME/.config/nvm"
 
 ## 起動時にtmuxを起動する
 ## Alacritty.toml の  [shell] で設定できるようになったらいいんだけど...
-#if [ $SHLVL = 1 ]; then
-#  tmux
-#fi
+if [ $SHLVL = 1 ]; then
+  tmux
+fi
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="$HOME/.rd/bin:$PATH"

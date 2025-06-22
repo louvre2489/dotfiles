@@ -181,38 +181,41 @@ return {
       }
     end
   },
-  {
-    'folke/noice.nvim',
-    event = 'VimEnter',
-    lazy = true,
-    config = function()
-      require('noice').setup {
-        popupmenu = {
-          enabled = false,
-        },
-        hacks = {
-          -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
-          skip_duplicate_messages = true,
-        },
-        lsp = {
-          -- lsp_signature.nvim とのバッティング回避
-          signature = {
-            enabled = false,
-          },
-        },
-      }
-    end
-  },
-  {
-    'rcarriga/nvim-notify',
-    event = 'VimEnter',
-    lazy = true,
-    config = function()
-      require('notify').setup {
-        stages = 'static',
-      }
-    end
-  },
+--  {
+--    'rcarriga/nvim-notify',
+----    event = 'VimEnter',
+----    lazy = true,
+--    opts = {
+--      stages = 'static',
+--    }
+--  },
+--  {
+--    'folke/noice.nvim',
+--    event = 'VeryLazy',
+--    dependencies = {
+--      "MunifTanjim/nui.nvim",
+--      "rcarriga/nvim-notify",
+--    },
+----    config = function()
+----      require("noice").setup({
+--    opts = {
+--      popupmenu = {
+--        enabled = false,
+--      },
+----        hacks = {
+----          -- これがないと、ntpeters/vim-better-whitespace のせいで固まることがある
+----          skip_duplicate_messages = true,
+----        },
+----        lsp = {
+----          -- lsp_signature.nvim とのバッティング回避
+----          signature = {
+----            enabled = false,
+----          },
+----        },
+----      })
+--    },
+----    end
+--  },
   {
     'lukas-reineke/indent-blankline.nvim',
     main = "ibl",
@@ -254,14 +257,13 @@ return {
   ---------------------------------------------------
   {
     'nvim-treesitter/nvim-treesitter',
-    event = 'VimEnter',
-    lazy = true,
+--    event = 'VimEnter',
+    lazy = false,
     build = ':TSUpdate',
     config = function()
       require 'nvim-treesitter.configs'.setup {
         ensure_installed = {
           'bash',
-          'css',
           'dockerfile',
           'hocon',
           'html',
@@ -270,7 +272,6 @@ return {
           'markdown',
           'markdown_inline',
           'php',
-          'rust',
           'scala',
           'sql',
           'toml',
@@ -285,14 +286,14 @@ return {
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
-          disable = function(_, _)
-            local filename = vim.api.nvim_buf_get_name(0)
-            local is_dein = string.find(filename, '.dein.toml')
-            local is_dein_lazy = string.find(filename, '.dein_lazy.toml')
-
-            -- .dein.toml または .dein_lazy.toml では vim-precious を使いたいので、treesitter を有効にしない
-            return is_dein ~= nil or is_dein_lazy ~= nil
-          end,
+--          disable = function(_, _)
+--            local filename = vim.api.nvim_buf_get_name(0)
+--            local is_dein = string.find(filename, '.dein.toml')
+--            local is_dein_lazy = string.find(filename, '.dein_lazy.toml')
+--
+--            -- .dein.toml または .dein_lazy.toml では vim-precious を使いたいので、treesitter を有効にしない
+--            return is_dein ~= nil or is_dein_lazy ~= nil
+--          end,
         },
         -- HiPhish/nvim-ts-rainbow2
         rainbow = {
@@ -305,14 +306,35 @@ return {
       }
     end,
   },
-  {
-    'hiphish/rainbow-delimiters.nvim',
-    event = 'VimEnter',
-    lazy = true,
-    dependencies = {
-      'nvim-treesitter'
-    }
-  },
+--  {
+--    'hiphish/rainbow-delimiters.nvim',
+----    event = 'VimEnter',
+--    lazy = true,
+--    dependencies = {
+--      'nvim-treesitter'
+--    },
+--    config = function()
+--      require 'rainbow-delimiters.setup'.setup {
+--        strategy = {
+--            [''] = 'rainbow-delimiters.strategy.global',
+--            commonlisp = 'rainbow-delimiters.strategy.local',
+--        },
+--        query = {
+--            [''] = 'rainbow-delimiters',
+--            latex = 'rainbow-blocks',
+--        },
+--        highlight = {
+--            'RainbowDelimiterRed',
+--            'RainbowDelimiterYellow',
+--            'RainbowDelimiterBlue',
+--            'RainbowDelimiterOrange',
+--            'RainbowDelimiterGreen',
+--            'RainbowDelimiterViolet',
+--            'RainbowDelimiterCyan',
+--        },
+--      }
+--    end
+--  },
   {
     'andymass/vim-matchup',
     event = 'VimEnter',
@@ -562,60 +584,29 @@ return {
         },
       })
 
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local opts = {}
---          opts.on_attach = function(_, bufnr)
---            local bufopts = { silent = true, buffer = bufnr }
---            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
---            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
---            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
---            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
---            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
---            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
---            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
---            vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
---            vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, bufopts)
---          end
-
-          local nvim_lsp = require('lspconfig')
-          nvim_lsp[server_name].setup(opts)
-        end
-      })
+--      mason_lspconfig.setup_handlers({
+--        function(server_name)
+--          local opts = {}
+----          opts.on_attach = function(_, bufnr)
+----            local bufopts = { silent = true, buffer = bufnr }
+----            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+----            vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+----            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+----            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
+----            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+----            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+----            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+----            vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+----            vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, bufopts)
+----          end
+--
+--          local nvim_lsp = require('lspconfig')
+--          nvim_lsp[server_name].setup(opts)
+--        end
+--      })
 
       -- Formatting
       vim.cmd('command! FormatCode lua vim.lsp.buf.format{ async = true }')
-
-      ------------------------------------------------
-      -- Rust
-      ------------------------------------------------
-      require 'lspconfig'.rust_analyzer.setup {
-        settings = {
-          -- ref: https://rust-analyzer.github.io/manual.html#configuration
-          ['rust-analyzer'] = {
-            imports = {
-              granularity = {
-                group = 'module',
-              },
-              prefix = 'self',
-            },
-            cargo = {
-              buildScripts = {
-                enable = true,
-              },
-            },
-            procMacro = {
-              enable = true
-            },
-          }
-        },
-        handlers = {
-          ['textDocument/definition'] = function(_, _, _)
-            -- エラーは Maan2003/lsp_lines.nvim にお任せするの表示しないようにする
-            return nil
-          end
-        }
-      }
 
       ------------------------------------------------
       -- Lua
@@ -648,171 +639,89 @@ return {
       }
 
       ------------------------------------------------
-      -- HTML
-      --   required: `npm i -g vscode-langservers-extracted`
-      ------------------------------------------------
-      --Enable (broadcasting) snippet capability for completion
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-      require'lspconfig'.html.setup {
-        capabilities = capabilities,
-      }
-
-      ------------------------------------------------
-      -- Go
-      ------------------------------------------------
-      require'lspconfig'.gopls.setup({
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-            },
-            staticcheck = true,
-            gofumpt = true,
-          },
-        },
-      })
-
-      ------------------------------------------------
       -- Deno
       ------------------------------------------------
       require 'lspconfig'.denols.setup {}
     end
   },
-  {
-    'nvimdev/lspsaga.nvim',
-    event = "LspAttach",
-    dependencies = {
-      {"nvim-tree/nvim-web-devicons"},
-      {"nvim-treesitter/nvim-treesitter"}
-    },
-    config = function()
-        require("lspsaga").setup({})
-
-        local keymap = vim.keymap.set
-
-        -- LSP finder - Find the symbol's definition
-        -- If there is no definition, it will instead be hidden
-        -- When you use an action in finder like "open vsplit",
-        -- you can use <C-t> to jump back
-        keymap("n", "sah", "<cmd>Lspsaga lsp_finder<CR>")
-
-        -- Code action
-        keymap({"n","v"}, "saca", "<cmd>Lspsaga code_action<CR>")
-
-        -- Rename all occurrences of the hovered word for the entire file
-        keymap("n", "sar", "<cmd>Lspsaga rename<CR>")
-
-        -- Rename all occurrences of the hovered word for the selected files
-        keymap("n", "sagr", "<cmd>Lspsaga rename ++project<CR>")
-
-        -- Peek definition
-        -- You can edit the file containing the definition in the floating window
-        -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
-        -- It also supports tagstack
-        -- Use <C-t> to jump back
-        keymap("n", "sap", "<cmd>Lspsaga peek_definition<CR>")
-
-        -- Go to definition
-        keymap("n","sagd", "<cmd>Lspsaga goto_definition<CR>")
-
-        -- Peek type definition
-        -- You can edit the file containing the type definition in the floating window
-        -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
-        -- It also supports tagstack
-        -- Use <C-t> to jump back
-        keymap("n", "sagt", "<cmd>Lspsaga peek_type_definition<CR>")
-
-        -- Toggle outline
-        keymap("n","sao", "<cmd>Lspsaga outline<CR>")
-
-        -- If you want to keep the hover window in the top right hand corner,
-        -- you can pass the ++keep argument
-        -- Note that if you use hover with ++keep, pressing this key again will
-        -- close the hover window. If you want to jump to the hover window
-        -- you should use the wincmd command "<C-w>w"
-        keymap("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>")
-    end,
-  },
-  {
-    'scalameta/nvim-metals',
-    ft = { 'scala', 'sbt' },
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      local api = vim.api
-      local map = vim.keymap.set
-      -- global
-
-      vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
-
-      -- LSP mappings
---      map('n', 'gD', vim.lsp.buf.definition)
---      map('n', 'K', vim.lsp.buf.hover)
---      map('n', 'gi', vim.lsp.buf.implementation)
---      map('n', 'gr', vim.lsp.buf.references)
---      map('n', 'gds', vim.lsp.buf.document_symbol)
---      map('n', 'gws', vim.lsp.buf.workspace_symbol)
---      map('n', '<leader>cl', vim.lsp.codelens.run)
---      map('n', '<leader>sh', vim.lsp.buf.signature_help)
---      map('n', '<leader>rn', vim.lsp.buf.rename)
---      map('n', '<leader>f', vim.lsp.buf.formatting)
---      map('n', '<leader>ca', vim.lsp.buf.code_action)
-
-      map('n', '<leader>ws', function()
-        require('metals').hover_worksheet()
-      end)
-
-      -- all workspace diagnostics
-      map('n', '<leader>aa', vim.diagnostic.setqflist)
-
-      -- all workspace errors
-      map('n', '<leader>ae', function()
-        vim.diagnostic.setqflist({ severity = 'E' })
-      end)
-
-      -- all workspace warnings
-      map('n', '<leader>aw', function()
-        vim.diagnostic.setqflist({ severity = 'W' })
-      end)
-
-      -- buffer diagnostics only
-      map('n', '<leader>d', vim.diagnostic.setloclist)
-
-      map('n', '[c', function()
-        vim.diagnostic.goto_prev({ wrap = false })
-      end)
-
-      map('n', ']c', function()
-        vim.diagnostic.goto_next({ wrap = false })
-      end)
-
-      ----------------------------------
-      -- LSP Setup ---------------------
-      ----------------------------------
-      local metals_config = require('metals').bare_config()
-
-      metals_config.settings = {
-        showImplicitArguments = true,
-        excludedPackages = { 'akka.actor.typed.javadsl', 'com.github.swagger.akka.javadsl' },
-      }
-
-      -- Autocmd that will actually be in charging of starting the whole thing
-      local nvim_metals_group = api.nvim_create_augroup('nvim-metals', { clear = true })
-      api.nvim_create_autocmd('FileType', {
-        -- NOTE: You may or may not want java included here. You will need it if you
-        -- want basic Java support but it may also conflict if you are using
-        -- something like nvim-jdtls which also works on a java filetype autocmd.
-        pattern = { 'scala', 'sbt', 'java' },
-        callback = function()
-          require('metals').initialize_or_attach(metals_config)
-        end,
-        group = nvim_metals_group,
-      })
-    end
-  },
+--  {
+--    'scalameta/nvim-metals',
+--    ft = { 'scala', 'sbt' },
+--    dependencies = {
+--      'nvim-lua/plenary.nvim',
+--    },
+--    config = function()
+--      local api = vim.api
+--      local map = vim.keymap.set
+--      -- global
+--
+--      vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
+--
+--      -- LSP mappings
+----      map('n', 'gD', vim.lsp.buf.definition)
+----      map('n', 'K', vim.lsp.buf.hover)
+----      map('n', 'gi', vim.lsp.buf.implementation)
+----      map('n', 'gr', vim.lsp.buf.references)
+----      map('n', 'gds', vim.lsp.buf.document_symbol)
+----      map('n', 'gws', vim.lsp.buf.workspace_symbol)
+----      map('n', '<leader>cl', vim.lsp.codelens.run)
+----      map('n', '<leader>sh', vim.lsp.buf.signature_help)
+----      map('n', '<leader>rn', vim.lsp.buf.rename)
+----      map('n', '<leader>f', vim.lsp.buf.formatting)
+----      map('n', '<leader>ca', vim.lsp.buf.code_action)
+--
+--      map('n', '<leader>ws', function()
+--        require('metals').hover_worksheet()
+--      end)
+--
+--      -- all workspace diagnostics
+--      map('n', '<leader>aa', vim.diagnostic.setqflist)
+--
+--      -- all workspace errors
+--      map('n', '<leader>ae', function()
+--        vim.diagnostic.setqflist({ severity = 'E' })
+--      end)
+--
+--      -- all workspace warnings
+--      map('n', '<leader>aw', function()
+--        vim.diagnostic.setqflist({ severity = 'W' })
+--      end)
+--
+--      -- buffer diagnostics only
+--      map('n', '<leader>d', vim.diagnostic.setloclist)
+--
+--      map('n', '[c', function()
+--        vim.diagnostic.goto_prev({ wrap = false })
+--      end)
+--
+--      map('n', ']c', function()
+--        vim.diagnostic.goto_next({ wrap = false })
+--      end)
+--
+--      ----------------------------------
+--      -- LSP Setup ---------------------
+--      ----------------------------------
+--      local metals_config = require('metals').bare_config()
+--
+--      metals_config.settings = {
+--        showImplicitArguments = true,
+--        excludedPackages = { 'akka.actor.typed.javadsl', 'com.github.swagger.akka.javadsl' },
+--      }
+--
+--      -- Autocmd that will actually be in charging of starting the whole thing
+--      local nvim_metals_group = api.nvim_create_augroup('nvim-metals', { clear = true })
+--      api.nvim_create_autocmd('FileType', {
+--        -- NOTE: You may or may not want java included here. You will need it if you
+--        -- want basic Java support but it may also conflict if you are using
+--        -- something like nvim-jdtls which also works on a java filetype autocmd.
+--        pattern = { 'scala', 'sbt', 'java' },
+--        callback = function()
+--          require('metals').initialize_or_attach(metals_config)
+--        end,
+--        group = nvim_metals_group,
+--      })
+--    end
+--  },
   {
     'j-hui/fidget.nvim',
     tag = "legacy",
@@ -826,8 +735,7 @@ return {
     dependencies = {
       'nvim-tree/nvim-web-devicons'
     },
-    event = 'BufEnter',
-    lazy = true,
+    cmd = "Trouble",
     init = function()
       vim.keymap.set('n', '<S-t><S-t>', '<cmd> TroubleToggle workspace_diagnostics<CR>', { noremap = true })
       vim.keymap.set('n', '<S-t><S-d>', '<cmd> TroubleToggle document_diagnostics<CR>', { noremap = true })
@@ -842,153 +750,6 @@ return {
   ---------------------------------------------------
   -- 補完 -------------------------------------------
   ---------------------------------------------------
-  {
-    'Shougo/ddc.vim',
---    event = 'InsertEnter',
---    lazy = true,
-    dependencies = {
-      'vim-denops/denops.vim',
-      'Shougo/ddc-ui-native',
-      'LumaKernel/ddc-file',
-      'Shougo/ddc-source-around',
-      'Shougo/ddc-matcher_head',
-      'Shougo/ddc-sorter_rank',
-      'Shougo/ddc-converter_remove_overlap',
-      'Shougo/ddc-source-lsp',
-      'uga-rosa/ddc-source-lsp-setup',
-      'matsui54/denops-popup-preview.vim',
-      'matsui54/denops-signature_help',
-    },
-    keys = {
-      {
-        -- 補完
-        '<TAB>',
-        function()
-          if vim.fn.pumvisible() > 0 then
-            return '<C-n>'
-          else
-            local line = vim.api.nvim_get_current_line()
-            local col = vim.fn.col('.')
-            if col <= 1 or line:sub(col - 2):match('%s') then
-              return '<TAB>'
-            else
-              return vim.api.nvim_call_function('ddc#map#manual_complete', {})
-            end
-          end
-        end,
-        mode = 'i',
-        expr = true,
-        silent = true,
-      },
-      {
-        -- 補完候補を戻る
-        '<S-TAB>',
-        function()
-          return vim.fn.pumvisible() > 0 and '<C-p>' or '<C-n>'
-        end,
-        mode = 'i',
-        expr = true,
-        silent = true,
-      },
-      {
-        --  C-n/C-pで補完候補を選択した時は<C-y>で選択確定しないとauto-importが実行されない
-        '<CR>',
-        function()
-          return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
-        end,
-        mode = 'i',
-        expr = true,
-        silent = true,
-      }
-    },
-    config = function()
-      -- 補完選択時にプレビューウインドウが表示されないようにする
-      vim.opt.completeopt:remove('preview')
 
-      -- see: https://github.com/uga-rosa/ddc-source-lsp-setup
-      require("ddc_source_lsp_setup").setup()
 
-      vim.fn['ddc#custom#patch_global']({
-        ui = 'native',
-        sources = { 'file', 'lsp', 'around' },
-        sourceOptions = {
-          _ = {
-            matchers = { 'matcher_head' },
-            sorters = { 'sorter_rank' },
-            converters = { 'converter_remove_overlap' },
-            minAutoCompleteLength = 1,
-          },
-          around = {
-            mark = 'A',
-          },
-          file = {
-            mark = 'F',
-            isVolatile = true,
-            forceCompletionPattern = '\\S/\\S*',
-          },
-          ['lsp'] = {
-            mark = 'LSP',
-            dup = true,
-            keywordPattern = '\\k+',
-            forceCompletionPattern = '\\.\\w*|:\\w*|->\\w*',
-          },
-        },
-        sourceParams = {
-          around = {
-            maxSize = 30
-          },
-          ['lsp'] = {
-            maxSize = 500,
-            enableResolveItem = true,
-            enableAdditionalTextEdit = true,
-          },
-        },
-        filterParams = {
-          matcher_fuzzy = {
-            splitMode = 'character'
-          },
-          converter_fuzzy = {
-            hlGroup = 'SpellBad'
-          }
-        }
-      })
-
-      vim.api.nvim_call_function('ddc#enable', {})
-    end
-  },
-  {
-    'matsui54/denops-popup-preview.vim',
---    event = "LspAttach",
---    lazy = true,
-    event = "VeryLazy",
-    dependencies = {
-      'denops.vim',
-    },
-    config = function()
-      vim.api.nvim_call_function('popup_preview#enable', {})
-    end
-  },
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
-    opts = {},
-    config = function(_, opts)
-      require'lsp_signature'.setup(opts)
-    end
-  }
---  {
---    'matsui54/denops-signature_help',
---    event = "LspAttach",
---    lazy = true,
---    dependencies = {
---      'denops.vim',
---    },
---    config = function()
---      vim.g.signature_help_config = {
---        contentsStyle = 'currentLabel',
---        viewStyle = 'virtual',
---      }
---      vim.api.nvim_call_function('signature_help#enable', {})
---    end
---  }
 }

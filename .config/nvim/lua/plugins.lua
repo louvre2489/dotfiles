@@ -570,19 +570,19 @@ return {
         }
       })
 
-      mason_lspconfig.setup({
-        ensure_installed = {
-          'lua_ls',
-          'denols',
---          'dockerls',
---          'gopls',
---          'html',
---          'jsonls',
-          'intelephense',
---          'vimls',
-          'rust_analyzer'
-        },
-      })
+--      mason_lspconfig.setup({
+--        ensure_installed = {
+--          'lua_ls',
+--          'denols',
+----          'dockerls',
+----          'gopls',
+----          'html',
+----          'jsonls',
+--          'intelephense',
+----          'vimls',
+--          'rust_analyzer'
+--        },
+--      })
 
 --      mason_lspconfig.setup_handlers({
 --        function(server_name)

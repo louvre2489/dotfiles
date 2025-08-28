@@ -38,8 +38,8 @@ text = "CellForeground"
 cursor = "#d8dee9"
 text = "#2e3440"
 
-[env]
-TERM = "alacritty"
+#[env]
+#TERM = "alacritty"
 
 [font]
 size = 14.0
@@ -62,9 +62,9 @@ action = "Paste"
 mods = "Shift"
 mouse = "Right"
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
-#args = ["--login", "-c", "tmux a -t 0 || tmux new"]
+args = ["--login", "-c", "tmux a -t 0 || tmux new"]
 
 [window]
 startup_mode = "Maximized"
